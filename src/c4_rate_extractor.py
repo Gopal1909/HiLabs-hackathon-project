@@ -349,152 +349,157 @@ class RateExtractor:
                         prices = rate_entry.get("negotiated_prices") or []
 
                         # Resolve provider references
-                        ref_id = None
+                        ref_entries = []
                         if prov_refs:
-                            try:
-                                ref_id = int(prov_refs[0])
-                            except (ValueError, TypeError):
-                                ref_id = None
-
-                        pref_meta = provider_ref_map.get(ref_id) if ref_id is not None else None
-                        if pref_meta is None:
-                            stats["unresolved_provider_references"] += 1
-                            rate_cat = "UNRESOLVED_REFERENCE"
-                            rate_reason = f"Provider reference ID {ref_id} not found in provider_references"
-                            provider_groups = [{
-                                "npi_list": [""],
-                                "tin_type": "ein",
-                                "tin_value": "",
-                                "business_name": "UNKNOWN_UNRESOLVED",
-                            }]
+                            for pr in prov_refs:
+                                try:
+                                    r_id = int(pr)
+                                except (ValueError, TypeError):
+                                    r_id = None
+                                ref_entries.append(r_id)
                         else:
-                            pref_meta["rate_record_count"] += 1
-                            pref_meta["extracted_price_count"] += len(prices)
+                            ref_entries.append(None)
 
-                            if arr == "capitation":
-                                rate_cat = "EXCLUDED_CAPITATION"
-                                rate_reason = "Knox-Keene HMO capitation carve-out; incompatible with commercial PPO FFS"
-                                stats["capitation_carveouts_excluded"] += 1
+                        for ref_id in ref_entries:
+                            pref_meta = provider_ref_map.get(ref_id) if ref_id is not None else None
+                            if pref_meta is None:
+                                stats["unresolved_provider_references"] += 1
+                                rate_cat = "UNRESOLVED_REFERENCE"
+                                rate_reason = f"Provider reference ID {ref_id} not found in provider_references"
+                                provider_groups = [{
+                                    "npi_list": [""],
+                                    "tin_type": "ein",
+                                    "tin_value": "",
+                                    "business_name": "UNKNOWN_UNRESOLVED",
+                                }]
                             else:
-                                rate_cat = pref_meta["ppo_applicability"]
-                                rate_reason = pref_meta["ppo_evidence_reason"]
+                                pref_meta["rate_record_count"] += 1
+                                pref_meta["extracted_price_count"] += len(prices)
 
-                            provider_groups = pref_meta["groups"]
+                                if arr == "capitation":
+                                    rate_cat = "EXCLUDED_CAPITATION"
+                                    rate_reason = "Knox-Keene HMO capitation carve-out; incompatible with commercial PPO FFS"
+                                    stats["capitation_carveouts_excluded"] += 1
+                                else:
+                                    rate_cat = pref_meta["ppo_applicability"]
+                                    rate_reason = pref_meta["ppo_evidence_reason"]
 
-                        stats["rates_by_applicability"][rate_cat] += 1
+                                provider_groups = pref_meta["groups"]
 
-                        # Iterate through prices
-                        for p_idx, price_obj in enumerate(prices):
-                            stats["total_prices_examined"] += 1
-                            stats["prices_by_applicability"][rate_cat] += 1
+                            stats["rates_by_applicability"][rate_cat] += 1
 
-                            rate_val = price_obj.get("negotiated_rate")
-                            if rate_val is None:
-                                stats["missing_rates"] += 1
-                                rate_str = ""
-                            else:
-                                rate_str = str(rate_val).strip()
+                            # Iterate through prices
+                            for p_idx, price_obj in enumerate(prices):
+                                stats["total_prices_examined"] += 1
+                                stats["prices_by_applicability"][rate_cat] += 1
 
-                            rate_type = str(price_obj.get("negotiated_type", "negotiated")).strip().lower()
-                            exp_date = str(price_obj.get("expiration_date", "")).strip()
-                            b_class = str(price_obj.get("billing_class", "")).strip().lower()
-                            setting = str(price_obj.get("setting", "")).strip().lower()
-                            add_info = str(price_obj.get("additional_information", "")).strip()
+                                rate_val = price_obj.get("negotiated_rate")
+                                if rate_val is None:
+                                    stats["missing_rates"] += 1
+                                    rate_str = ""
+                                else:
+                                    rate_str = str(rate_val).strip()
 
-                            # Modifiers
-                            raw_mods = price_obj.get("billing_code_modifier") or price_obj.get("billing_code_modifiers") or []
-                            if isinstance(raw_mods, list):
-                                mod_str = ";".join(str(m).strip() for m in raw_mods if m)
-                            else:
-                                mod_str = str(raw_mods).strip()
+                                rate_type = str(price_obj.get("negotiated_type", "negotiated")).strip().lower()
+                                exp_date = str(price_obj.get("expiration_date", "")).strip()
+                                b_class = str(price_obj.get("billing_class", "")).strip().lower()
+                                setting = str(price_obj.get("setting", "")).strip().lower()
+                                add_info = str(price_obj.get("additional_information", "")).strip()
 
-                            # Service Codes (POS)
-                            raw_pos = price_obj.get("service_code") or []
-                            if isinstance(raw_pos, list):
-                                pos_str = ";".join(str(s).strip() for s in raw_pos if s)
-                            else:
-                                pos_str = str(raw_pos).strip()
+                                # Modifiers
+                                raw_mods = price_obj.get("billing_code_modifier") or price_obj.get("billing_code_modifiers") or []
+                                if isinstance(raw_mods, list):
+                                    mod_str = ";".join(str(m).strip() for m in raw_mods if m)
+                                else:
+                                    mod_str = str(raw_mods).strip()
 
-                            # Expand across provider groups & NPIs
-                            for pg in provider_groups:
-                                tin_type = pg["tin_type"]
-                                tin_val = pg["tin_value"]
-                                bname = pg["business_name"]
-                                if tin_val:
-                                    stats["distinct_tins_extracted"].add(tin_val)
+                                # Service Codes (POS)
+                                raw_pos = price_obj.get("service_code") or []
+                                if isinstance(raw_pos, list):
+                                    pos_str = ";".join(str(s).strip() for s in raw_pos if s)
+                                else:
+                                    pos_str = str(raw_pos).strip()
 
-                                npis = pg["npi_list"]
-                                if not npis:
-                                    npis = [""]  # Preserves group rate even if NPI unpopulated
+                                # Expand across provider groups & NPIs
+                                for pg in provider_groups:
+                                    tin_type = pg["tin_type"]
+                                    tin_val = pg["tin_value"]
+                                    bname = pg["business_name"]
+                                    if tin_val:
+                                        stats["distinct_tins_extracted"].add(tin_val)
 
-                                for npi in npis:
-                                    clean_npi = str(npi).strip()
-                                    if clean_npi:
-                                        stats["distinct_npis_extracted"].add(clean_npi)
+                                    npis = pg["npi_list"]
+                                    if not npis:
+                                        npis = [""]  # Preserves group rate even if NPI unpopulated
 
-                                    # Context evaluation for multiple rates
-                                    ctx_key = (
-                                        clean_npi,
-                                        tin_val,
-                                        billing_code,
-                                        mod_str,
-                                        b_class,
-                                        setting,
-                                        pos_str,
-                                        add_info,
-                                    )
+                                    for npi in npis:
+                                        clean_npi = str(npi).strip()
+                                        if clean_npi:
+                                            stats["distinct_npis_extracted"].add(clean_npi)
 
-                                    if len(context_rates) < MAX_CONTEXT_CACHE_SIZE:
-                                        observed_rates = context_rates[ctx_key]
-                                        if rate_str and rate_str not in observed_rates:
-                                            observed_rates.append(rate_str)
+                                        # Context evaluation for multiple rates
+                                        ctx_key = (
+                                            clean_npi,
+                                            tin_val,
+                                            billing_code,
+                                            mod_str,
+                                            b_class,
+                                            setting,
+                                            pos_str,
+                                            add_info,
+                                        )
 
-                                        if len(observed_rates) > 1:
-                                            rate_flag = "MULTIPLE_COMPARABLE_RATES_FLAGGED"
-                                            alt_rates_str = " | ".join(observed_rates)
+                                        if len(context_rates) < MAX_CONTEXT_CACHE_SIZE:
+                                            observed_rates = context_rates[ctx_key]
+                                            if rate_str and rate_str not in observed_rates:
+                                                observed_rates.append(rate_str)
+
+                                            if len(observed_rates) > 1:
+                                                rate_flag = "MULTIPLE_COMPARABLE_RATES_FLAGGED"
+                                                alt_rates_str = " | ".join(observed_rates)
+                                            else:
+                                                rate_flag = "UNIQUE_RATE"
+                                                alt_rates_str = ""
                                         else:
-                                            rate_flag = "UNIQUE_RATE"
+                                            rate_flag = "STANDARD_EXTRACTED_RATE"
                                             alt_rates_str = ""
-                                    else:
-                                        rate_flag = "STANDARD_EXTRACTED_RATE"
-                                        alt_rates_str = ""
 
-                                    stats["rate_selection_flags"][rate_flag] += 1
+                                        stats["rate_selection_flags"][rate_flag] += 1
 
-                                    row = [
-                                        clean_npi,
-                                        tin_type,
-                                        tin_val,
-                                        bname,
-                                        ref_id if ref_id is not None else "",
-                                        billing_code,
-                                        billing_code_type,
-                                        billing_code_version,
-                                        item_desc or item_name,
-                                        mod_str,
-                                        b_class,
-                                        setting,
-                                        pos_str,
-                                        add_info,
-                                        rate_type,
-                                        rate_str,
-                                        exp_date,
-                                        arr,
-                                        is_benchmark,
-                                        rate_cat,
-                                        rate_reason,
-                                        rate_flag,
-                                        alt_rates_str,
-                                        "UNRESOLVED_PENDING_C5",  # Explicit constraint: do not fabricate address in C4
-                                        file_name,
-                                    ]
+                                        row = [
+                                            clean_npi,
+                                            tin_type,
+                                            tin_val,
+                                            bname,
+                                            ref_id if ref_id is not None else "",
+                                            billing_code,
+                                            billing_code_type,
+                                            billing_code_version,
+                                            item_desc or item_name,
+                                            mod_str,
+                                            b_class,
+                                            setting,
+                                            pos_str,
+                                            add_info,
+                                            rate_type,
+                                            rate_str,
+                                            exp_date,
+                                            arr,
+                                            is_benchmark,
+                                            rate_cat,
+                                            rate_reason,
+                                            rate_flag,
+                                            alt_rates_str,
+                                            "UNRESOLVED_PENDING_C5",  # Explicit constraint: do not fabricate address in C4
+                                            file_name,
+                                        ]
 
-                                    row_buffer.append(row)
-                                    stats["total_expanded_rows_written"] += 1
+                                        row_buffer.append(row)
+                                        stats["total_expanded_rows_written"] += 1
 
-                                    if len(row_buffer) >= BUFFER_FLUSH_SIZE:
-                                        writer.writerows(row_buffer)
-                                        row_buffer.clear()
+                                        if len(row_buffer) >= BUFFER_FLUSH_SIZE:
+                                            writer.writerows(row_buffer)
+                                            row_buffer.clear()
 
                     if item_count % 250 == 0:
                         logger.info("  Processed %d items (%d rate records, %d prices, %d expanded rows)...",

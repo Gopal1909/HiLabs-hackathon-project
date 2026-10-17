@@ -413,7 +413,12 @@ def analyze_cost_effectiveness(
             rpi_val = float(it["relative_price_index"])
             unweighted_rpi_sum += rpi_val
             wt_raw = it.get("benchmark_procedure_weight")
-            wt = int(wt_raw) if wt_raw and str(wt_raw).isdigit() else 1
+            try:
+                wt = int(float(str(wt_raw).strip())) if wt_raw is not None and str(wt_raw).strip() != "" else 1
+            except (ValueError, TypeError):
+                wt = 1
+            if wt <= 0:
+                wt = 1
             weighted_rpi_sum += (rpi_val * wt)
             total_weight += wt
 

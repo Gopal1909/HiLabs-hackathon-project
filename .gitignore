@@ -16,23 +16,17 @@ venv/
 env/
 .env
 
-# Data – large raw files
-data/raw/*.json
-data/raw/*.json.gz
-data/raw/*.csv
-data/raw/*.parquet
-data/raw/*.xlsx
-data/processed/*.json
+# Data – large raw and processed datasets
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
 
 # Large generated extracted datasets (>100MB)
 outputs/c4_extracted_rates.csv
 outputs/c6_curated_ppo_rates.csv
 outputs/*.parquet
 submission/full_curated_ppo_rates.xlsx
-
-# Keep the directory stubs
-!data/raw/.gitkeep
-!data/processed/.gitkeep
 
 # Secrets and credentials
 *.env

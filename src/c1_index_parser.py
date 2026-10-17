@@ -55,6 +55,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+import urllib.parse
+
 import pandas as pd
 
 # Allow running as a script from the project root
@@ -366,8 +368,9 @@ def run_c1(config_path: Optional[Path] = None) -> Dict[str, Any]:
 
         logger.info("Processing brand=%-20s  url=%s", brand, norm_url[-60:])
 
-        # Cache path
-        filename = path.split("/")[-1].replace("%20", "_")
+        # Cache path: strip query parameters to ensure safe filename on Windows/Linux
+        clean_path = urllib.parse.urlparse(path).path
+        filename = clean_path.split("/")[-1].replace("%20", "_")
         cache_path = raw_dir / filename
 
         index_data: Optional[Dict] = None

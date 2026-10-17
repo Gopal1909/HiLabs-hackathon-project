@@ -26,17 +26,17 @@ This `submission/` package contains the consolidated core deliverables, data fil
      - Generated via openpyxl streaming `write_only` mode (`python -m src.export_full_excel`).
 3. [`c6_curated_benchmark_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c6_curated_benchmark_rates.csv) (1.21 MB)
    - Clean, lightweight CSV containing all 2,418 benchmark procedure rates.
-3. [`c7_provider_cost_effectiveness.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c7_provider_cost_effectiveness.csv) (1.21 MB)
+4. [`c7_provider_cost_effectiveness.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c7_provider_cost_effectiveness.csv) (1.21 MB)
    - Rate cost-effectiveness analysis for all 2,418 benchmark rate rows: Peer Group ID, Peer Count, Peer Median Rate, Relative Price Index (RPI), Peer Percentile, Potential Price Difference, and Cost-Effectiveness Tier.
-4. [`c7_peer_group_summary.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c7_peer_group_summary.csv) (16.6 KB)
+5. [`c7_peer_group_summary.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c7_peer_group_summary.csv) (16.6 KB)
    - Summary of all 97 distinct clinical peer groups with sample size, quartiles (p25, median, p75), min, max, IQR, and eligibility status ($N \ge 5$).
-5. [`c5_provider_address_crosswalk.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c5_provider_address_crosswalk.csv) (2.01 MB)
+6. [`c5_provider_address_crosswalk.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c5_provider_address_crosswalk.csv) (2.01 MB)
    - 5,672 provider contracting tuples with verified practicing addresses, verification tiers, confidence scores, and NUCC taxonomy mappings.
-6. [`c5_address_conflicts.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c5_address_conflicts.csv) (53.0 KB)
+7. [`c5_address_conflicts.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c5_address_conflicts.csv) (53.0 KB)
    - Audit trail of 167 address edge cases: administrative PO Boxes, national lab facilities (LabCorp), and cross-border/border district facilities.
-7. [`c3_file_quality_metrics.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c3_file_quality_metrics.csv) (1.5 KB)
+8. [`c3_file_quality_metrics.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c3_file_quality_metrics.csv) (1.5 KB)
    - 11-dimension quality scorecard scoring **82.17 / 100 (Grade B)**.
-8. [`c6_curation_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c6_curation_summary.json) (4.09 KB) & [`c7_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c7_summary.json) (7.4 KB)
+9. [`c6_curation_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c6_curation_summary.json) (4.09 KB) & [`c7_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c7_summary.json) (7.4 KB)
    - Structured JSON summaries with volume reconciliations, address percentages, and fee index rankings.
 
 ---

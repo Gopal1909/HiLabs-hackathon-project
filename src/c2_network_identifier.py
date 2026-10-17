@@ -298,7 +298,7 @@ def evaluate_plan(
     if in_commercial_group_scope:
         score += 0.05
         evidence_items.append("Commercial group market type confirmed (+0.05)")
-    if brand == "Health Net" and "healthnet" in issuer_name.lower():
+    if brand == "Health Net" and any(k in issuer_name.lower() for k in ["healthnet", "health net"]):
         score += 0.05
         evidence_items.append("Issuer confirmed as Health Net California commercial operating entity (+0.05)")
 
