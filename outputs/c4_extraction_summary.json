@@ -1,0 +1,54 @@
+{
+  "run_timestamp": "2026-10-17T07:03:53.087379+00:00",
+  "phase": "C4 - Negotiated Rate Extraction",
+  "source_file": "2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json",
+  "source_file_path": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\data\\raw\\2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json",
+  "file_size_bytes": 701615514,
+  "elapsed_seconds": 23.73,
+  "max_items_capped": null,
+  "counts": {
+    "in_network_items_examined": 1717,
+    "rate_records_examined": 397726,
+    "prices_examined": 1500288,
+    "expanded_provider_rate_rows_written": 1511720,
+    "distinct_billing_codes": 775,
+    "benchmark_codes_matched": 134,
+    "benchmark_codes_total": 583,
+    "unique_npis_extracted": 3735,
+    "unique_tins_extracted": 2888,
+    "unresolved_provider_references": 0,
+    "missing_rates": 0,
+    "missing_billing_codes": 0,
+    "capitation_carveouts_excluded": 46
+  },
+  "ppo_applicability_breakdown": {
+    "rates": {
+      "PROBABLE_PPO": 154709,
+      "AMBIGUOUS_UNRESOLVED": 242811,
+      "CONFIRMED_PPO": 120,
+      "EXCLUDED_CAPITATION": 46,
+      "EXCLUDED_HMO": 30,
+      "EXCLUDED_INDIVIDUAL_EXCHANGE": 10
+    },
+    "prices": {
+      "PROBABLE_PPO": 853364,
+      "AMBIGUOUS_UNRESOLVED": 646718,
+      "CONFIRMED_PPO": 120,
+      "EXCLUDED_CAPITATION": 46,
+      "EXCLUDED_HMO": 30,
+      "EXCLUDED_INDIVIDUAL_EXCHANGE": 10
+    }
+  },
+  "rate_selection_flags": {
+    "UNIQUE_RATE": 1497507,
+    "MULTIPLE_COMPARABLE_RATES_FLAGGED": 14213
+  },
+  "data_limitations_and_caveats": [
+    "Consolidated File Scope: The target file contains rates for commercial PPO, HMO, and POS plans. PPO applicability classification distinguishes explicit county PPO wrappers (CONFIRMED) and major health systems (PROBABLE) from HMO and general ambiguous entities.",
+    "Ambetter Exchange Distinction: Rates under 'DIRECT NETWORK: AMBETTER PPO' are classified as EXCLUDED_INDIVIDUAL_EXCHANGE because Ambetter serves the individual exchange market, not California Commercial Group.",
+    "Capitation Exclusion: Rates under negotiation_arrangement='capitation' are classified as EXCLUDED_CAPITATION because Knox-Keene HMO capitation carve-outs do not apply to commercial PPO fee schedules.",
+    "Preserved Clinical Context: Rates with differing modifiers (e.g. 26 professional vs TC technical), place of service codes, or billing classes are preserved as distinct rows and never collapsed.",
+    "Multiple Rates Selection Rule: When multiple rates exist for the exact same clinical context, all values are preserved with a MULTIPLE_COMPARABLE_RATES_FLAGGED flag and alternative values documented, avoiding arbitrary min/max/average selection.",
+    "Pending C5 Address Resolution: Street practicing addresses are kept as UNRESOLVED_PENDING_C5 in this phase; no addresses have been fabricated."
+  ]
+}

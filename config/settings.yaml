@@ -122,4 +122,42 @@ c3_scoring_weights:
 # When true, skip re-downloading index files if already present in data/raw/
 use_cached_index: false
 
+# ── Phase 4 (C4) Outputs & Settings ──────────────────────────────────────────
+c4_extracted_rates_csv: "outputs/c4_extracted_rates.csv"
+c4_ppo_rate_classification_csv: "outputs/c4_ppo_rate_classification.csv"
+c4_extraction_summary_json: "outputs/c4_extraction_summary.json"
+c4_extraction_methodology_md: "reports/c4_extraction_methodology.md"
+
+c4_major_ca_health_systems:
+  - "stanford"
+  - "uc davis"
+  - "uc irvine"
+  - "ucla"
+  - "ucsf"
+  - "ucsd"
+  - "cedars-sinai"
+  - "sutter"
+  - "dignity"
+  - "providence"
+  - "city of hope"
+  - "hoag"
+  - "loma linda"
+  - "scripps"
+  - "sharp"
+  - "adventist"
+  - "john muir"
+  - "children's hospital"
+  - "huntington"
+  - "memorialcare"
+  - "torrance"
+  - "cottage"
+  - "el camino"
+  - "salinas valley"
+  - "marinhealth"
+  - "kaweah"
+  - "enloe"
+  - "marshall"
+  - "temecula valley"
+
+
 
