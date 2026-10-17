@@ -2,7 +2,7 @@
 ## Centene California Commercial Group PPO Network Rate Curation, File Quality Grading, Address Verification, and Cost-Effectiveness Analysis
 
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/)
-[![Tests Passing](https://img.shields.io/badge/tests-109%20passed-brightgreen.svg)](tests/)
+[![Tests Passing](https://img.shields.io/badge/tests-119%20passed-brightgreen.svg)](tests/)
 [![File Quality Score](https://img.shields.io/badge/PTD%20Quality-82.17%20%2F%20100%20(Grade%20B)-blue.svg)](reports/c3_quality_methodology.md)
 [![Address Verification](https://img.shields.io/badge/Address%20Verification-99.84%25%20(Rate--Level)-brightgreen.svg)](reports/c5_address_methodology.md)
 
@@ -38,13 +38,18 @@ Target Network:            California Commercial Group PPO Network
 ----------------------------------------------------------------------------------------
 Total Extracted Rates:     1,511,720 rows
 Curated PPO Rates:         857,206 rows (56.70% of total; 654,514 non-PPO/HMO/Capitation excluded)
+  - Confirmed PPO (HIOS):  1,431 rows (0.17% of curated dataset)
+  - Probable PPO (Health): 855,775 rows (99.83% of curated dataset; major CA health systems FFS)
 Benchmark Procedure Rates: 2,418 rows (134 matched procedure codes from hackathon workbook)
 In-Network Providers:      1,230 unique clinical NPIs across 1,028 contracting TINs
-Rate-Row Address Verif.:   99.84% (855,809 / 857,206 rows verified or corroborated)
-Provider-Tuple Verif.:     63.45% (3,599 / 5,672 tuples verified or corroborated)
+Address Verification:
+  - Rate-Row Level:        99.84% (855,809 / 857,206 rows verified or corroborated)
+  - Provider-Tuple Level:  63.45% (3,599 / 5,672 tuples verified or corroborated)
+  - Unique Clinician (NPI):56.49% (2,110 / 3,735 unique NPIs verified or corroborated)
+  - Benchmark Row Level:   60.17% (1,455 / 2,418 benchmark procedure rows verified)
 Quality Score (C3):        82.17 / 100 (Grade B, 0 negative rates, 0 zero rates, 0 orphan refs)
 Cost-Effectiveness (C7):   96.73% of benchmark rates eligible across 63 peer groups (N >= 5)
-Automated Test Suite:      109 passed in 16.4s (100% pass rate across C1–C7)
+Automated Test Suite:      119 passed in 9.99s (100% pass rate across C1–C7 and regressions)
 ========================================================================================
 ```
 
@@ -54,13 +59,14 @@ Automated Test Suite:      109 passed in 16.4s (100% pass rate across C1–C7)
 
 | Deliverable | Format | Location | Description |
 |:---|:---:|:---|:---|
-| **Executive Excel Deliverable** | `.xlsx` | [`outputs/curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/curated_ppo_rates.xlsx) | Corporate Navy-styled 4-tab workbook: Executive Summary, All 2,418 Benchmark Rates, 5,000 PPO Cross-Section, Data Dictionary. |
-| **Curated Benchmark Rates** | `.csv` | [`outputs/c6_curated_benchmark_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_benchmark_rates.csv) | 2,418 rows at NPI, TIN, Address, Code, Specialty, and Weight level. |
-| **Provider Cost-Effectiveness** | `.csv` | [`outputs/c7_provider_cost_effectiveness.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c7_provider_cost_effectiveness.csv) | 2,418 rows with Peer Median, Relative Price Index (RPI), percentile rank, and potential price difference. |
-| **Peer Group Summary** | `.csv` | [`outputs/c7_peer_group_summary.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c7_peer_group_summary.csv) | 97 clinical peer groups with sample size, quartiles, median, and IQR. |
-| **Provider Address Crosswalk** | `.csv` | [`outputs/c5_provider_address_crosswalk.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_provider_address_crosswalk.csv) | 5,672 provider contracting tuples with verified addresses and taxonomy. |
-| **Address Conflicts Log** | `.csv` | [`outputs/c5_address_conflicts.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_address_conflicts.csv) | 167 records documenting administrative PO Boxes, national labs, and border facilities. |
-| **Full Curated PPO Rates** | `.csv` | [`outputs/c6_curated_ppo_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_ppo_rates.csv) | Full 857,206 curated PPO rate rows (gitignored for repository hygiene). |
+| **Executive Excel Deliverable** | `.xlsx` | [`outputs/curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/curated_ppo_rates.xlsx) | Corporate Navy-styled 4-tab workbook: Executive Summary, All 2,418 Benchmark Rates, 5,000 PPO Cross-Section, Data Dictionary (1.07 MB). |
+| **Curated Benchmark Rates** | `.csv` | [`outputs/c6_curated_benchmark_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_benchmark_rates.csv) | 2,418 rows at NPI, TIN, Address, Code, Specialty, and Weight level (1.21 MB). |
+| **Provider Cost-Effectiveness** | `.csv` | [`outputs/c7_provider_cost_effectiveness.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c7_provider_cost_effectiveness.csv) | 2,418 rows with Peer Median, Relative Price Index (RPI), percentile rank, and potential price difference (1.21 MB). |
+| **Peer Group Summary** | `.csv` | [`outputs/c7_peer_group_summary.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c7_peer_group_summary.csv) | 97 clinical peer groups with sample size, quartiles, median, and IQR (16.6 KB). |
+| **Provider Address Crosswalk** | `.csv` | [`outputs/c5_provider_address_crosswalk.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_provider_address_crosswalk.csv) | 5,672 provider contracting tuples with verified addresses and taxonomy (1.93 MB). |
+| **Address Conflicts Log** | `.csv` | [`outputs/c5_address_conflicts.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_address_conflicts.csv) | 167 records documenting administrative PO Boxes, national labs, and border facilities (53 KB). |
+| **Full Curated PPO Rates** | `.csv` | [`outputs/c6_curated_ppo_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_ppo_rates.csv) | Full 857,206 curated PPO rate rows (417.9 MB; gitignored for GitHub hygiene). |
+| **Full Curated Excel Deliverable** | `.xlsx` | `submission/full_curated_ppo_rates.xlsx` | Complete 857,206-row spreadsheet (74.8 MB; gitignored; submitted separately via submission link). |
 | **Pipeline Summary JSON** | `.json` | [`outputs/c6_curation_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curation_summary.json) | Complete metadata, rate distributions, and address verification percentages. |
 | **Cost-Effectiveness JSON** | `.json` | [`outputs/c7_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c7_summary.json) | RPI tier distribution, top competitive providers, and top high-price outliers. |
 
@@ -68,15 +74,15 @@ Automated Test Suite:      109 passed in 16.4s (100% pass rate across C1–C7)
 
 ## 4. Documentation & Methodology Reports
 
-- [`reports/final_audit.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/final_audit.md): Comprehensive cross-phase audit, mathematical reconciliation, and denominator audit.
+- [`reports/pre_github_test_report.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/pre_github_test_report.md): Pre-GitHub validation report covering environment, 119 tests, output schemas, and isolated E2E tests.
+- [`reports/codebase_audit.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/codebase_audit.md): Comprehensive technical audit, 10 cataloged findings, reconciliations, and evaluator defense guide.
+- [`reports/beginner_project_guide.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/beginner_project_guide.md): Plain-English technical explanation guide for healthcare pricing terminology.
 - [`reports/c7_cost_effectiveness_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c7_cost_effectiveness_methodology.md): Peer group definitions, formulas for RPI, midpoint percentiles, and weighted portfolio index.
 - [`reports/c6_pipeline_summary.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c6_pipeline_summary.md): End-to-end pipeline synthesis report.
 - [`reports/c5_address_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c5_address_methodology.md): Address resolution engine, NPPES caching, and conflict resolution.
 - [`reports/c4_extraction_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c4_extraction_methodology.md): Rate extraction, two-pass streaming, and non-collapsing rate context rules.
 - [`reports/c3_quality_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c3_quality_methodology.md): 11 quality scoring dimensions and formula specifications.
 - [`reports/c2_ppo_logic.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c2_ppo_logic.md): PPO network classification hierarchy and HIOS crosswalk.
-- [`reports/video_script.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/video_script.md): 5-minute presentation script with timestamps and presenter notes.
-- [`reports/demo_checklist.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/demo_checklist.md): Evaluator quick verification checklist and terminal commands.
 
 ---
 
@@ -85,24 +91,36 @@ Automated Test Suite:      109 passed in 16.4s (100% pass rate across C1–C7)
 ### 5.1 Environment Setup
 ```bash
 # Clone the repository
-git clone <repo-url>
-cd intelligent-meitner
+git clone https://github.com/Gopal1909/HiLabs-hackathon-project.git
+cd HiLabs-hackathon-project
 
 # Create and activate virtual environment
 python -m venv venv
 .\venv\Scripts\Activate.ps1   # Windows PowerShell
 # source venv/bin/activate    # Linux/macOS
 
-# Install dependencies
+# Install dependencies (pandas>=1.1.5, openpyxl, ijson, pytest, requests, etc.)
 pip install -r requirements.txt
 ```
 
-### 5.2 Run the Automated Test Suite (109 Tests)
+### 5.2 Raw Data Acquisition & Ignored Datasets Policy
+
+To keep the repository lightweight and adhere to GitHub's file size limits, large raw datasets and full-scale outputs are excluded via `.gitignore`. Place them in the following paths to rerun the full pipeline:
+
+| Dataset | Expected Local Path | File Size | Acquisition Source & Notes |
+|:---|:---|:---:|:---|
+| **Centene Index Files** (11 files) | `data/raw/*.json` | ~40 MB | Automatically downloaded from Centene's portal (`https://www.centene.com/price-transparency-files.html`) during Phase 1. |
+| **Target Rate File** | `data/raw/2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json` | 701.6 MB | Official Centene California commercial machine-readable file. Download from Centene portal URL identified in Phase 2. |
+| **Benchmark Workbook** | `data/raw/Rate_Benchmarking_Individual_Weights_Hackathon.xlsx` | 134 KB | Official hackathon benchmark dataset containing `Spec-Proc Weights` and `Taxonomy-Spec Xwalk`. |
+| **CMS NPPES Cache** | `data/processed/nppes_cache.json` | 5.8 MB | Auto-populated by `src/c5_address_mapper.py` from CMS NPPES Registry API v2.1. Once fetched, runs in 0.05s offline. |
+| **Full Excel Deliverable** | `submission/full_curated_ppo_rates.xlsx` | 74.8 MB | Complete 857,206-row spreadsheet. Submitted separately via submission drive; can be regenerated via `python -m src.export_full_excel`. |
+
+### 5.3 Run the Automated Test Suite (119 Tests)
 ```bash
-pytest
+python -m pytest tests -v
 ```
 
-### 5.3 Run the Pipeline Stages (C1 through C7)
+### 5.4 Run the Pipeline Stages (C1 through C7)
 ```bash
 # Phase 1: Parse all Centene brand index files
 python -m src.c1_index_parser
@@ -119,11 +137,14 @@ python -m src.c4_rate_extractor
 # Phase 5: Verify provider practicing addresses via NPPES & hospital rosters
 python -m src.c5_address_mapper
 
-# Phase 6: Final rate curation & Excel deliverable generation
+# Phase 6: Final rate curation & executive Excel deliverable generation
 python -m src.c6_rate_curator
 
-# Phase 7: Rate cost-effectiveness & price competitiveness analysis
+# Phase 7: Rate cost-effectiveness & clinical peer group analysis
 python -m src.c7_cost_effectiveness
+
+# Optional: Generate full 857k-row Excel deliverable (submission/full_curated_ppo_rates.xlsx)
+python -m src.export_full_excel
 ```
 
 ---
