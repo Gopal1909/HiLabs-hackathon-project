@@ -14,12 +14,17 @@ This `submission/` package contains the consolidated core deliverables, data fil
 
 ### Primary Deliverables in this Directory:
 1. [`curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/curated_ppo_rates.xlsx) (1.07 MB)
-   - The master 4-tab Excel workbook:
+   - The master 4-tab executive Excel workbook:
      - **Executive Summary:** High-level scorecard, network inclusion accounting, practicing address verification breakdown, top benchmark procedure fee ranges.
      - **Benchmark Rates:** All 2,418 benchmark procedure rates at NPI, TIN, Address, Code, Specialty, and Weight level with corporate Navy styling and currency formatting.
      - **PPO Rate Cross-Section:** 5,000 stratified representative sample rows spanning all 14 clinical specialties, inpatient/outpatient care settings, and professional/institutional billing classes.
      - **Data Dictionary:** Exhaustive documentation of all 36 fields, data types, allowed values, validation logic, and contracting guidance.
-2. [`c6_curated_benchmark_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c6_curated_benchmark_rates.csv) (1.21 MB)
+2. [`full_curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/full_curated_ppo_rates.xlsx) (71.33 MB)
+   - **The Complete Full-Scale Excel Rate Deliverable:**
+     - Exactly **857,206 data rows** (+ 1 header row = 857,207 total rows) containing every eligible curated California Commercial PPO rate.
+     - Formatted across 19 core fields: NPI, NPI Type, TIN, Provider Name, Facility, Address Line 1, Address Line 2, City, State, ZIP, Address Status, Specialty, Billing Code, Modifier, Billing Class, Setting, Negotiated Rate ($), Rate Flag, PPO Status.
+     - Generated via openpyxl streaming `write_only` mode (`python -m src.export_full_excel`).
+3. [`c6_curated_benchmark_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c6_curated_benchmark_rates.csv) (1.21 MB)
    - Clean, lightweight CSV containing all 2,418 benchmark procedure rates.
 3. [`c7_provider_cost_effectiveness.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c7_provider_cost_effectiveness.csv) (1.21 MB)
    - Rate cost-effectiveness analysis for all 2,418 benchmark rate rows: Peer Group ID, Peer Count, Peer Median Rate, Relative Price Index (RPI), Peer Percentile, Potential Price Difference, and Cost-Effectiveness Tier.

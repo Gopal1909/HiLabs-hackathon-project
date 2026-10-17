@@ -28,6 +28,7 @@ data/processed/*.json
 outputs/c4_extracted_rates.csv
 outputs/c6_curated_ppo_rates.csv
 outputs/*.parquet
+submission/full_curated_ppo_rates.xlsx
 
 # Keep the directory stubs
 !data/raw/.gitkeep
