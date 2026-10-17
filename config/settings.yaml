@@ -176,6 +176,10 @@ c5_nppes_api:
   rate_limit_pause_seconds: 0.05
   stale_threshold_year: 2022
 
-
-
-
+# ── Phase 6 (C6) Outputs & Settings ──────────────────────────────────────────
+c6_curated_benchmark_rates_csv: "outputs/c6_curated_benchmark_rates.csv"
+c6_curated_ppo_rates_csv: "outputs/c6_curated_ppo_rates.csv"
+c6_curated_ppo_rates_xlsx: "outputs/curated_ppo_rates.xlsx"
+c6_curation_summary_json: "outputs/c6_curation_summary.json"
+c6_pipeline_summary_md: "reports/c6_pipeline_summary.md"
+c6_excel_sample_size: 5000

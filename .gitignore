@@ -26,6 +26,7 @@ data/processed/*.json
 
 # Large generated extracted datasets (>100MB)
 outputs/c4_extracted_rates.csv
+outputs/c6_curated_ppo_rates.csv
 outputs/*.parquet
 
 # Keep the directory stubs
