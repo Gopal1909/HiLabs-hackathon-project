@@ -159,5 +159,23 @@ c4_major_ca_health_systems:
   - "marshall"
   - "temecula valley"
 
+# ── Phase 5 (C5) Outputs & Settings ──────────────────────────────────────────
+c5_provider_address_crosswalk_csv: "outputs/c5_provider_address_crosswalk.csv"
+c5_address_evidence_csv: "outputs/c5_address_evidence.csv"
+c5_address_conflicts_csv: "outputs/c5_address_conflicts.csv"
+c5_address_summary_json: "outputs/c5_address_summary.json"
+c5_address_methodology_md: "reports/c5_address_methodology.md"
+nppes_cache_file: "data/processed/nppes_cache.json"
+
+c5_nppes_api:
+  base_url: "https://npiregistry.cms.hhs.gov/api/"
+  api_version: "2.1"
+  concurrency_workers: 12
+  timeout_seconds: 6
+  max_retries: 3
+  rate_limit_pause_seconds: 0.05
+  stale_threshold_year: 2022
+
+
 
 

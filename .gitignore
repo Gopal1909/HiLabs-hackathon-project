@@ -22,6 +22,7 @@ data/raw/*.json.gz
 data/raw/*.csv
 data/raw/*.parquet
 data/raw/*.xlsx
+data/processed/*.json
 
 # Large generated extracted datasets (>100MB)
 outputs/c4_extracted_rates.csv

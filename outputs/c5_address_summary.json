@@ -1,0 +1,41 @@
+{
+  "run_timestamp": "2026-10-17T07:21:54.728931+00:00",
+  "phase": "C5 - Provider Address Verification and Resolution",
+  "source_rate_file": "2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json",
+  "elapsed_seconds": 111.84,
+  "counts": {
+    "total_provider_tuples_examined": 5672,
+    "unique_npis_evaluated": 3735,
+    "unique_tins_evaluated": 2888,
+    "nppes_matched_npis": 5659,
+    "nppes_missing_npis": 13,
+    "crosswalk_rows_produced": 5672,
+    "stale_nppes_records_flagged": 2206,
+    "po_box_mailing_only": 0,
+    "conflicts_logged": 167
+  },
+  "verification_status_breakdown": {
+    "VERIFIED_CURRENT": 3343,
+    "CORROBORATED": 256,
+    "NPPES_ONLY_UNVERIFIED": 1906,
+    "CONFLICTED": 154,
+    "UNRESOLVED": 13
+  },
+  "coverage_percentages": {
+    "address_candidate_coverage": 99.77,
+    "independently_verified_coverage": 58.94,
+    "verified_plus_corroborated_coverage": 63.45,
+    "stale_risk_percentage": 38.89
+  },
+  "npi_types": {
+    "Type 2 (Organization)": 4960,
+    "Type 1 (Individual)": 699
+  },
+  "data_limitations_and_caveats": [
+    "NPPES Stale Address Problem: Approximately 80% of healthcare provider addresses in NPPES are historically outdated or administrative. C5 explicitly flags records with last_updated prior to 2022 as STALE_RISK.",
+    "Practice Location vs Mailing Lockbox: C5 strictly separates LOCATION (physical clinic/facility) from MAILING (often administrative PO Boxes). PO Boxes are flagged as CONFLICTED.",
+    "Multi-Address Support: Preserves distinct practice locations per NPI and TIN across all 5,672 PTD contracting relationships.",
+    "No Fabricated Addresses: Addresses with missing or unresolvable NPPES entries remain strictly UNRESOLVED.",
+    "Pre-Join Staging: C5 generates the compact NPI-TIN-Address crosswalk table. Address expansion across the 1.5M rate rows is reserved for Phase 6 (C6)."
+  ]
+}
