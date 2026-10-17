@@ -2,7 +2,7 @@
 ## Centene California Commercial Group PPO Network Rate Curation, File Quality Grading, Address Verification, and Cost-Effectiveness Analysis
 
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/)
-[![Tests Passing](https://img.shields.io/badge/tests-119%20passed-brightgreen.svg)](tests/)
+[![Tests Passing](https://img.shields.io/badge/tests-125%20passed-brightgreen.svg)](tests/)
 [![File Quality Score](https://img.shields.io/badge/PTD%20Quality-82.17%20%2F%20100%20(Grade%20B)-blue.svg)](reports/c3_quality_methodology.md)
 [![Address Verification](https://img.shields.io/badge/Address%20Verification-99.84%25%20(Rate--Level)-brightgreen.svg)](reports/c5_address_methodology.md)
 
@@ -49,7 +49,7 @@ Address Verification:
   - Benchmark Row Level:   60.17% (1,455 / 2,418 benchmark procedure rows verified)
 Quality Score (C3):        82.17 / 100 (Grade B, 0 negative rates, 0 zero rates, 0 orphan refs)
 Cost-Effectiveness (C7):   96.73% of benchmark rates eligible across 63 peer groups (N >= 5)
-Automated Test Suite:      119 passed in 9.99s (100% pass rate across C1–C7 and regressions)
+Automated Test Suite:      125 passed in ~10.1s (100% pass rate across C1–C7 and regressions)
 ========================================================================================
 ```
 
@@ -115,7 +115,7 @@ To keep the repository lightweight and adhere to GitHub's file size limits, larg
 | **CMS NPPES Cache** | `data/processed/nppes_cache.json` | 5.8 MB | Auto-populated by `src/c5_address_mapper.py` from CMS NPPES Registry API v2.1. Once fetched, runs in 0.05s offline. |
 | **Full Excel Deliverable** | `submission/full_curated_ppo_rates.xlsx` | 74.8 MB | Complete 857,206-row spreadsheet. Submitted separately via submission drive; can be regenerated via `python -m src.export_full_excel`. |
 
-### 5.3 Run the Automated Test Suite (119 Tests)
+### 5.3 Run the Automated Test Suite (125 Tests)
 ```bash
 python -m pytest tests -v
 ```
@@ -170,7 +170,9 @@ intelligent-meitner/
 │   ├── c3_file_quality_metrics.csv # 11-dimension quality metrics
 │   └── *.json                   # Summary audit metadata files
 ├── reports/                     # Comprehensive methodology reports & final audit
+│   ├── final_evaluation_scorecard.md # Official two-track rubric evaluation scorecard
 │   ├── final_audit.md           # Cross-phase reconciliation & denominator audit
+│   ├── codebase_audit.md        # Technical finding catalogue and defense guide
 │   ├── c7_cost_effectiveness_methodology.md
 │   ├── c6_pipeline_summary.md
 │   ├── c5_address_methodology.md
@@ -187,6 +189,7 @@ intelligent-meitner/
 │   ├── c5_address_mapper.py     # Concurrent NPPES address verification engine
 │   ├── c6_rate_curator.py       # Final rate curation & multi-tab Excel generator
 │   ├── c7_cost_effectiveness.py # Price competitiveness & peer group analyzer
+│   ├── export_full_excel.py     # Comprehensive 857k-row Excel exporter
 │   └── utils.py                 # Shared utilities, logging, config loader
 ├── tests/
 │   ├── test_c1_parser.py        # 33 unit tests
@@ -195,7 +198,8 @@ intelligent-meitner/
 │   ├── test_c4_rate_extractor.py # 10 unit tests
 │   ├── test_c5_address_mapper.py # 10 unit tests
 │   ├── test_c6_rate_curator.py  # 9 unit tests
-│   └── test_c7_cost_effectiveness.py # 9 unit tests (109 total)
+│   ├── test_c7_cost_effectiveness.py # 9 unit tests
+│   └── test_audit_regressions.py # 14 regression & invariant tests (123 total)
 ├── requirements.txt
 ├── .gitignore
 └── README.md
@@ -207,6 +211,6 @@ intelligent-meitner/
 
 1. **Zero Hallucination or Rate Fabrication:** Every negotiated rate, billing code, modifier, NPI, and TIN is derived directly from Centene's machine-readable file. Missing addresses are categorized as `UNRESOLVED` rather than fabricated.
 2. **Strict Context Preservation:** Rates with different modifiers (e.g., Modifier `26` professional component vs. global) or places of service (POS `11` physician office vs. POS `22` hospital outpatient department) are preserved as distinct rows, preventing misleading averages.
-3. **Memory Safety:** Streaming parsing with `ijson` and bounded chunked iterators ensures the entire 701.6 MB file is processed without out-of-memory spikes (peak RAM < 450 MB).
+3. **Memory Safety:** Streaming parsing with `ijson` and bounded chunked iterators ensures the entire 701.6 MB file is processed without out-of-memory spikes (peak RAM < 350 MB).
 4. **Idempotent Caching:** The CMS NPPES API client utilizes a persistent local disk cache (`data/processed/nppes_cache.json`), allowing complete address resolution in **0.05 seconds** on subsequent runs while respecting CMS rate limits.
 5. **Configurability:** All file paths, weights, API endpoints, thresholds, and brand targets are managed via [`config/settings.yaml`](file:///c:/Users/prani/antigravity/intelligent-meitner/config/settings.yaml) with relative paths resolved at runtime.

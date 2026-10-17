@@ -91,10 +91,11 @@ The C3 grading engine defines 11 transparent, orthogonal quality dimensions. Eac
 ### M03: Provider Identifier Validity (Weight: 10.0)
 - **Objective:** Verify that provider identifiers comply with statutory checksum and format standards.
 - **Implementation:**
-  - **NPIs:** Evaluated using the CMS 10-digit Luhn Checksum Algorithm (ISO/IEC 7812 with prefix constant `80840`).
+  - **NPIs:** Evaluated using the CMS 10-digit Luhn Checksum Algorithm (ISO/IEC 7812 with prefix constant `80840` and initial digit in `{'1', '2'}`).
   - **TINs:** Evaluated against 9-digit numeric format standard with non-trivial prefixes (rejecting dummy values like `000000000` or `123456789`).
 - **Formula:**
   $$\text{Score}_{\text{M03}} = 0.5 \times \left(\frac{N_{\text{valid\_NPI}}}{N_{\text{total\_NPI}}}\right) + 0.5 \times \left(\frac{N_{\text{valid\_TIN}}}{N_{\text{total\_TIN}}}\right)$$
+- **Rationale for 50/50 Weighting:** Using an unweighted average prevents large multi-provider clinics (which have dozens of NPIs under a single TIN) from diluting and masking severe institutional TIN defects.
 - **Observed Result:** 10,243 valid identifiers out of 10,248 evaluated (99.96%).
 - **Evaluation:** **PASS**. Over 99.9% of provider references contain legally valid, CMS-compliant identifiers.
 
@@ -128,6 +129,9 @@ The C3 grading engine defines 11 transparent, orthogonal quality dimensions. Eac
 - **Objective:** Detect non-credible extreme outliers (e.g., penny rates `<$0.01` or professional fee rates exceeding `$250,000`).
 - **Formula:**
   $$\text{Score}_{\text{M07}} = \frac{N_{\text{rates}} - (N_{\text{low\_outliers}} + N_{\text{high\_outliers}})}{N_{\text{rates}}} \times 100$$
+- **Clinical Rationale for Asymmetric Bounding:**
+  - *Low Outlier Bound (`<$0.01`):* Applies universally to all rate types. Rates below one cent represent data truncation or token errors.
+  - *High Outlier Bound (`>$250,000` for Professional Rates):* Restricting the upper bound to professional physician billing reflects domain reality: individual professional CPT codes rarely exceed $250,000 in commercial fee schedules. Conversely, institutional facility claims (e.g. organ transplants, burn unit stays, complex neonatal ICU) can legitimately exceed $250,000 without being corrupted data defects.
 - **Observed Result:** 0 extreme outliers detected across 1,500,288 evaluated rates (100.00%).
 - **Evaluation:** **PASS**. All professional and institutional rates fall within plausible commercial bounds.
 
@@ -135,10 +139,12 @@ The C3 grading engine defines 11 transparent, orthogonal quality dimensions. Eac
 - **Objective:** Measure the uniqueness of rate records and detect wasteful or corrupted duplicate serializations without penalizing records that legitimately differ by clinical service conditions.
 - **Defensible Clinical Fingerprint:**
   $$\text{Fingerprint} = \big(\text{billing\_code}, \text{description}, \text{provider\_refs}, \text{rate}, \text{class}, \text{setting}, \text{service\_codes}, \text{additional\_information}\big)$$
+- **Deterministic Hashing:** Implemented via cryptographic MD5 digests over the canonicalized tuple to ensure complete deterministic reproducibility across platforms and Python process invocations (eliminating `PYTHONHASHSEED` non-determinism).
 - **Observed Result:**
-  - Distinct clinical fingerprints: 1,479,945
-  - True exact duplicate serializations: 20,343 (1.36%)
-  - Score: $100.0 - 1.36\% = 98.65\%$
+  - Distinct clinical fingerprints: 1,479,971
+  - True exact duplicate serializations: 20,317 (1.354% ≈ 1.35%)
+  - Score: $\frac{1,479,971}{1,500,288} \times 100.0 = 98.6458\% \to 98.65\%$
+  - *(Note on historical reporting: Commit d1e83b5 saved outputs/c3_summary.json with 20,317, while the accompanying methodology text drafted 20,343 (+26 records). Empirical testing confirms that 64-bit Python hash randomization produces an identical 20,317 count and cannot account for a 26-record difference; because the intermediate draft script was not committed, the exact historical cause of the draft 20,343 figure cannot be proven. The authoritative count is 20,317).*
 - **Weighted Contribution:** 9.87 / 10.00.
 - **Evaluation:** **PASS**. (See Section 4 for detailed clinical analysis).
 
@@ -187,7 +193,7 @@ Under hospital contracting, an acute care facility negotiates a standardized ins
 
 - **Naive Interpretation:** If `description` and `additional_information` are discarded, an engineer would conclude that Item 2 is a "useless duplicate" and discard it.
 - **Payer Contracting Reality:** These records legitimately differ by clinical service conditions. Discarding them would prevent contracting teams from benchmarking cardiac vs infectious comorbidity reimbursement.
-- **True Duplication Finding:** When `description`, `service_code`, and `additional_information` are incorporated into the clinical fingerprint, **1,479,945 records are completely unique**, and only **20,343 records (1.36%)** represent true exact duplicate serializations where every single attribute is identical.
+- **True Duplication Finding:** When `description`, `service_code`, and `additional_information` are incorporated into the clinical fingerprint, **1,479,971 records are completely unique**, and only **20,317 records (1.35%)** represent true exact duplicate serializations where every single attribute is identical.
 
 This demonstrates why domain-aware curation is critical for healthcare price transparency data.
 
@@ -220,6 +226,6 @@ To meet the strict hackathon constraint that large PTD files must never be loade
 Based on the C3 quality findings, the following rules must guide Phase 4 rate extraction and address matching:
 
 1. **Leverage the 134 Benchmark Procedure Codes:** Focus rate extraction on the 134 matched procedure codes from the hackathon benchmark dataset (`Rate_Benchmarking_Individual_Weights_Hackathon.xlsx`) to maximize analytical relevance and execution efficiency.
-2. **Filter Out True Duplicates (1.36%):** De-duplicate the 20,343 exact duplicate records using the multi-attribute clinical fingerprint before writing the final rate file.
+2. **Filter Out True Duplicates (1.35%):** De-duplicate the 20,317 exact duplicate records using the multi-attribute clinical fingerprint before writing the final rate file.
 3. **Preserve Service Condition Context:** Retain `billing_class` (`professional` vs `institutional`), `setting` (`inpatient` vs `outpatient`), and `additional_information` (contract code) so rates are never aggregated across incompatible clinical contexts.
 4. **Link NPIs to Practicing Addresses:** Since provider reference groups provide NPIs and TINs without street addresses, Phase 4 must cross-reference NPIs against NPPES practicing locations and apply defensible address resolution rules.

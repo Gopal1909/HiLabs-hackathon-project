@@ -4,14 +4,18 @@
 **Audit Date:** October 17, 2026  
 **Auditor:** Senior Data Engineering Agent  
 **Payer & Market Scope:** Centene Corporation / Health Net of California — California Commercial Group PPO Network  
-**Target MRF:** `2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json` (701.6 MB)  
+**Target MRF:** `2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json` (701.6 MB decimal / 669.11 MiB binary; 701,615,514 bytes)
 **Deliverables Audited:**
-- `outputs/curated_ppo_rates.xlsx` (1.07 MB, 4-tab workbook)
+- `outputs/curated_ppo_rates.xlsx` (1.07 MB, 4-tab executive workbook)
 - `outputs/c6_curated_benchmark_rates.csv` (1.21 MB, 2,418 rows)
-- `outputs/c6_curated_ppo_rates.csv` (398.59 MB, 857,206 rows)
+- `outputs/c6_curated_ppo_rates.csv` (417.95 MB decimal / 398.59 MiB binary; 417,954,634 bytes; 857,206 rows)
+- `outputs/c7_provider_cost_effectiveness.csv` (1.21 MB, 2,418 rows)
+- `outputs/c7_peer_group_summary.csv` (16.6 KB, 97 clinical peer groups)
 - `outputs/c6_curation_summary.json` (4.09 KB)
-- `outputs/c5_provider_address_crosswalk.csv` (2.01 MB, 5,672 rows)
+- `outputs/c7_summary.json` (7.42 KB)
+- `outputs/c5_provider_address_crosswalk.csv` (1.93 MB / 2.01 MB on disk, 5,672 rows)
 - `outputs/c3_file_quality_metrics.csv` & `c3_metric_details.csv`
+*(Note on file sizes: Values formatted as decimal MB use base-10 ($10^6$ bytes); values formatted as MiB use base-2 ($2^{20}$ bytes). Both refer to the identical underlying byte count).*
 
 ---
 

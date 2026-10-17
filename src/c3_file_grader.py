@@ -518,20 +518,42 @@ class PTDFileGrader:
                             stats["expired_contracts"] += 1
 
                         # Deduplication check: clinical service condition fingerprint
-                        # Incorporates billing_code, clinical description, provider reference group,
-                        # rate value, billing class, setting, service code, and episode/contract code
+                        # Incorporates billing_code, billing_code_type, clinical description,
+                        # provider references, inline provider groups, rate value, rate type,
+                        # billing class, setting, modifiers, service codes, and price/entry additional information.
+                        raw_mods = price_obj.get("billing_code_modifier") or price_obj.get("billing_code_modifiers") or []
+                        if isinstance(raw_mods, str):
+                            raw_mods = [raw_mods]
+                        mods_tuple = tuple(sorted(str(m).strip() for m in raw_mods if m))
+
+                        inline_groups = ()
+                        raw_pg = rate_entry.get("provider_groups") or []
+                        if raw_pg:
+                            ig_list = []
+                            for g in raw_pg:
+                                tin_v = str(g.get("tin", {}).get("value", "")).strip() if isinstance(g.get("tin"), dict) else ""
+                                npis = tuple(sorted(str(x).strip() for x in (g.get("npi") or [])))
+                                ig_list.append((tin_v, npis))
+                            inline_groups = tuple(sorted(ig_list))
+
+                        entry_add_info = str(rate_entry.get("additional_information", "")).strip()
+
                         fp_tuple = (
                             billing_code,
+                            billing_code_type,
                             item_desc,
                             tuple(sorted(prov_refs)),
+                            inline_groups,
                             rate_val,
                             rate_type,
                             b_class,
                             setting,
+                            mods_tuple,
                             service_codes,
                             add_info,
+                            entry_add_info,
                         )
-                        fp_hash = hash(fp_tuple)
+                        fp_hash = hashlib.md5(repr(fp_tuple).encode("utf-8")).digest()
                         if fp_hash in stats["rate_fingerprints"]:
                             stats["exact_duplicate_rate_records"] += 1
                         else:

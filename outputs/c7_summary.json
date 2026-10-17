@@ -5,17 +5,19 @@
     "target_market": "Commercial Group, California",
     "target_network": "PPO Network",
     "min_peer_count_threshold": 5,
-    "execution_duration_seconds": 0.11,
-    "generated_at": "2026-10-17T07:59:52Z"
+    "execution_duration_seconds": 0.1,
+    "generated_at": "2026-10-17T17:24:26Z"
   },
   "volume_summary": {
     "total_benchmark_records_evaluated": 2418,
     "eligible_rates_scored": 2339,
     "eligible_rate_share_pct": 96.73,
     "insufficient_peer_count_rates": 79,
+    "invalid_peer_median_rates": 0,
     "total_distinct_peer_groups": 97,
     "eligible_peer_groups": 63,
     "insufficient_peer_groups": 34,
+    "invalid_median_peer_groups": 0,
     "unique_providers_evaluated": 992,
     "unique_providers_with_weighted_index": 984
   },

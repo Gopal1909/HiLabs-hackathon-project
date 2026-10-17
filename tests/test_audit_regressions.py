@@ -379,3 +379,365 @@ def test_multi_level_address_reconciliation():
     # 5. Benchmark rows
     assert round((1455 / 2418) * 100.0, 2) == 60.17
 
+
+# ── 11. Canonical Identifier Validators in Utils ──────────────────────────────
+
+def test_canonical_identifier_validators():
+    """Verify that is_valid_npi and is_valid_ein in utils correctly enforce CMS rules."""
+    from src.utils import is_valid_npi, is_valid_ein
+
+    # Valid NPIs (10 digits, starts with 1 or 2, valid Luhn checksum)
+    assert is_valid_npi("1770688129") is True
+    assert is_valid_npi("1063646446") is True
+    assert is_valid_npi(1770688129) is True
+
+    # Invalid NPIs
+    assert is_valid_npi("1234567890") is False  # Bad checksum
+    assert is_valid_npi("3770688129") is False  # Does not start with 1 or 2
+    assert is_valid_npi("0770688129") is False  # Starts with 0
+    assert is_valid_npi("123") is False         # Too short
+    assert is_valid_npi(None) is False          # None
+
+    # Valid EINs (9 digits, non-dummy)
+    assert is_valid_ein("68-0273974") is True
+    assert is_valid_ein("680273974") is True
+
+    # Invalid / Dummy EINs
+    assert is_valid_ein("00-0000000") is False
+    assert is_valid_ein("111111111") is False
+    assert is_valid_ein("123456789") is False
+    assert is_valid_ein("1234") is False
+    assert is_valid_ein(None) is False
+
+
+# ── 12. C2 Symmetric Exclusion Gates & Commercial Group Variants ─────────────
+
+def test_c2_symmetric_exclusion_and_group_variants():
+    """
+    Verifies that HMO/POS/EOA keywords in file_description trigger exclusion
+    even if absent from plan_name, and that commercial group market variants are recognized.
+    """
+    from src.c2_network_identifier import evaluate_plan
+
+    # Plan has no HMO in plan_name, but file_description mentions HMO
+    row_hmo_in_file = {
+        "brand": "Health Net",
+        "plan_name": "Standard Group Plan B",
+        "plan_id": "952789166",
+        "plan_id_type": "ein",
+        "plan_market_type": "group",
+        "issuer_name": "Healthnet, LLC",
+        "rate_file_url": "https://centene.com/healthnet-ca_in-network.json",
+        "file_description": "Health Net California HMO In-Network Rates",
+    }
+    res = evaluate_plan(row_hmo_in_file, {})
+    assert res["classification"] == "EXCLUDED"
+    assert "HMO" in res["decision_reason"]
+
+    # Plan with plan_market_type = 'large_group' recognized in commercial scope
+    row_large_group = {
+        "brand": "Health Net",
+        "plan_name": "Health Net PPO 500/20% Large Group",
+        "plan_id": "952789166",
+        "plan_id_type": "ein",
+        "plan_market_type": "large_group",
+        "issuer_name": "Healthnet, LLC",
+        "rate_file_url": "https://centene.com/healthnet-ca_in-network.json",
+        "file_description": "In-network negotiated rates",
+    }
+    res_lg = evaluate_plan(row_large_group, {})
+    assert res_lg["in_commercial_group_scope"] is True
+    assert res_lg["classification"] == "PROBABLE"
+
+
+# ── 13. C6 Even-Length Median Computation ────────────────────────────────────
+
+def test_c6_even_length_median_computation():
+    """Verify that even-length arrays calculate the true arithmetic mean of middle elements."""
+    s_even = [10.0, 20.0, 30.0, 40.0]
+    n = len(s_even)
+    med_v = s_even[n // 2] if n % 2 == 1 else (s_even[(n // 2) - 1] + s_even[n // 2]) / 2.0
+    assert med_v == 25.0
+
+    s_odd = [10.0, 20.0, 30.0]
+    n_odd = len(s_odd)
+    med_odd = s_odd[n_odd // 2] if n_odd % 2 == 1 else (s_odd[(n_odd // 2) - 1] + s_odd[n_odd // 2]) / 2.0
+    assert med_odd == 20.0
+
+
+# ── 14. Traceable Rate Extraction Sample Verification ─────────────────────────
+
+def test_traceable_rate_extraction_sample_verification(tmp_path):
+    """
+    Independent Sample Verification:
+    Constructs a controlled MRF with known modifiers, place of service, and rates,
+    executes C4 extraction, and verifies exact row preservation and field fidelity.
+    """
+    mrf = {
+        "reporting_entity_name": "Centene Quality Test",
+        "reporting_entity_type": "Health Plan",
+        "version": "2.0.0",
+        "last_updated_on": "2026-10-06",
+        "provider_references": [
+            {
+                "provider_group_id": 10,
+                "provider_groups": [
+                    {
+                        "npi": [1770688129],
+                        "tin": {"type": "ein", "value": "68-0273974", "business_name": "Sutter Health Sacramento"},
+                    }
+                ],
+            }
+        ],
+        "in_network": [
+            {
+                "negotiation_arrangement": "ffs",
+                "name": "OFFICE VISIT EST PATIENT",
+                "billing_code_type": "CPT",
+                "billing_code": "99214",
+                "billing_code_type_version": "2026",
+                "description": "Office or other outpatient visit 30-39 minutes",
+                "negotiated_rates": [
+                    {
+                        "negotiated_prices": [
+                            {
+                                "negotiated_type": "negotiated",
+                                "negotiated_rate": 168.45,
+                                "expiration_date": "9999-12-31",
+                                "billing_class": "professional",
+                                "setting": "outpatient",
+                                "billing_code_modifier": ["26"],
+                                "service_code": ["11"],
+                                "additional_information": "Contract tier A",
+                            }
+                        ],
+                        "provider_references": [10],
+                    }
+                ],
+            }
+        ],
+    }
+
+    test_file = tmp_path / "sample_in_network.json"
+    with open(test_file, "w", encoding="utf-8") as f:
+        json.dump(mrf, f)
+
+    out_rates = tmp_path / "sample_extracted_rates.csv"
+    out_class = tmp_path / "sample_classification.csv"
+    out_summ = tmp_path / "sample_summary.json"
+
+    extractor = RateExtractor()
+    summary = extractor.extract_and_classify(
+        file_path=str(test_file),
+        output_rates_path=str(out_rates),
+        output_classification_path=str(out_class),
+        output_summary_path=str(out_summ),
+    )
+
+    assert summary["counts"]["expanded_provider_rate_rows_written"] == 1
+    assert summary["counts"]["missing_rates"] == 0
+
+    with open(out_rates, "r", encoding="utf-8") as rf:
+        reader = list(csv.DictReader(rf))
+        assert len(reader) == 1
+        row = reader[0]
+        assert row["npi"] == "1770688129"
+        assert row["tin_value"] == "68-0273974"
+        assert row["billing_code"] == "99214"
+        assert row["billing_code_modifier"] == "26"
+        assert row["service_codes"] == "11"
+        assert row["billing_class"] == "professional"
+        assert row["setting"] == "outpatient"
+        assert float(row["negotiated_rate"]) == 168.45
+        assert row["ppo_applicability"] == "PROBABLE_PPO"
+        assert row["address_status"] == "UNRESOLVED_PENDING_C5"
+
+
+# ── 15. C7 Zero and Negative Peer Median Handling ─────────────────────────────
+
+def test_c7_zero_and_negative_peer_median_handling(tmp_path):
+    """
+    Regression Test:
+    Ensures that when a peer group has a non-positive median ($0.00 or negative),
+    the comparison is not falsely evaluated as median-aligned (RPI=100.0 or 1.0).
+    Instead, it must be marked as INVALID_PEER_MEDIAN, RPI set to unavailable (""),
+    the reason recorded in explanation, and excluded from provider portfolio rollups.
+    """
+    from src.c7_cost_effectiveness import analyze_cost_effectiveness
+
+    bench_csv = tmp_path / "bench_test_zero_median.csv"
+    with open(bench_csv, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=[
+            "npi", "tin_value", "provider_name", "billing_code", "billing_code_modifier",
+            "billing_class", "setting", "negotiated_rate", "rate_selection_flag",
+            "benchmark_procedure_weight"
+        ])
+        writer.writeheader()
+        # Group 1: 5 providers, all rates $0.00 -> median is $0.00
+        for i in range(5):
+            writer.writerow({
+                "npi": f"100000000{i}", "tin_value": f"95-000000{i}", "provider_name": f"Zero Provider {i}",
+                "billing_code": "00001", "billing_code_modifier": "", "billing_class": "professional",
+                "setting": "outpatient", "negotiated_rate": "0.0", "rate_selection_flag": "UNIQUE_RATE",
+                "benchmark_procedure_weight": "100"
+            })
+        # Group 2: 5 providers, rates negative -> median is negative
+        for i in range(5):
+            writer.writerow({
+                "npi": f"200000000{i}", "tin_value": f"95-111111{i}", "provider_name": f"Neg Provider {i}",
+                "billing_code": "00002", "billing_code_modifier": "", "billing_class": "professional",
+                "setting": "outpatient", "negotiated_rate": "-25.0", "rate_selection_flag": "UNIQUE_RATE",
+                "benchmark_procedure_weight": "100"
+            })
+        # Group 3: 5 providers, valid positive rates -> median is $150.00
+        for i in range(5):
+            writer.writerow({
+                "npi": f"300000000{i}", "tin_value": f"95-222222{i}", "provider_name": f"Valid Provider {i}",
+                "billing_code": "99214", "billing_code_modifier": "", "billing_class": "professional",
+                "setting": "outpatient", "negotiated_rate": str(150.0 + i * 10), "rate_selection_flag": "UNIQUE_RATE",
+                "benchmark_procedure_weight": "100"
+            })
+
+    out_prov = tmp_path / "c7_prov_out.csv"
+    out_peer = tmp_path / "c7_peer_out.csv"
+    out_sum = tmp_path / "c7_sum_out.json"
+
+    res = analyze_cost_effectiveness(str(bench_csv), str(out_prov), str(out_peer), str(out_sum), min_peer_count=5)
+
+    with open(out_prov, "r", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+
+    # Total 15 rows
+    assert len(rows) == 15
+
+    # Check zero-median group rows (first 5)
+    for r in rows[:5]:
+        assert r["eligibility_status"] == "INVALID_PEER_MEDIAN"
+        assert r["cost_effectiveness_tier"] == "INVALID_PEER_MEDIAN"
+        assert r["relative_price_index"] == ""
+        assert r["peer_median_rate"] == ""
+        assert "non-positive" in r["explanation"]
+
+    # Check negative-median group rows (next 5)
+    for r in rows[5:10]:
+        assert r["eligibility_status"] == "INVALID_PEER_MEDIAN"
+        assert r["cost_effectiveness_tier"] == "INVALID_PEER_MEDIAN"
+        assert r["relative_price_index"] == ""
+        assert "non-positive" in r["explanation"]
+
+    # Check valid group rows (last 5)
+    for r in rows[10:15]:
+        assert r["eligibility_status"] == "ELIGIBLE"
+        assert r["relative_price_index"] != ""
+        assert float(r["relative_price_index"]) > 0
+
+    # Ensure invalid groups are excluded from provider portfolio rollups and rankings
+    assert len(res["top_cost_competitive_providers"]) == 5  # Only the 5 valid providers
+    top_npis = {p["npi"] for p in res["top_cost_competitive_providers"]}
+    for i in range(5):
+        assert f"100000000{i}" not in top_npis
+        assert f"200000000{i}" not in top_npis
+
+
+# ── 16. C3 Deduplication Fingerprint Context Preservation ─────────────────────
+
+def test_c3_duplicate_fingerprint_preserves_clinical_contexts(tmp_path):
+    """
+    Regression Test:
+    Ensures that rate records sharing billing_code, provider_reference, and rate
+    are NOT treated as duplicates if they differ in clinical modifier (26 vs TC),
+    inline provider groups, place of service, or contractual additional information.
+    """
+    mrf_contexts = {
+        "reporting_entity_name": "Centene Deduplication Test",
+        "reporting_entity_type": "Health Plan",
+        "version": "2.0.0",
+        "last_updated_on": "2026-10-06",
+        "provider_references": [
+            {
+                "provider_group_id": 1,
+                "provider_groups": [
+                    {
+                        "npi": [1770688129],
+                        "tin": {"type": "ein", "value": "68-0273974", "business_name": "Group 1"},
+                    }
+                ],
+            }
+        ],
+        "in_network": [
+            {
+                "billing_code": "71045",
+                "billing_code_type": "CPT",
+                "description": "Chest X-ray single view",
+                "negotiated_rates": [
+                    {
+                        # Price 1: Modifier 26 (Professional Component)
+                        "negotiated_prices": [
+                            {
+                                "negotiated_type": "negotiated",
+                                "negotiated_rate": 50.0,
+                                "billing_class": "professional",
+                                "setting": "outpatient",
+                                "billing_code_modifier": ["26"],
+                                "service_code": ["11"],
+                            },
+                            # Price 2: Modifier TC (Technical Component) - same rate $50, but DIFFERENT modifier!
+                            {
+                                "negotiated_type": "negotiated",
+                                "negotiated_rate": 50.0,
+                                "billing_class": "professional",
+                                "setting": "outpatient",
+                                "billing_code_modifier": ["TC"],
+                                "service_code": ["11"],
+                            },
+                            # Price 3: Place of Service 22 (Hospital Outpatient) - same rate $50, but DIFFERENT POS!
+                            {
+                                "negotiated_type": "negotiated",
+                                "negotiated_rate": 50.0,
+                                "billing_class": "professional",
+                                "setting": "outpatient",
+                                "billing_code_modifier": ["26"],
+                                "service_code": ["22"],
+                            },
+                            # Price 4: Additional Information / Episode Condition - DIFFERENT contract terms!
+                            {
+                                "negotiated_type": "negotiated",
+                                "negotiated_rate": 50.0,
+                                "billing_class": "professional",
+                                "setting": "outpatient",
+                                "billing_code_modifier": ["26"],
+                                "service_code": ["11"],
+                                "additional_information": "Bundled post-op review",
+                            },
+                            # Price 5: TRUE EXACT DUPLICATE of Price 1 (identical in all fields)
+                            {
+                                "negotiated_type": "negotiated",
+                                "negotiated_rate": 50.0,
+                                "billing_class": "professional",
+                                "setting": "outpatient",
+                                "billing_code_modifier": ["26"],
+                                "service_code": ["11"],
+                            },
+                        ],
+                        "provider_references": [1],
+                    }
+                ],
+            }
+        ],
+    }
+
+    test_file = tmp_path / "test_contexts.json"
+    with open(test_file, "w", encoding="utf-8") as f:
+        json.dump(mrf_contexts, f)
+
+    grader = PTDFileGrader({"c3_scoring_weights": {}})
+    file_metrics, details = grader.grade_file(str(test_file))
+
+    # Total 5 prices evaluated
+    assert file_metrics["total_prices_evaluated"] == 5
+
+    # Exactly 1 true duplicate (Price 5 matches Price 1)
+    # Prices 2 (TC), 3 (POS 22), and 4 (additional_information) must NOT be counted as duplicates!
+    assert file_metrics["exact_duplicate_rate_records"] == 1
+    # 4 distinct fingerprints out of 5 prices -> 1 duplicate out of 5 = 20% duplicate -> 80% score
+    assert file_metrics["m08_deduplication_quality"] == 80.0

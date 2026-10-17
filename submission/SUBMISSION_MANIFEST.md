@@ -47,28 +47,37 @@ The complete documentation suite is available in the [`reports/`](file:///c:/Use
 
 - [`reports/final_audit.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/final_audit.md): Complete cross-phase audit, 100% mathematical reconciliation of C4 to C6, and detailed audit of the 99.84% rate-row vs. 63.45% provider-tuple verification rates.
 - [`reports/c7_cost_effectiveness_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c7_cost_effectiveness_methodology.md): Peer group definitions, mathematical formulations for RPI, midpoint percentiles, and weighted portfolio fee index.
+- [`reports/final_evaluation_scorecard.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/final_evaluation_scorecard.md): Comprehensive two-track evaluation scorecard against official rubric.
+- [`reports/final_audit.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/final_audit.md): Cross-phase audit, mathematical reconciliation, and denominator audit.
+- [`reports/codebase_audit.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/codebase_audit.md): Deep technical audit of findings, reconciliations, and evaluator defense.
+- [`reports/c7_cost_effectiveness_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c7_cost_effectiveness_methodology.md): Peer group definitions, formulas for RPI, midpoint percentiles, and weighted portfolio index.
 - [`reports/c6_pipeline_summary.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c6_pipeline_summary.md): End-to-end pipeline synthesis report.
 - [`reports/c5_address_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c5_address_methodology.md): Address resolution engine, CMS NPPES caching, and CDPH hospital roster corroboration.
 - [`reports/c4_extraction_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c4_extraction_methodology.md): Streaming rate extraction, PPO attribution, and non-collapsing rate context rules.
 - [`reports/c3_quality_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c3_quality_methodology.md): 11 quality scoring dimensions and formula specifications.
 - [`reports/c2_ppo_logic.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c2_ppo_logic.md): PPO network classification hierarchy and CMS HIOS registry crosswalk.
+- [`reports/beginner_project_guide.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/beginner_project_guide.md): Plain-English healthcare pricing terminology and evaluator defense guide.
+- [`reports/data_acquisition_audit.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/data_acquisition_audit.md): Full dataset availability audit and provenance manifest.
+- [`reports/pre_github_test_report.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/pre_github_test_report.md): Pre-GitHub validation report covering environment, outputs, and E2E tests.
 - [`reports/video_script.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/video_script.md): 5-minute presentation script with speaker cues and timestamps.
 - [`reports/demo_checklist.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/demo_checklist.md): Evaluator demonstration checklist and verification commands.
 - [`README.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/README.md): Repository setup, architecture, and reproduction instructions.
+- [`config/settings.yaml`](file:///c:/Users/prani/antigravity/intelligent-meitner/config/settings.yaml): Master pipeline configuration file.
 
 ---
 
-## 3. Automated Test Suite (109 Tests Passing)
+## 3. Automated Test Suite (125 Tests Passing)
 
 To verify the pipeline from end to end:
 ```powershell
-pytest
+python -m pytest tests -v
 ```
-- **109 passed in ~16 seconds** across all 7 phases:
-  - `tests/test_c1_parser.py`: 33 tests
-  - `tests/test_c2_network_identifier.py`: 22 tests
-  - `tests/test_c3_file_grader.py`: 16 tests
-  - `tests/test_c4_rate_extractor.py`: 10 tests
-  - `tests/test_c5_address_mapper.py`: 10 tests
-  - `tests/test_c6_rate_curator.py`: 9 tests
-  - `tests/test_c7_cost_effectiveness.py`: 9 tests
+- **125 passed in ~10.1 seconds** across all phases and regression suites:
+  - `tests/test_c1_parser.py`: 33 tests (URL canonicalization, SHA-256 fingerprinting, network inference)
+  - `tests/test_c2_network_identifier.py`: 22 tests (HIOS/EIN resolution, symmetric exclusion gates, PPO scoring)
+  - `tests/test_c3_file_grader.py`: 16 tests (11 quality dimensions, Luhn checksums, streaming bounds)
+  - `tests/test_c4_rate_extractor.py`: 10 tests (PPO attribution tiers, modifier preservation, capitation exclusion)
+  - `tests/test_c5_address_mapper.py`: 10 tests (4-stage address resolution, PO Box conflicts, distance sanity)
+  - `tests/test_c6_rate_curator.py`: 9 tests (benchmark procedure matching, Excel structure, summary schema)
+  - `tests/test_c7_cost_effectiveness.py`: 9 tests (peer grouping, RPI index, midpoint percentiles, tiering)
+  - `tests/test_audit_regressions.py`: 16 tests (canonical validators, symmetric gates, median formula, traceable sample extraction, invalid median handling, clinical deduplication contexts)

@@ -7,9 +7,9 @@ This checklist is provided for hackathon judges, evaluators, and peer reviewers 
 
 ### Phase-by-Phase Verification Checklist
 
-- [x] **1. Test Suite Execution (109 Tests)**
-  - Command: `pytest`
-  - Expected: `109 passed in ~16s` across C1, C2, C3, C4, C5, C6, and C7.
+- [x] **1. Test Suite Execution (125 Tests)**
+  - Command: `python -m pytest tests -v`
+  - Expected: `125 passed in ~10.1s` across C1, C2, C3, C4, C5, C6, C7, and regression test suites.
   - Verification: Zero test failures, zero warnings, clean virtual environment execution.
 
 - [x] **2. C1: Index Parsing & Normalization**

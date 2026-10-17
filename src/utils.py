@@ -232,3 +232,51 @@ def ensure_directories(cfg: Dict[str, Any]) -> None:
     for key in ("outputs_dir", "raw_data_dir", "processed_data_dir", "logs_dir", "reports_dir"):
         if key in cfg:
             os.makedirs(cfg[key], exist_ok=True)
+
+
+# ── CMS Identifier Validation (Canonical Luhn Checksum & EIN Formats) ────────
+
+def is_valid_npi(npi_val: Any) -> bool:
+    """
+    Validate a 10-digit National Provider Identifier (NPI) using the CMS
+    standard Luhn check digit algorithm (ISO/IEC 7812 with '80840' prefix).
+    Per CMS rules, valid NPIs must begin with '1' (individual) or '2' (organization).
+    """
+    if npi_val is None:
+        return False
+    s = str(npi_val).strip()
+    if not (len(s) == 10 and s.isdigit()):
+        return False
+    if s[0] not in ('1', '2'):
+        return False
+
+    full = "80840" + s
+    digits = [int(c) for c in full]
+
+    total = 0
+    double = True
+    for d in reversed(digits[:-1]):
+        if double:
+            val = d * 2
+            total += (val - 9) if val > 9 else val
+        else:
+            total += d
+        double = not double
+
+    check_digit = (10 - (total % 10)) % 10
+    return check_digit == digits[-1]
+
+
+def is_valid_ein(ein_val: Any) -> bool:
+    """
+    Validate 9-digit Employer Identification Number (TIN/EIN).
+    Rejects dummy / trivial numbers (000000000, 111111111, 999999999, 123456789).
+    """
+    if ein_val is None:
+        return False
+    clean = re.sub(r'[-\s]', '', str(ein_val).strip())
+    if len(clean) != 9 or not clean.isdigit():
+        return False
+    if clean in {"000000000", "111111111", "999999999", "123456789"}:
+        return False
+    return True

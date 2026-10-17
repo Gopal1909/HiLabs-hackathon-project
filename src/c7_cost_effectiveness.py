@@ -191,22 +191,30 @@ def analyze_cost_effectiveness(
     peer_stats: Dict[str, Dict[str, Any]] = {}
     eligible_peer_groups = 0
     ineligible_peer_groups = 0
+    invalid_median_peer_groups = 0
 
     for peer_id, rates in peer_rates.items():
         stats = calculate_distribution_stats(rates)
-        is_eligible = stats["sample_size"] >= min_peer_count
-        stats["eligibility_status"] = "ELIGIBLE" if is_eligible else "INSUFFICIENT_PEER_COUNT"
-        peer_stats[peer_id] = stats
-        if is_eligible:
-            eligible_peer_groups += 1
-        else:
+        has_min_count = stats["sample_size"] >= min_peer_count
+        has_valid_median = stats["median_rate"] > 0
+
+        if not has_min_count:
+            stats["eligibility_status"] = "INSUFFICIENT_PEER_COUNT"
             ineligible_peer_groups += 1
+        elif not has_valid_median:
+            stats["eligibility_status"] = "INVALID_PEER_MEDIAN"
+            invalid_median_peer_groups += 1
+        else:
+            stats["eligibility_status"] = "ELIGIBLE"
+            eligible_peer_groups += 1
+        peer_stats[peer_id] = stats
 
     logger.info(
-        "Peer groups: %d eligible (>= %d providers), %d insufficient sample size.",
+        "Peer groups: %d eligible (>= %d providers, median > $0), %d insufficient sample size, %d invalid median.",
         eligible_peer_groups,
         min_peer_count,
         ineligible_peer_groups,
+        invalid_median_peer_groups,
     )
 
     # ── Step 3: Compute provider-level metrics and explanations ───────────────
@@ -242,6 +250,17 @@ def analyze_cost_effectiveness(
                 f"Rate of ${rate:.2f} is {abs(rpi - 100.0):.1f}% {'below' if rpi < 100.0 else 'above' if rpi > 100.0 else 'aligned with'} "
                 f"peer median (${median_rate:.2f}) across {n} comparable California Commercial PPO providers "
                 f"({percentile:.1f}th percentile; {rel_str} median)."
+            )
+        elif stats["eligibility_status"] == "INVALID_PEER_MEDIAN":
+            median_rate = ""
+            rpi = ""
+            percentile = ""
+            diff = ""
+            tier = "INVALID_PEER_MEDIAN"
+            tier_counts[tier] += 1
+            explanation = (
+                f"Peer group median rate (${stats['median_rate']:.2f}) is non-positive for code {code} ({mod}) "
+                f"across {n} providers, making relative price comparison mathematically invalid."
             )
         else:
             median_rate = ""
@@ -457,10 +476,12 @@ def analyze_cost_effectiveness(
             "total_benchmark_records_evaluated": len(evaluated_records),
             "eligible_rates_scored": len(eligible_rpis),
             "eligible_rate_share_pct": round((len(eligible_rpis) / len(evaluated_records)) * 100, 2),
-            "insufficient_peer_count_rates": len(evaluated_records) - len(eligible_rpis),
+            "insufficient_peer_count_rates": sum(1 for r in evaluated_records if r["eligibility_status"] == "INSUFFICIENT_PEER_COUNT"),
+            "invalid_peer_median_rates": sum(1 for r in evaluated_records if r["eligibility_status"] == "INVALID_PEER_MEDIAN"),
             "total_distinct_peer_groups": len(peer_rates),
             "eligible_peer_groups": eligible_peer_groups,
             "insufficient_peer_groups": ineligible_peer_groups,
+            "invalid_median_peer_groups": invalid_median_peer_groups,
             "unique_providers_evaluated": len(provider_rollups),
             "unique_providers_with_weighted_index": len(provider_indexes),
         },

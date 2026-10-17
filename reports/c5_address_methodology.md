@@ -109,10 +109,19 @@ The engine corroborated physical locations using three independent signals:
 | **`CONFLICTED`** | 0.20 – 0.25 | Physical `LOCATION` is out of state ($state \neq \text{CA}$), or provider has only an administrative PO Box mailing address with no physical clinic location. |
 | **`UNRESOLVED`** | 0.00 | NPI not found in NPPES, deactivated NPI, or PTD provider group lacks constituent NPIs. |
 
-### Stage D: Relational NPI-TIN Resolution
-- Preserves the exact `(NPI, TIN, Provider Group ID)` relationships established in PTD.
-- Avoids false entity conflation: Clinicians affiliated with a hospital system retain their specific practicing address rather than inheriting all corporate campus addresses.
-- Multi-location specialists are preserved as distinct crosswalk candidate rows with unique address keys.
+### Stage D: Relational NPI-TIN Resolution & Primary Location Selection
+- **Preserves Exact PTD Tuples:** Maintains the exact `(NPI, TIN, Provider Group ID)` contracting relationships established in PTD across all 5,672 provider contracting tuples.
+- **Primary Practicing Location Mapping:** For multi-site clinicians reporting multiple practice locations in NPPES, the engine deterministically anchors to the primary registered physical `LOCATION` address (`practice_locs[0]`). This preserves clinical fidelity while preventing unverified multiplication of negotiated rates across non-participating satellite facilities.
+- **Avoids Entity Conflation:** Clinicians affiliated with a health system retain their individual practicing location rather than inheriting all corporate hospital campuses.
+
+### Operational Address Verification Denominators
+
+| Operational Level | Verified / Corroborated | Total Evaluated | Verification Rate (%) | Methodological Meaning |
+| :--- | :---: | :---: | :---: | :--- |
+| **PPO Rate-Row Level** | 855,809 | 857,206 | **99.84%** | Weighted by contract transaction volume; dominated by verified California acute care health systems billing thousands of procedure codes. |
+| **Provider Tuple Level** | 3,599 | 5,672 | **63.45%** | Contracting entity tuples `(NPI, TIN, Group ID)` with verified or corroborated physical practice addresses. |
+| **Unique Clinician NPI** | 2,110 | 3,735 | **56.49%** | Distinct individual and organizational NPIs with verified/corroborated active practicing locations. |
+| **Benchmark Procedure Level** | 1,455 | 2,418 | **60.17%** | High-priority commercial benchmark procedure rates with verified physical practice locations. |
 
 ---
 

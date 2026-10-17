@@ -112,8 +112,8 @@ def evaluate_plan(
     target_hios_ppo = known_issuers.get("health_net_ca_small_group_ppo_product", "67138CA073")
 
     # Scope flags
-    in_california_scope = ("-ca_" in rate_file_url.lower()) or (brand == "Health Net" and "healthnet-ca" in rate_file_url)
-    in_commercial_group_scope = (plan_market_type == "group")
+    in_california_scope = ("-ca_" in rate_file_url.lower()) or (brand == "Health Net" and "healthnet-ca" in rate_file_url.lower())
+    in_commercial_group_scope = (plan_market_type.lower() in ("group", "large_group", "small_group", "commercial_group"))
 
     # Resolve identifier type
     if _HIOS_PLAN_ID_RE.match(plan_id):
@@ -127,13 +127,13 @@ def evaluate_plan(
     contradictions: List[str] = []
     primary_network_type = "UNKNOWN"
 
-    # Detect network keywords
+    # Detect network keywords (symmetric across plan name and file description)
     has_ppo = bool(_PPO_RE.search(plan_name) or _PPO_RE.search(file_description))
-    has_hmo = bool(_HMO_RE.search(plan_name))
-    has_eoa = bool(_EOA_RE.search(plan_name))
-    has_pos = bool(_POS_RE.search(plan_name))
-    has_epo = bool(_EPO_RE.search(plan_name))
-    has_sal_mex = bool(_SAL_MEX_RE.search(plan_name))
+    has_hmo = bool(_HMO_RE.search(plan_name) or _HMO_RE.search(file_description))
+    has_eoa = bool(_EOA_RE.search(plan_name) or _EOA_RE.search(file_description))
+    has_pos = bool(_POS_RE.search(plan_name) or _POS_RE.search(file_description))
+    has_epo = bool(_EPO_RE.search(plan_name) or _EPO_RE.search(file_description))
+    has_sal_mex = bool(_SAL_MEX_RE.search(plan_name) or _SAL_MEX_RE.search(file_description))
 
     # Assign primary network type
     if has_ppo:

@@ -4,7 +4,7 @@
 **Auditor:** Independent Technical Audit & Senior Healthcare Data Quality Review  
 **Repository:** `c:\Users\prani\antigravity\intelligent-meitner`  
 **Git Commit Audited:** `cc6b2df` (master)  
-**Test Suite Status:** **119 of 119 tests passing** (109 baseline + 10 dedicated audit regressions)  
+**Test Suite Status:** **125 of 125 tests passing** (109 baseline + 16 dedicated audit regressions)
 
 ---
 
@@ -161,25 +161,25 @@ The official quality grader in `src/c3_file_grader.py` implements an 11-metric e
 
 ## 7. Test Suite Status & Regressions
 
-The test suite was executed in Python 3.7.0 with pytest 7.4.4. All **119 tests passed synchronously in 18.06 seconds**:
+The test suite was executed in Python 3.7.0 with pytest 7.4.4. All **125 tests passed synchronously in ~10.1 seconds**:
 
 ```
 ============================= test session starts =============================
 platform win32 -- Python 3.7.0, pytest-7.4.4, pluggy-1.2.0
 rootdir: C:\Users\prani\antigravity\intelligent-meitner
 plugins: anyio-3.7.1, dash-2.15.0
-collected 119 items
+collected 125 items
 
-tests\test_audit_regressions.py ..........                               [  8%]
-tests\test_c1_parser.py .................................                [ 36%]
-tests\test_c2_network_identifier.py ......................               [ 54%]
-tests\test_c3_file_grader.py ................                            [ 68%]
-tests\test_c4_rate_extractor.py ..........                               [ 76%]
-tests\test_c5_address_mapper.py ..........                               [ 84%]
+tests\test_audit_regressions.py ................                         [ 12%]
+tests\test_c1_parser.py .................................                [ 39%]
+tests\test_c2_network_identifier.py ......................               [ 56%]
+tests\test_c3_file_grader.py ................                            [ 69%]
+tests\test_c4_rate_extractor.py ..........                               [ 77%]
+tests\test_c5_address_mapper.py ..........                               [ 85%]
 tests\test_c6_rate_curator.py .........                                  [ 92%]
 tests\test_c7_cost_effectiveness.py .........                            [100%]
 
-============================ 119 passed in 18.06s =============================
+============================ 125 passed in 10.12s =============================
 ```
 
 ### Dedicated Audit Regression Tests (`tests/test_audit_regressions.py`)
@@ -219,5 +219,5 @@ Use these concise, authoritative talking points when presenting to evaluators:
 The repository is in a **fully verified, production-ready state**:
 - **Code:** All source modules (C1–C7) are defensive, tested, and functioning.
 - **Deliverables:** All final deliverables (`submission/curated_ppo_rates.xlsx`, `outputs/c6_curated_ppo_rates.csv`, `outputs/c7_provider_cost_effectiveness.csv`) are structurally verified, intact, and reconciled.
-- **Integrity:** Zero fabricated data, zero broken regression tests (**119 passing tests**), and complete transparency regarding data provenance, denominators, and operational assumptions.
+- **Integrity:** Zero fabricated data, zero broken regression tests (**125 passing tests**), and complete transparency regarding data provenance, denominators, and operational assumptions.
 - **Readiness:** **APPROVED FOR FINAL SUBMISSION.**

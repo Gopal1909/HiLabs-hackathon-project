@@ -442,7 +442,7 @@ Below is the verified audit table cross-checking every metric against the local 
 | **Address Verification (Tuple Level)**| **63.45%** | **VERIFIED** | `outputs/c5_provider_address_crosswalk.csv`| 3,599 of 5,672 distinct provider tuples |
 | **Cost-Effectiveness Peer Groups** | 97 groups | **VERIFIED** | `outputs/c7_peer_group_summary.csv` | 63 eligible ($N \ge 5$), 34 insufficient |
 | **Scored Benchmark Rates (C7)** | 2,339 rows (96.7%) | **VERIFIED** | `outputs/c7_summary.json` | 79 rates suppressed ($N < 5$) |
-| **Passing Test Suite** | **109 passed** | **VERIFIED** | `pytest` output | 109 passing unit/integration tests in 13.07s |
+| **Passing Test Suite** | **125 passed** | **VERIFIED** | `python -m pytest tests -v` output | 125 passing unit/integration/regression tests in ~10.1s |
 
 ### Critical Distinction: Clarifying the Address Verification Denominator
 If an evaluator asks: *"Why does your report say 99.84% address verification, but the provider crosswalk shows 63.45%?"*
@@ -454,7 +454,7 @@ If an evaluator asks: *"Why does your report say 99.84% address verification, bu
 
 ### 6.1 Your 30-Second Elevator Pitch
 > *"Our project builds an end-to-end data pipeline that ingests Centene’s raw price transparency files, isolates its California Commercial Group PPO network, validates file data quality, and maps every provider to their verified practicing address.  
-> We transformed a 701 MB uncompressed file of 1.5 million raw records into 857,206 curated PPO rates, enriched with clinical specialties, benchmark weights, and relative price competitiveness metrics across 97 clinical peer groups — backed by a fully passing 109-test suite."*
+> We transformed a 701 MB uncompressed file of 1.5 million raw records into 857,206 curated PPO rates, enriched with clinical specialties, benchmark weights, and relative price competitiveness metrics across 97 clinical peer groups — backed by a fully passing 125-test suite."*
 
 ---
 
@@ -474,7 +474,7 @@ If an evaluator asks: *"Why does your report say 99.84% address verification, bu
 ---
 
 ### 6.3 Concise Answer: "What progress have you made?"
-> *"We have completed the pipeline from data acquisition through final cost-effectiveness analytics (Phases C1 through C7). All 109 unit and integration tests are passing, our full outputs reconcile to the exact row, and we have generated both executive and comprehensive Excel deliverables alongside auditable methodology reports."*
+> *"We have completed the pipeline from data acquisition through final cost-effectiveness analytics (Phases C1 through C7). All 125 unit, integration, and regression tests are passing, our full outputs reconcile to the exact row, and we have generated both executive and comprehensive Excel deliverables alongside auditable methodology reports."*
 
 ---
 
@@ -556,7 +556,7 @@ If an evaluator asks: *"Why does your report say 99.84% address verification, bu
 ### 6.7 How to Defend Your Individual Contribution Honestly
 When the evaluator asks: *"What was your role in this project?"*
 - **Say this:**  
-  *"I architected and guided the data curation pipeline across all phases, from initial problem definition to final deliverable generation. I designed the 7-phase architecture, defined the PPO classification hierarchy, formulated the 11 file quality metrics, established the non-collapsing rate context rules, and developed the C7 cost-effectiveness methodology. I used agentic coding tools to implement and iterate on the code and test suites rapidly, while rigorously validating every data transformation, verifying row reconciliations, and ensuring 100% mathematical and domain defensibility across the 109 passing tests."*
+  *"I architected and guided the data curation pipeline across all phases, from initial problem definition to final deliverable generation. I designed the 7-phase architecture, defined the PPO classification hierarchy, formulated the 11 file quality metrics, established the non-collapsing rate context rules, and developed the C7 cost-effectiveness methodology. I used agentic coding tools to implement and iterate on the code and test suites rapidly, while rigorously validating every data transformation, verifying row reconciliations, and ensuring 100% mathematical and domain defensibility across the 125 passing tests."*
 
 ---
 
@@ -567,7 +567,7 @@ When the evaluator asks: *"What was your role in this project?"*
 2. **Curated PPO Deliverable:** **857,206 rows** curated (1,431 Confirmed PPO + 855,775 Probable PPO). Exactly **654,514 rows excluded** (653,934 ambiguous + 580 non-PPO).
 3. **Benchmark Volume:** **2,418 rows** evaluated in C6 and C7, matching the 4-tab Excel workbook.
 4. **Address Resolution:** **99.84%** verified at the rate-row level; **63.45%** verified at the provider-tuple level (5,672 tuples).
-5. **Quality & Test Foundation:** Composite file score of **82.17 / 100 (Grade B)**; **109 passing tests** across 7 test suites in 13.07 seconds.
+5. **Quality & Test Foundation:** Composite file score of **82.17 / 100 (Grade B)**; **125 passing tests** across 8 test suites in ~10.1 seconds.
 
 #### The Five Technical Concepts to Memorize:
 1. **Fee-For-Service (FFS) vs. Capitation:** PPO networks use FFS dollar rates per procedure code; HMO networks use fixed monthly per-member fees.

@@ -78,7 +78,7 @@
 
 ### [3:45 - 4:30] Section 5: Auditability, Limitations, and Production Quality
 
-**[Visual: Show `reports/final_audit.md` and run `pytest` in terminal showing 109 passing tests]**
+**[Visual: Show `reports/final_audit.md` and run `python -m pytest tests -v` in terminal showing 125 passing tests]**
 
 **Speaker:**
 > "We believe in radical transparency:
@@ -86,7 +86,7 @@
 > - We clearly distinguish between rate-row verification (99.84%) and provider-tuple verification (63.45%), explaining why hospital system breadth drives rate-line coverage.
 > - We note that Centene's 100% score for freshness reflects TiC evergreen formatting (`9999-12-31`), but does not guarantee recent contract renegotiation.
 >
-> Our test suite contains **109 passing automated unit and integration tests**, running in under 17 seconds."
+> Our test suite contains **125 passing automated unit and regression tests**, running in under 11 seconds."
 
 ---
 

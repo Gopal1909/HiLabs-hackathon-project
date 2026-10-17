@@ -90,13 +90,13 @@ To ensure complete objectivity, the pipeline separates **evidence**, **confidenc
   - Standard California tiered cost-share signature (`copay/deductible/OOP/coinsurance` or `HSA/HDHP`): `+0.10`
 - **Factor B: Identifier & Regulatory Crosswalk (Max: 0.30)**
   - Matches known CMS HIOS Small Group PPO Product ID (`67138CA073`): `+0.30`
-  - Valid 9-digit Employer EIN identifying customized large group PPO contract: `+0.20`
+  - Valid 9-digit Employer EIN identifying customized large group PPO contract: `+0.15`
   - Generic HIOS format under CA issuer: `+0.15`
 - **Factor C: Rate File Linkage & PPO Content Evidence (Max: 0.25)**
   - References Centene's official California commercial rate file (`healthnet-ca_in-network.json`): `+0.15`
-  - Rate file metadata confirms internal PPO network partitions (`HealthNet PPO (California)`, `PPO: <County>`): `+0.10`
+  - Rate file metadata confirms internal PPO network partitions (`HealthNet PPO (California)`, `PPO: <County>`): `+0.05`
 - **Factor D: Market Scope & Issuer Evidence (Max: 0.10)**
-  - Confirmed commercial group market type (`plan_market_type == 'group'`): `+0.05`
+  - Confirmed commercial group market type (`plan_market_type in ('group', 'large_group', 'small_group', 'commercial_group')`): `+0.05`
   - Issuer confirmed as Health Net California commercial entity (`Healthnet, LLC`): `+0.05`
 
 ### Decision Thresholds

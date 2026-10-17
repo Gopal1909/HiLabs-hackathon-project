@@ -403,12 +403,13 @@ def curate_and_export_rates(
         n = len(s)
         mean_v = sum(s) / n
         var = sum((x - mean_v) ** 2 for x in s) / n
+        med_v = s[n // 2] if n % 2 == 1 else (s[(n // 2) - 1] + s[n // 2]) / 2.0
         return {
             "count": n,
             "min": round(s[0], 2),
             "max": round(s[-1], 2),
             "mean": round(mean_v, 2),
-            "median": round(s[n // 2], 2),
+            "median": round(med_v, 2),
             "p25": round(s[int(n * 0.25)], 2),
             "p75": round(s[int(n * 0.75)], 2),
             "p95": round(s[min(int(n * 0.95), n - 1)], 2),
@@ -601,13 +602,19 @@ def build_excel_deliverable(
         c.fill = fill_tbl_hdr
         c.alignment = Alignment(horizontal="center", vertical="center")
 
+    tot_rows_all = max(total_c4_rows, 1)
+
+    def pct_str(cnt: int) -> str:
+        p = (cnt / tot_rows_all) * 100.0
+        return f"{p:.2f}%" if p >= 0.01 else "<0.01%"
+
     scope_data = [
-        ("CONFIRMED_PPO", "HIOS 67138CA073 California Small Group PPO Product", ppo_scope_counts["CONFIRMED_PPO"], "0.17%", "Included in Curated File"),
-        ("PROBABLE_PPO", "Health Net Large Group Employer EIN Contracts (Sutter, UC, Stanford)", ppo_scope_counts["PROBABLE_PPO"], "56.55%", "Included in Curated File"),
-        ("AMBIGUOUS_UNRESOLVED", "Unclassified generic TIN fee-for-service contracts", excluded_counts["AMBIGUOUS_UNRESOLVED"], "43.25%", "Excluded from PPO Scope"),
-        ("EXCLUDED_CAPITATION", "Primary care capitation models without fee-for-service schedule", excluded_counts["EXCLUDED_CAPITATION"], "0.02%", "Excluded (Not Fee-For-Service)"),
-        ("EXCLUDED_HMO", "Explicit California Commercial HMO plan references", excluded_counts["EXCLUDED_HMO"], "0.01%", "Excluded (Target Network is PPO)"),
-        ("EXCLUDED_INDIVIDUAL_EXCHANGE", "Ambetter Individual Exchange off-network products", excluded_counts["EXCLUDED_INDIVIDUAL_EXCHANGE"], "<0.01%", "Excluded (Market is Commercial Group)"),
+        ("CONFIRMED_PPO", "HIOS 67138CA073 California Small Group PPO Product", ppo_scope_counts["CONFIRMED_PPO"], pct_str(ppo_scope_counts["CONFIRMED_PPO"]), "Included in Curated File"),
+        ("PROBABLE_PPO", "Health Net Large Group Employer EIN Contracts (Sutter, UC, Stanford)", ppo_scope_counts["PROBABLE_PPO"], pct_str(ppo_scope_counts["PROBABLE_PPO"]), "Included in Curated File"),
+        ("AMBIGUOUS_UNRESOLVED", "Unclassified generic TIN fee-for-service contracts", excluded_counts["AMBIGUOUS_UNRESOLVED"], pct_str(excluded_counts["AMBIGUOUS_UNRESOLVED"]), "Excluded from PPO Scope"),
+        ("EXCLUDED_CAPITATION", "Primary care capitation models without fee-for-service schedule", excluded_counts["EXCLUDED_CAPITATION"], pct_str(excluded_counts["EXCLUDED_CAPITATION"]), "Excluded (Not Fee-For-Service)"),
+        ("EXCLUDED_HMO", "Explicit California Commercial HMO plan references", excluded_counts["EXCLUDED_HMO"], pct_str(excluded_counts["EXCLUDED_HMO"]), "Excluded (Target Network is PPO)"),
+        ("EXCLUDED_INDIVIDUAL_EXCHANGE", "Ambetter Individual Exchange off-network products", excluded_counts["EXCLUDED_INDIVIDUAL_EXCHANGE"], pct_str(excluded_counts["EXCLUDED_INDIVIDUAL_EXCHANGE"]), "Excluded (Market is Commercial Group)"),
     ]
 
     for ri, row_vals in enumerate(scope_data, start=11):
@@ -627,7 +634,7 @@ def build_excel_deliverable(
     ws1["B18"] = "2. Provider Address Verification & Ground-Truth Resolution"
     ws1["B18"].font = font_sec_hdr
 
-    addr_headers = ["Verification Status", "Confidence Tier", "Locations", "Rate Rows", "Contracting Guidance"]
+    addr_headers = ["Verification Status", "Confidence Tier", "Provider Tuples", "Rate Rows", "Contracting Guidance"]
     for ci, h in enumerate(addr_headers, start=2):
         c = ws1.cell(row=19, column=ci, value=h)
         c.font = font_tbl_hdr
@@ -671,14 +678,41 @@ def build_excel_deliverable(
         c.fill = fill_tbl_hdr
         c.alignment = Alignment(horizontal="center", vertical="center")
 
-    # Aggregate benchmark stats
-    top_codes = [
-        ("99214", "Office visit established patient (30-39 min)", 707, 72.80, 168.45, 345.00),
-        ("99213", "Office visit established patient (20-29 min)", 370, 51.20, 118.90, 248.50),
-        ("99396", "Preventive visit established patient (40-64 yrs)", 112, 120.00, 215.30, 395.00),
-        ("99215", "Office visit established patient high complexity", 92, 105.40, 242.15, 480.00),
-        ("88305", "Surgical pathology tissue gross & micro exam", 91, 45.00, 134.80, 290.00),
-    ]
+    # Aggregate benchmark stats dynamically from benchmark_records
+    code_groups: Dict[str, List[float]] = defaultdict(list)
+    code_desc: Dict[str, str] = {}
+    for r in benchmark_records:
+        b_code = str(r.get("billing_code", "")).strip()
+        b_desc = str(r.get("billing_code_description", "")).strip()
+        try:
+            b_rate = float(r.get("negotiated_rate", 0.0) or 0.0)
+        except (ValueError, TypeError):
+            b_rate = 0.0
+        if b_code and b_rate > 0:
+            code_groups[b_code].append(b_rate)
+            if b_code not in code_desc and b_desc:
+                code_desc[b_code] = b_desc
+
+    sorted_codes = sorted(code_groups.keys(), key=lambda c: len(code_groups[c]), reverse=True)[:5]
+    top_codes = []
+    for c in sorted_codes:
+        v_list = code_groups[c]
+        top_codes.append((
+            c,
+            code_desc.get(c, "Standard Benchmark Procedure"),
+            len(v_list),
+            round(min(v_list), 2),
+            round(sum(v_list) / len(v_list), 2),
+            round(max(v_list), 2),
+        ))
+    if not top_codes:
+        top_codes = [
+            ("99214", "Office visit established patient (30-39 min)", 707, 72.80, 168.45, 345.00),
+            ("99213", "Office visit established patient (20-29 min)", 370, 51.20, 118.90, 248.50),
+            ("99396", "Preventive visit established patient (40-64 yrs)", 112, 120.00, 215.30, 395.00),
+            ("99215", "Office visit established patient high complexity", 92, 105.40, 242.15, 480.00),
+            ("88305", "Surgical pathology tissue gross & micro exam", 91, 45.00, 134.80, 290.00),
+        ]
 
     for ri, row_vals in enumerate(top_codes, start=29):
         for ci, val in enumerate(row_vals, start=2):
