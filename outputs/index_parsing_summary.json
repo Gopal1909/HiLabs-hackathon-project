@@ -1,0 +1,154 @@
+{
+  "run_timestamp": "2026-10-17T06:02:42.347869+00:00",
+  "phase": "C1 - Index Parsing",
+  "payer": "Centene",
+  "scope": "All brands (Ambetter, Health Net, Fidelis, QualChoice)",
+  "index_files_attempted": 11,
+  "index_files_ok": 11,
+  "index_files_failed": 0,
+  "total_plan_file_rows": 3275,
+  "unique_rate_file_urls": 33,
+  "plan_rows_with_ppo": 711,
+  "rows_skipped": 0,
+  "brand_row_counts": {
+    "Ambetter": 1120,
+    "Fidelis": 94,
+    "Health Net": 1693,
+    "QualChoice": 308,
+    "QualChoice ALF": 32,
+    "QualChoice Arnold": 1,
+    "QualChoice Big Four": 4,
+    "QualChoice Dillards": 12,
+    "QualChoice Fort Smith": 4,
+    "QualChoice Hot Springs": 2,
+    "QualChoice JV Manufacturing": 5
+  },
+  "market_type_counts": {
+    "group": 2061,
+    "individual": 1214
+  },
+  "network_type_counts": {
+    "UNKNOWN": 1769,
+    "HMO": 788,
+    "PPO": 711,
+    "POS": 7
+  },
+  "output_files": {
+    "plan_index_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\plan_index.csv",
+    "unique_rate_files_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\unique_rate_files.csv",
+    "index_parsing_summary_json": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\index_parsing_summary.json"
+  },
+  "index_file_results": [
+    {
+      "brand": "Ambetter",
+      "description": "Ambetter (multi-state individual/small-group marketplace plans)",
+      "source_index_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_ambetter_index.json",
+      "retrieved_at": "2026-10-17T06:02:41Z",
+      "fetch_status": "downloaded",
+      "fetch_error": null,
+      "rows_parsed": 1120,
+      "rows_skipped": 0
+    },
+    {
+      "brand": "Health Net",
+      "description": "Health Net (California commercial group, individual, Medicare)",
+      "source_index_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-30_healthnet_index.json",
+      "retrieved_at": "2026-10-17T06:02:41Z",
+      "fetch_status": "downloaded",
+      "fetch_error": null,
+      "rows_parsed": 1693,
+      "rows_skipped": 0
+    },
+    {
+      "brand": "Fidelis",
+      "description": "Fidelis Care (New York market)",
+      "source_index_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_fidelis_index.json",
+      "retrieved_at": "2026-10-17T06:02:41Z",
+      "fetch_status": "downloaded",
+      "fetch_error": null,
+      "rows_parsed": 94,
+      "rows_skipped": 0
+    },
+    {
+      "brand": "QualChoice",
+      "description": "QualChoice (Arkansas market)",
+      "source_index_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_index.json",
+      "retrieved_at": "2026-10-17T06:02:41Z",
+      "fetch_status": "downloaded",
+      "fetch_error": null,
+      "rows_parsed": 308,
+      "rows_skipped": 0
+    },
+    {
+      "brand": "QualChoice ALF",
+      "description": "QualChoice ALF Plan (Arkansas)",
+      "source_index_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_alf_plan_index.json",
+      "retrieved_at": "2026-10-17T06:02:41Z",
+      "fetch_status": "downloaded",
+      "fetch_error": null,
+      "rows_parsed": 32,
+      "rows_skipped": 0
+    },
+    {
+      "brand": "QualChoice Arnold",
+      "description": "QualChoice Arnold and Blevins (Arkansas)",
+      "source_index_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_arnold_and_blevins_index.json",
+      "retrieved_at": "2026-10-17T06:02:41Z",
+      "fetch_status": "downloaded",
+      "fetch_error": null,
+      "rows_parsed": 1,
+      "rows_skipped": 0
+    },
+    {
+      "brand": "QualChoice Big Four",
+      "description": "QualChoice Big Four (Arkansas)",
+      "source_index_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_big_four_index.json",
+      "retrieved_at": "2026-10-17T06:02:41Z",
+      "fetch_status": "downloaded",
+      "fetch_error": null,
+      "rows_parsed": 4,
+      "rows_skipped": 0
+    },
+    {
+      "brand": "QualChoice Fort Smith",
+      "description": "QualChoice City of Fort Smith (Arkansas)",
+      "source_index_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_city_of_fort_smith_index.json",
+      "retrieved_at": "2026-10-17T06:02:41Z",
+      "fetch_status": "downloaded",
+      "fetch_error": null,
+      "rows_parsed": 4,
+      "rows_skipped": 0
+    },
+    {
+      "brand": "QualChoice Hot Springs",
+      "description": "QualChoice City of Hot Springs (Arkansas)",
+      "source_index_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_city_of_hot_springs_index.json",
+      "retrieved_at": "2026-10-17T06:02:42Z",
+      "fetch_status": "downloaded",
+      "fetch_error": null,
+      "rows_parsed": 2,
+      "rows_skipped": 0
+    },
+    {
+      "brand": "QualChoice Dillards",
+      "description": "QualChoice Dillards (Arkansas)",
+      "source_index_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_dillards_index.json",
+      "retrieved_at": "2026-10-17T06:02:42Z",
+      "fetch_status": "downloaded",
+      "fetch_error": null,
+      "rows_parsed": 12,
+      "rows_skipped": 0
+    },
+    {
+      "brand": "QualChoice JV Manufacturing",
+      "description": "QualChoice JV Manufacturing (Arkansas)",
+      "source_index_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_jv_manufacturing_index.json",
+      "retrieved_at": "2026-10-17T06:02:42Z",
+      "fetch_status": "downloaded",
+      "fetch_error": null,
+      "rows_parsed": 5,
+      "rows_skipped": 0
+    }
+  ],
+  "skipped_messages": []
+}

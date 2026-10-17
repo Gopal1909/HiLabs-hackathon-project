@@ -1,0 +1,85 @@
+# config/settings.yaml
+# All paths are relative to the project root unless otherwise noted.
+# Edit this file to change behaviour without modifying source code.
+
+# ── Source index files ─────────────────────────────────────────────────────────
+centene_base_url: "https://www.centene.com"
+
+index_files:
+  - brand: "Ambetter"
+    path: "/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_ambetter_index.json"
+    description: "Ambetter (multi-state individual/small-group marketplace plans)"
+  - brand: "Health Net"
+    path: "/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-30_healthnet_index.json"
+    description: "Health Net (California commercial group, individual, Medicare)"
+  - brand: "Fidelis"
+    path: "/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_fidelis_index.json"
+    description: "Fidelis Care (New York market)"
+  - brand: "QualChoice"
+    path: "/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_index.json"
+    description: "QualChoice (Arkansas market)"
+  - brand: "QualChoice ALF"
+    path: "/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_alf_plan_index.json"
+    description: "QualChoice ALF Plan (Arkansas)"
+  - brand: "QualChoice Arnold"
+    path: "/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_arnold_and_blevins_index.json"
+    description: "QualChoice Arnold and Blevins (Arkansas)"
+  - brand: "QualChoice Big Four"
+    path: "/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_big_four_index.json"
+    description: "QualChoice Big Four (Arkansas)"
+  - brand: "QualChoice Fort Smith"
+    path: "/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_city_of_fort_smith_index.json"
+    description: "QualChoice City of Fort Smith (Arkansas)"
+  - brand: "QualChoice Hot Springs"
+    path: "/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_city_of_hot_springs_index.json"
+    description: "QualChoice City of Hot Springs (Arkansas)"
+  - brand: "QualChoice Dillards"
+    path: "/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_dillards_index.json"
+    description: "QualChoice Dillards (Arkansas)"
+  - brand: "QualChoice JV Manufacturing"
+    path: "/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-28_qualchoice_jv_manufacturing_index.json"
+    description: "QualChoice JV Manufacturing (Arkansas)"
+
+# ── Scope filter ───────────────────────────────────────────────────────────────
+target_state: "CA"
+target_market_types:
+  - "large_group"
+  - "small_group"
+  - "individual"     # keep; filter further by issuer/brand
+target_brands:
+  - "Health Net"     # Primary CA commercial brand
+  - "Ambetter"       # Secondary; Ambetter from Health Net in CA
+
+# ── URL normalization ─────────────────────────────────────────────────────────
+# Rules applied in order before deduplication:
+# 1. Strip trailing slash
+# 2. Decode %20 → space, then re-encode to canonical percent-encoding
+# 3. Lowercase scheme and host only (path is case-sensitive on S3/Azure)
+# 4. Drop query-string parameters: utm_*, source, ref
+url_strip_params:
+  - "utm_source"
+  - "utm_medium"
+  - "utm_campaign"
+  - "ref"
+  - "source"
+
+# ── HTTP settings ─────────────────────────────────────────────────────────────
+http_timeout_seconds: 60
+http_chunk_size: 65536
+user_agent: "CentenePTDParser/1.0 (HiLabs-Hackathon; contact: hackathon@example.com)"
+max_retries: 3
+retry_backoff_factor: 2
+
+# ── Output paths (relative to project root) ───────────────────────────────────
+outputs_dir: "outputs"
+raw_data_dir: "data/raw"
+processed_data_dir: "data/processed"
+logs_dir: "logs"
+
+plan_index_csv: "outputs/plan_index.csv"
+unique_rate_files_csv: "outputs/unique_rate_files.csv"
+index_parsing_summary_json: "outputs/index_parsing_summary.json"
+
+# ── Caching ───────────────────────────────────────────────────────────────────
+# When true, skip re-downloading index files if already present in data/raw/
+use_cached_index: false

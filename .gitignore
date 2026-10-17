@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env
+
+# Data – large raw files
+data/raw/*.json
+data/raw/*.json.gz
+data/raw/*.csv
+data/raw/*.parquet
+data/raw/*.xlsx
+
+# Keep the directory stubs
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Secrets and credentials
+*.env
+.env.*
+secrets/
+config/secrets.yaml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Temp files from scraping
+centene_page.html
+find_links.py
+test_index.py
+scrape_centene.py
+
+# Pytest cache
+.pytest_cache/
