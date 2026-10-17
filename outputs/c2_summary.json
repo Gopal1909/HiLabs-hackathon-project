@@ -1,0 +1,52 @@
+{
+  "run_timestamp": "2026-10-17T06:27:23.593221+00:00",
+  "phase": "C2 - PPO Network Identification",
+  "payer": "Centene",
+  "market_scope": "California Commercial Group",
+  "target_network": "PPO",
+  "hypothesis_validation": {
+    "phase_1_reported_ppo_ids": 255,
+    "actual_california_ppo_unique_ids": 250,
+    "actual_california_ppo_plan_rows": 456,
+    "oregon_healthnet_ppo_unique_ids_excluded": 6,
+    "oregon_healthnet_ppo_rows_excluded": 14,
+    "reconciliation_note": "The 255 candidate count from Phase 1 combined 249 CA PPO plan IDs and 6 Oregon PPO plan IDs. Accounting for 1 plan name typo ('CA L CUSPPO...'), the exact California Commercial Group PPO network consists of 456 plans across 250 unique plan IDs."
+  },
+  "plan_counts": {
+    "total_plans_evaluated": 3275,
+    "california_commercial_group_plans_total": 1312,
+    "target_ppo_plans_total": 456,
+    "target_ppo_unique_plan_ids": 250,
+    "confirmed_ppo_plans": 34,
+    "probable_ppo_plans": 422,
+    "uncertain_plans": 0,
+    "excluded_plans": 2819
+  },
+  "breakdown_of_california_commercial_group": {
+    "total": 1312,
+    "ppo_plans": 456,
+    "hmo_plans_excluded": 719,
+    "eoa_pos_plans_excluded": 133,
+    "salud_mexico_hmo_plans_excluded": 4
+  },
+  "breakdown_of_exclusions_overall": {
+    "total_excluded": 2819,
+    "out_of_state_plans": 1905,
+    "individual_market_plans": 58,
+    "in_scope_non_ppo_plans": 856
+  },
+  "rate_file_findings": {
+    "total_rate_files_evaluated": 33,
+    "target_rate_files_selected": 1,
+    "target_rate_file_url": "https://www.centene.com/content/dam/centene/Centene%20Corporate/json/DOCUMENT/2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json",
+    "target_rate_file_size_bytes": 701615514,
+    "target_rate_file_architecture": "CONSOLIDATED_SHARED_RATE_FILE",
+    "downstream_filtering_mandate": "The target rate file is shared among 456 PPO, 719 HMO, and 133 POS/EOA plans. Downstream rate extraction (Phase 3) must filter provider_references by PPO network contracts ('HealthNet PPO (California)', 'PPO: <County>', etc.) to avoid attributing HMO capitated rates to PPO."
+  },
+  "output_files": {
+    "ppo_plan_candidates_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\ppo_plan_candidates.csv",
+    "ppo_network_files_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\ppo_network_files.csv",
+    "c2_evidence_log_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c2_evidence_log.csv",
+    "c2_summary_json": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c2_summary.json"
+  }
+}

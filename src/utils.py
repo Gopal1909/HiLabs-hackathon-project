@@ -41,11 +41,22 @@ def load_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
         cfg: Dict[str, Any] = yaml.safe_load(fh)
 
     # Resolve relative output/data paths against project root
-    for key in ("outputs_dir", "raw_data_dir", "processed_data_dir", "logs_dir"):
+    dir_keys = ("outputs_dir", "raw_data_dir", "processed_data_dir", "logs_dir", "reports_dir")
+    for key in dir_keys:
         if key in cfg:
             cfg[key] = str(PROJECT_ROOT / cfg[key])
 
-    for key in ("plan_index_csv", "unique_rate_files_csv", "index_parsing_summary_json"):
+    file_keys = (
+        "plan_index_csv",
+        "unique_rate_files_csv",
+        "index_parsing_summary_json",
+        "ppo_plan_candidates_csv",
+        "ppo_network_files_csv",
+        "c2_evidence_log_csv",
+        "c2_summary_json",
+        "c2_ppo_logic_md",
+    )
+    for key in file_keys:
         if key in cfg:
             cfg[key] = str(PROJECT_ROOT / cfg[key])
 
@@ -193,6 +204,6 @@ class HttpClient:
 
 def ensure_directories(cfg: Dict[str, Any]) -> None:
     """Create all configured output/data directories if they don't exist."""
-    for key in ("outputs_dir", "raw_data_dir", "processed_data_dir", "logs_dir"):
+    for key in ("outputs_dir", "raw_data_dir", "processed_data_dir", "logs_dir", "reports_dir"):
         if key in cfg:
             os.makedirs(cfg[key], exist_ok=True)
