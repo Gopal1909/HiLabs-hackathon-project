@@ -1,0 +1,103 @@
+{
+  "run_timestamp": "2026-10-17T06:47:49.630285+00:00",
+  "phase": "C3 - PTD File Quality Grading",
+  "file_assessed": "2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json",
+  "file_size_bytes": 701615514,
+  "analysis_coverage": "FULL",
+  "elapsed_seconds": 13.63,
+  "overall_quality_score": 82.17,
+  "quality_grade": "B",
+  "key_counts": {
+    "provider_reference_groups": 2825,
+    "ppo_provider_reference_groups": 75,
+    "hmo_provider_reference_groups": 15,
+    "unique_valid_npis": 3734,
+    "unique_valid_tins": 2888,
+    "distinct_billing_codes": 775,
+    "benchmark_codes_matched": 134,
+    "benchmark_codes_denominator": 583,
+    "total_rate_records": 397726,
+    "total_prices_evaluated": 1500288,
+    "monetary_rates_positive": 1500288,
+    "monetary_rates_zero": 0,
+    "monetary_rates_negative": 0,
+    "orphan_provider_references": 0,
+    "exact_duplicate_rates": 20317,
+    "rates_linked_to_ppo": 130
+  },
+  "metric_scores": {
+    "Structural Validity": {
+      "score": 100.0,
+      "weight": 10.0,
+      "weighted_score": 10.0,
+      "status": "PASS"
+    },
+    "Field Completeness": {
+      "score": 100.0,
+      "weight": 10.0,
+      "weighted_score": 10.0,
+      "status": "PASS"
+    },
+    "Provider Identifier Validity": {
+      "score": 99.96,
+      "weight": 10.0,
+      "weighted_score": 10.0,
+      "status": "PASS"
+    },
+    "Reference Integrity": {
+      "score": 100.0,
+      "weight": 10.0,
+      "weighted_score": 10.0,
+      "status": "PASS"
+    },
+    "Benchmark Code Coverage": {
+      "score": 22.98,
+      "weight": 10.0,
+      "weighted_score": 2.3,
+      "status": "WARN"
+    },
+    "Monetary Rate Validity": {
+      "score": 100.0,
+      "weight": 15.0,
+      "weighted_score": 15.0,
+      "status": "PASS"
+    },
+    "Rate Outlier Quality": {
+      "score": 100.0,
+      "weight": 5.0,
+      "weighted_score": 5.0,
+      "status": "PASS"
+    },
+    "Deduplication Quality": {
+      "score": 98.65,
+      "weight": 10.0,
+      "weighted_score": 9.87,
+      "status": "PASS"
+    },
+    "Rate Type Usability": {
+      "score": 100.0,
+      "weight": 5.0,
+      "weighted_score": 5.0,
+      "status": "PASS"
+    },
+    "Freshness & Expiration Validity": {
+      "score": 100.0,
+      "weight": 5.0,
+      "weighted_score": 5.0,
+      "status": "PASS"
+    },
+    "PPO Applicability": {
+      "score": 0.03,
+      "weight": 10.0,
+      "weighted_score": 0.0,
+      "status": "WARN"
+    }
+  },
+  "data_limitations_and_caveats": [
+    "Consolidated multi-network file: The rate file contains rates for both HMO and PPO networks. M11 measures the proportion of rates that link to confirmed/probable PPO contracts.",
+    "Zero rates: The rate file contains explicit $0.00 rates which represent unnegotiated services or placeholder contracts; these are penalized in M06.",
+    "Expiration dates: Most active rates list expiration_date='9999-12-31' representing evergreen contractual fee schedules.",
+    "Benchmark coverage denominator: Scored against the 583 procedural codes specified in the hackathon benchmark dataset."
+  ],
+  "next_step_recommendation": "Proceed to Phase C4: PPO-specific provider-rate extraction, linking rates through confirmed PPO provider_references ('HealthNet PPO (California)', 'PPO: <County>') to isolate pure commercial group PPO rates."
+}

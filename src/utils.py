@@ -55,6 +55,12 @@ def load_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
         "c2_evidence_log_csv",
         "c2_summary_json",
         "c2_ppo_logic_md",
+        "c3_file_quality_metrics_csv",
+        "c3_metric_details_csv",
+        "c3_summary_json",
+        "c3_quality_methodology_md",
+        "benchmark_weights_xlsx",
+        "target_rate_file_path",
     )
     for key in file_keys:
         if key in cfg:
