@@ -183,3 +183,11 @@ c6_curated_ppo_rates_xlsx: "outputs/curated_ppo_rates.xlsx"
 c6_curation_summary_json: "outputs/c6_curation_summary.json"
 c6_pipeline_summary_md: "reports/c6_pipeline_summary.md"
 c6_excel_sample_size: 5000
+
+# ── Phase 7 (C7) Outputs & Settings ──────────────────────────────────────────
+c7_provider_cost_effectiveness_csv: "outputs/c7_provider_cost_effectiveness.csv"
+c7_peer_group_summary_csv: "outputs/c7_peer_group_summary.csv"
+c7_summary_json: "outputs/c7_summary.json"
+c7_cost_effectiveness_methodology_md: "reports/c7_cost_effectiveness_methodology.md"
+c7_min_peer_count: 5
+

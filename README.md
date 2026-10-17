@@ -1,35 +1,180 @@
 # HiLabs Hackathon — Data Pipeline Curation for Provider Rates
+## Centene California Commercial Group PPO Network Rate Curation, File Quality Grading, Address Verification, and Cost-Effectiveness Analysis
 
-**Payer:** Centene | **Market:** California Commercial Group | **Focus:** PPO Network
-
-## Problem Statement
-Build a pipeline that:
-1. **C1 – Network Mapping**: Finds Centene's PPO network in its price-transparency index files
-2. **C2 – PTD Grading**: Grades quality of rate files ($0 rates, duplicates, stale contracts, missing codes)
-3. **C3 – Address Mapping**: Maps provider NPI/TIN to correct practising addresses
+[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/)
+[![Tests Passing](https://img.shields.io/badge/tests-109%20passed-brightgreen.svg)](tests/)
+[![File Quality Score](https://img.shields.io/badge/PTD%20Quality-82.17%20%2F%20100%20(Grade%20B)-blue.svg)](reports/c3_quality_methodology.md)
+[![Address Verification](https://img.shields.io/badge/Address%20Verification-99.84%25%20(Rate--Level)-brightgreen.svg)](reports/c5_address_methodology.md)
 
 ---
 
-## Project Structure
+## 1. Executive Summary & Problem Framing
+
+Under the federal Transparency in Coverage (TiC) mandate, health plans must publish monthly machine-readable files (MRFs) detailing negotiated rates with in-network healthcare providers. Health plan contracting teams use competitors' Price Transparency Data (PTD) to establish market fee benchmarks, negotiate hospital contracts, and model rate parity.
+
+However, raw payer transparency files present three severe data curation problems:
+1. **Network Mapping:** Payer index files catalog thousands of plans across multiple states, brands, and market segments. Cryptic plan titles rarely reveal whether a contract belongs to a PPO, HMO, EPO, or POS network.
+2. **File Quality & Trust:** Raw files contain $\$0.00$ rates, negative rates, orphan provider references, duplicate contracts, and missing procedure codes without standard grading.
+3. **Provider Address & Identity Ambiguity:** Rates are linked only to a Tax ID (TIN) and a National Provider Identifier (NPI)—completely omitting physical practicing addresses and medical specialties. A single TIN may operate hundreds of facilities, and about 80% of CMS NPPES registry addresses represent administrative billing offices or PO Boxes.
+
+### Our Solution
+This repository contains an end-to-end, memory-safe data curation pipeline in Python that:
+- **Discovers and isolates** Centene's California Commercial Group PPO network using official CMS HIOS registries and commercial employer group contracts (**Phase C1 & C2**).
+- **Grades file quality** across 11 mathematically grounded dimensions with streaming `ijson`, scoring **82.17 / 100 (Grade B)** (**Phase C3**).
+- **Extracts 1.51M negotiated rates** with peak RAM under 350 MB, enforcing a **non-collapsing rate context rule** to preserve Modifier 26 vs. global and POS 11 vs. 22 distinctions (**Phase C4**).
+- **Verifies physical practicing locations** using a 4-stage multi-source address engine, a concurrent CMS NPPES client with disk caching (0.05s cached execution), and CDPH hospital rosters, achieving **99.84%** address verification at the rate-row level (**Phase C5**).
+- **Curates an executive-grade deliverable** at the NPI, TIN, Address, Billing Code, Specialty, and Rate level, packaged into a 4-tab Excel workbook ([`curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/curated_ppo_rates.xlsx)) with procedure and specialty weights (**Phase C6**).
+- **Analyzes rate cost-effectiveness** across 97 clinical peer groups using the Relative Price Index (RPI) and benchmark-weighted fee portfolios (**Phase C7**).
+
+---
+
+## 2. Key Metrics & Audit Reconciliation
+
+```
+================================== PIPELINE SCORECARD ==================================
+Target Rate File:          2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json (701.6 MB)
+Payer / Market Scope:      Centene / Health Net of California — Commercial Group, California
+Target Network:            California Commercial Group PPO Network
+----------------------------------------------------------------------------------------
+Total Extracted Rates:     1,511,720 rows
+Curated PPO Rates:         857,206 rows (56.70% of total; 654,514 non-PPO/HMO/Capitation excluded)
+Benchmark Procedure Rates: 2,418 rows (134 matched procedure codes from hackathon workbook)
+In-Network Providers:      1,230 unique clinical NPIs across 1,028 contracting TINs
+Rate-Row Address Verif.:   99.84% (855,809 / 857,206 rows verified or corroborated)
+Provider-Tuple Verif.:     63.45% (3,599 / 5,672 tuples verified or corroborated)
+Quality Score (C3):        82.17 / 100 (Grade B, 0 negative rates, 0 zero rates, 0 orphan refs)
+Cost-Effectiveness (C7):   96.73% of benchmark rates eligible across 63 peer groups (N >= 5)
+Automated Test Suite:      109 passed in 16.4s (100% pass rate across C1–C7)
+========================================================================================
+```
+
+---
+
+## 3. Deliverables Inventory
+
+| Deliverable | Format | Location | Description |
+|:---|:---:|:---|:---|
+| **Executive Excel Deliverable** | `.xlsx` | [`outputs/curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/curated_ppo_rates.xlsx) | Corporate Navy-styled 4-tab workbook: Executive Summary, All 2,418 Benchmark Rates, 5,000 PPO Cross-Section, Data Dictionary. |
+| **Curated Benchmark Rates** | `.csv` | [`outputs/c6_curated_benchmark_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_benchmark_rates.csv) | 2,418 rows at NPI, TIN, Address, Code, Specialty, and Weight level. |
+| **Provider Cost-Effectiveness** | `.csv` | [`outputs/c7_provider_cost_effectiveness.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c7_provider_cost_effectiveness.csv) | 2,418 rows with Peer Median, Relative Price Index (RPI), percentile rank, and potential price difference. |
+| **Peer Group Summary** | `.csv` | [`outputs/c7_peer_group_summary.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c7_peer_group_summary.csv) | 97 clinical peer groups with sample size, quartiles, median, and IQR. |
+| **Provider Address Crosswalk** | `.csv` | [`outputs/c5_provider_address_crosswalk.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_provider_address_crosswalk.csv) | 5,672 provider contracting tuples with verified addresses and taxonomy. |
+| **Address Conflicts Log** | `.csv` | [`outputs/c5_address_conflicts.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_address_conflicts.csv) | 167 records documenting administrative PO Boxes, national labs, and border facilities. |
+| **Full Curated PPO Rates** | `.csv` | [`outputs/c6_curated_ppo_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_ppo_rates.csv) | Full 857,206 curated PPO rate rows (gitignored for repository hygiene). |
+| **Pipeline Summary JSON** | `.json` | [`outputs/c6_curation_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curation_summary.json) | Complete metadata, rate distributions, and address verification percentages. |
+| **Cost-Effectiveness JSON** | `.json` | [`outputs/c7_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c7_summary.json) | RPI tier distribution, top competitive providers, and top high-price outliers. |
+
+---
+
+## 4. Documentation & Methodology Reports
+
+- [`reports/final_audit.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/final_audit.md): Comprehensive cross-phase audit, mathematical reconciliation, and denominator audit.
+- [`reports/c7_cost_effectiveness_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c7_cost_effectiveness_methodology.md): Peer group definitions, formulas for RPI, midpoint percentiles, and weighted portfolio index.
+- [`reports/c6_pipeline_summary.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c6_pipeline_summary.md): End-to-end pipeline synthesis report.
+- [`reports/c5_address_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c5_address_methodology.md): Address resolution engine, NPPES caching, and conflict resolution.
+- [`reports/c4_extraction_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c4_extraction_methodology.md): Rate extraction, two-pass streaming, and non-collapsing rate context rules.
+- [`reports/c3_quality_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c3_quality_methodology.md): 11 quality scoring dimensions and formula specifications.
+- [`reports/c2_ppo_logic.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c2_ppo_logic.md): PPO network classification hierarchy and HIOS crosswalk.
+- [`reports/video_script.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/video_script.md): 5-minute presentation script with timestamps and presenter notes.
+- [`reports/demo_checklist.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/demo_checklist.md): Evaluator quick verification checklist and terminal commands.
+
+---
+
+## 5. Quick Start & Execution
+
+### 5.1 Environment Setup
+```bash
+# Clone the repository
+git clone <repo-url>
+cd intelligent-meitner
+
+# Create and activate virtual environment
+python -m venv venv
+.\venv\Scripts\Activate.ps1   # Windows PowerShell
+# source venv/bin/activate    # Linux/macOS
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### 5.2 Run the Automated Test Suite (109 Tests)
+```bash
+pytest
+```
+
+### 5.3 Run the Pipeline Stages (C1 through C7)
+```bash
+# Phase 1: Parse all Centene brand index files
+python -m src.c1_index_parser
+
+# Phase 2: Identify California Commercial Group PPO network
+python -m src.c2_network_identifier
+
+# Phase 3: Evaluate PTD file quality across 11 dimensions
+python -m src.c3_file_grader
+
+# Phase 4: Extract provider-negotiated rates (streaming)
+python -m src.c4_rate_extractor
+
+# Phase 5: Verify provider practicing addresses via NPPES & hospital rosters
+python -m src.c5_address_mapper
+
+# Phase 6: Final rate curation & Excel deliverable generation
+python -m src.c6_rate_curator
+
+# Phase 7: Rate cost-effectiveness & price competitiveness analysis
+python -m src.c7_cost_effectiveness
+```
+
+---
+
+## 6. Project Architecture
 
 ```
 intelligent-meitner/
-├── src/
-│   ├── c1_index_parser.py       # Phase 1: parse all Centene brand indexes
-│   ├── c2_network_identifier.py # Phase 2: identify PPO network (future)
-│   └── utils.py                 # Shared utilities
-├── data/
-│   ├── raw/                     # Raw downloads (gitignored)
-│   └── processed/               # Intermediate processed data
-├── outputs/
-│   ├── plan_index.csv           # All plans × rate-file mappings
-│   ├── unique_rate_files.csv    # Deduplicated rate files
-│   └── index_parsing_summary.json
-├── reports/                     # Quality reports (future)
-├── tests/
-│   └── test_c1_parser.py        # Unit tests for C1
 ├── config/
-│   └── settings.yaml            # Configurable parameters
+│   └── settings.yaml            # Configurable paths, URLs, weights, thresholds
+├── data/
+│   ├── raw/                     # Raw index JSONs & Benchmark workbook (gitignored)
+│   └── processed/
+│       └── nppes_cache.json     # CMS NPPES API v2.1 response disk cache (5.8 MB, gitignored)
+├── outputs/
+│   ├── curated_ppo_rates.xlsx   # Executive 4-tab Excel rate deliverable (1.07 MB)
+│   ├── c6_curated_benchmark_rates.csv  # 2,418 benchmark procedure rates (1.21 MB)
+│   ├── c6_curated_ppo_rates.csv # Full 857k curated PPO rate rows (gitignored)
+│   ├── c7_provider_cost_effectiveness.csv # Provider RPI, percentiles & potential savings
+│   ├── c7_peer_group_summary.csv # Peer group distribution summaries
+│   ├── c5_provider_address_crosswalk.csv # Provider address verification crosswalk
+│   ├── c5_address_conflicts.csv # Documented PO Box & out-of-state lab conflicts
+│   ├── c3_file_quality_metrics.csv # 11-dimension quality metrics
+│   └── *.json                   # Summary audit metadata files
+├── reports/                     # Comprehensive methodology reports & final audit
+│   ├── final_audit.md           # Cross-phase reconciliation & denominator audit
+│   ├── c7_cost_effectiveness_methodology.md
+│   ├── c6_pipeline_summary.md
+│   ├── c5_address_methodology.md
+│   ├── c4_extraction_methodology.md
+│   ├── c3_quality_methodology.md
+│   ├── c2_ppo_logic.md
+│   ├── video_script.md          # 5-minute presentation script
+│   └── demo_checklist.md        # Evaluator demonstration checklist
+├── src/
+│   ├── c1_index_parser.py       # Index ingestion & URL normalization
+│   ├── c2_network_identifier.py # HIOS registry PPO network classification
+│   ├── c3_file_grader.py        # 11-dimension streaming file quality grader
+│   ├── c4_rate_extractor.py     # Two-pass streaming rate extractor & PPO tiering
+│   ├── c5_address_mapper.py     # Concurrent NPPES address verification engine
+│   ├── c6_rate_curator.py       # Final rate curation & multi-tab Excel generator
+│   ├── c7_cost_effectiveness.py # Price competitiveness & peer group analyzer
+│   └── utils.py                 # Shared utilities, logging, config loader
+├── tests/
+│   ├── test_c1_parser.py        # 33 unit tests
+│   ├── test_c2_network_identifier.py # 22 unit tests
+│   ├── test_c3_file_grader.py   # 16 unit tests
+│   ├── test_c4_rate_extractor.py # 10 unit tests
+│   ├── test_c5_address_mapper.py # 10 unit tests
+│   ├── test_c6_rate_curator.py  # 9 unit tests
+│   └── test_c7_cost_effectiveness.py # 9 unit tests (109 total)
 ├── requirements.txt
 ├── .gitignore
 └── README.md
@@ -37,87 +182,10 @@ intelligent-meitner/
 
 ---
 
-## Quick Start
+## 7. Core Engineering Decisions & Compliance Guarantees
 
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 2. Run Phase 1 — Parse Centene Index Files
-```bash
-python src/c1_index_parser.py
-```
-
-### 3. Run tests
-```bash
-python -m pytest tests/ -v
-```
-
----
-
-## Data Sources
-
-| Brand | Source Index URL | Notes |
-|-------|-----------------|-------|
-| Ambetter | `centene.com/.../2026-09-28_ambetter_index.json` | Individual market |
-| Health Net | `centene.com/.../2026-09-30_healthnet_index.json` | CA commercial group |
-| Fidelis | `centene.com/.../2026-09-28_fidelis_index.json` | NY market |
-| QualChoice | `centene.com/.../2026-09-28_qualchoice_index.json` | AR market |
-
-All index files follow CMS Transparency in Coverage JSON schema v2.0.0.
-
----
-
-## Index File Schema (CMS TiC v2.0.0)
-
-```json
-{
-  "reporting_entity_name": "...",
-  "reporting_entity_type": "...",
-  "last_updated_on": "YYYY-MM-DD",
-  "version": "2.0.0",
-  "reporting_structure": [
-    {
-      "reporting_plans": [
-        {
-          "plan_name": "...",
-          "plan_id_type": "hios",
-          "plan_id": "...",
-          "plan_market_type": "individual|small_group|large_group",
-          "issuer_name": "..."
-        }
-      ],
-      "in_network_files": [{"description": "...", "location": "https://..."}],
-      "allowed_amounts_files": [{"description": "...", "location": "https://..."}]
-    }
-  ]
-}
-```
-
----
-
-## Phase 1 Outputs
-
-| File | Description |
-|------|-------------|
-| `outputs/plan_index.csv` | Every plan record with its linked rate-file URLs |
-| `outputs/unique_rate_files.csv` | Deduplicated rate files with plan count |
-| `outputs/index_parsing_summary.json` | Counts, errors, timing, source provenance |
-
----
-
-## Constraints and Design Decisions
-
-1. **No PPO assumption from name alone**: Network type is extracted from `plan_name`, `plan_market_type`, and description fields, then labeled `inferred|explicit|unknown`.
-2. **URL normalization**: Strip trailing slashes, decode `%20`, lowercase scheme+host, preserve path case. SHA-256 hash used for canonical deduplication.
-3. **Memory efficiency**: Large index files are streamed using `ijson` or `requests` streaming; not loaded entirely into RAM.
-4. **Rerunnability**: Idempotent — existing outputs are overwritten; raw downloads are cached by date.
-5. **No fabrication**: Parsing failures are logged with reason; incomplete downloads are labeled `status=partial`.
-
----
-
-## Next Steps
-
-- **C2**: Identify the PPO network by scoring plan_name keywords + plan_market_type + in_network_files description
-- **C3**: Extract negotiated rates for CA PPO plans + map NPI/TIN to NPPES addresses
+1. **Zero Hallucination or Rate Fabrication:** Every negotiated rate, billing code, modifier, NPI, and TIN is derived directly from Centene's machine-readable file. Missing addresses are categorized as `UNRESOLVED` rather than fabricated.
+2. **Strict Context Preservation:** Rates with different modifiers (e.g., Modifier `26` professional component vs. global) or places of service (POS `11` physician office vs. POS `22` hospital outpatient department) are preserved as distinct rows, preventing misleading averages.
+3. **Memory Safety:** Streaming parsing with `ijson` and bounded chunked iterators ensures the entire 701.6 MB file is processed without out-of-memory spikes (peak RAM < 450 MB).
+4. **Idempotent Caching:** The CMS NPPES API client utilizes a persistent local disk cache (`data/processed/nppes_cache.json`), allowing complete address resolution in **0.05 seconds** on subsequent runs while respecting CMS rate limits.
+5. **Configurability:** All file paths, weights, API endpoints, thresholds, and brand targets are managed via [`config/settings.yaml`](file:///c:/Users/prani/antigravity/intelligent-meitner/config/settings.yaml) with relative paths resolved at runtime.

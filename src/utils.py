@@ -76,6 +76,10 @@ def load_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
         "c6_curated_ppo_rates_xlsx",
         "c6_curation_summary_json",
         "c6_pipeline_summary_md",
+        "c7_provider_cost_effectiveness_csv",
+        "c7_peer_group_summary_csv",
+        "c7_summary_json",
+        "c7_cost_effectiveness_methodology_md",
     )
     for key in file_keys:
         if key in cfg:

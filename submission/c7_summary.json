@@ -1,0 +1,230 @@
+{
+  "metadata": {
+    "pipeline_stage": "C7_RATE_COST_EFFECTIVENESS",
+    "payer": "Centene Corporation (Health Net of California)",
+    "target_market": "Commercial Group, California",
+    "target_network": "PPO Network",
+    "min_peer_count_threshold": 5,
+    "execution_duration_seconds": 0.11,
+    "generated_at": "2026-10-17T07:59:52Z"
+  },
+  "volume_summary": {
+    "total_benchmark_records_evaluated": 2418,
+    "eligible_rates_scored": 2339,
+    "eligible_rate_share_pct": 96.73,
+    "insufficient_peer_count_rates": 79,
+    "total_distinct_peer_groups": 97,
+    "eligible_peer_groups": 63,
+    "insufficient_peer_groups": 34,
+    "unique_providers_evaluated": 992,
+    "unique_providers_with_weighted_index": 984
+  },
+  "cost_effectiveness_tier_distribution": {
+    "MEDIAN_ALIGNED": 1487,
+    "INSUFFICIENT_PEER_COUNT": 79,
+    "HIGH_PRICE_OUTLIER": 286,
+    "HIGHLY_COMPETITIVE": 194,
+    "ABOVE_MEDIAN": 109,
+    "COMPETITIVE": 263
+  },
+  "relative_price_index_distribution": {
+    "sample_size": 2339,
+    "min_rate": 13.2,
+    "p25_rate": 98.48,
+    "median_rate": 100.0,
+    "mean_rate": 109.09,
+    "p75_rate": 100.0,
+    "max_rate": 478.93,
+    "iqr": 1.52,
+    "std_dev": 50.47
+  },
+  "top_cost_competitive_providers": [
+    {
+      "npi": "1780752808",
+      "tin_value": "47-3151142",
+      "provider_name": "CARO, MOISES LMFT",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 16.46,
+      "unweighted_rpi": 16.46,
+      "portfolio_tier": "HIGHLY_COMPETITIVE"
+    },
+    {
+      "npi": "1942348669",
+      "tin_value": "57-3831471",
+      "provider_name": "WITTE, AMY MFT",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 16.46,
+      "unweighted_rpi": 16.46,
+      "portfolio_tier": "HIGHLY_COMPETITIVE"
+    },
+    {
+      "npi": "1376851105",
+      "tin_value": "33-5609923",
+      "provider_name": "PERSSON, KRISTIN Psy.D.",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 23.66,
+      "unweighted_rpi": 23.66,
+      "portfolio_tier": "HIGHLY_COMPETITIVE"
+    },
+    {
+      "npi": "1609963933",
+      "tin_value": "33-0720052",
+      "provider_name": "OTVOS, THEODORE Ph.D.",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 23.66,
+      "unweighted_rpi": 23.66,
+      "portfolio_tier": "HIGHLY_COMPETITIVE"
+    },
+    {
+      "npi": "1952454043",
+      "tin_value": "46-3039294",
+      "provider_name": "MCKELLOGG GUAJARDO, MEGAN PsyD",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 23.66,
+      "unweighted_rpi": 23.66,
+      "portfolio_tier": "HIGHLY_COMPETITIVE"
+    },
+    {
+      "npi": "1104019066",
+      "tin_value": "02-0520341",
+      "provider_name": "FERRARA, LEONARD Ph.D.",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 23.66,
+      "unweighted_rpi": 23.66,
+      "portfolio_tier": "HIGHLY_COMPETITIVE"
+    },
+    {
+      "npi": "1649343476",
+      "tin_value": "77-0140119",
+      "provider_name": "PLEMONS, ARNOLD Ph.D.",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 27.77,
+      "unweighted_rpi": 27.77,
+      "portfolio_tier": "HIGHLY_COMPETITIVE"
+    },
+    {
+      "npi": "1780692582",
+      "tin_value": "68-0273974",
+      "provider_name": "APRIA HEALTHCARE LLC",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 33.41,
+      "unweighted_rpi": 33.41,
+      "portfolio_tier": "HIGHLY_COMPETITIVE"
+    },
+    {
+      "npi": "1245349349",
+      "tin_value": "94-1450151",
+      "provider_name": "APRIA HEALTHCARE LLC",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 33.41,
+      "unweighted_rpi": 33.41,
+      "portfolio_tier": "HIGHLY_COMPETITIVE"
+    },
+    {
+      "npi": "1528065588",
+      "tin_value": "95-3145597",
+      "provider_name": "RICHARDS PHYSICAL THERAPY INC",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 38.31,
+      "unweighted_rpi": 38.31,
+      "portfolio_tier": "HIGHLY_COMPETITIVE"
+    }
+  ],
+  "top_high_price_providers": [
+    {
+      "npi": "1235191305",
+      "tin_value": "94-3281661",
+      "provider_name": "UCSF DERMATOPATHOLOGY SERVICE",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 372.29,
+      "unweighted_rpi": 372.29,
+      "portfolio_tier": "HIGH_PRICE_OUTLIER"
+    },
+    {
+      "npi": "1477624104",
+      "tin_value": "94-3281660",
+      "provider_name": "UCSF MEDICAL GROUP BUSINESS SERVICES",
+      "eligible_service_count": 7,
+      "benchmark_weighted_rpi": 284.36,
+      "unweighted_rpi": 267.31,
+      "portfolio_tier": "HIGH_PRICE_OUTLIER"
+    },
+    {
+      "npi": "1124439807",
+      "tin_value": "46-4256391",
+      "provider_name": "REGENTS UNIV OF CALIFORNIA UCSF",
+      "eligible_service_count": 7,
+      "benchmark_weighted_rpi": 284.36,
+      "unweighted_rpi": 267.31,
+      "portfolio_tier": "HIGH_PRICE_OUTLIER"
+    },
+    {
+      "npi": "1760552343",
+      "tin_value": "94-3281662",
+      "provider_name": "REGENTS OF THE UNIVERSITY OF CALIFORNIA",
+      "eligible_service_count": 7,
+      "benchmark_weighted_rpi": 284.36,
+      "unweighted_rpi": 267.31,
+      "portfolio_tier": "HIGH_PRICE_OUTLIER"
+    },
+    {
+      "npi": "1164512851",
+      "tin_value": "94-3281657",
+      "provider_name": "UNIVERSITY OF CALIFORNIA SAN FRANCISCO",
+      "eligible_service_count": 7,
+      "benchmark_weighted_rpi": 284.36,
+      "unweighted_rpi": 267.31,
+      "portfolio_tier": "HIGH_PRICE_OUTLIER"
+    },
+    {
+      "npi": "1932735198",
+      "tin_value": "27-1346767",
+      "provider_name": "OM SERVICES PA",
+      "eligible_service_count": 7,
+      "benchmark_weighted_rpi": 284.36,
+      "unweighted_rpi": 267.31,
+      "portfolio_tier": "HIGH_PRICE_OUTLIER"
+    },
+    {
+      "npi": "1467781641",
+      "tin_value": "27-1346767",
+      "provider_name": "ONE MEDICAL GROUP, INC.",
+      "eligible_service_count": 7,
+      "benchmark_weighted_rpi": 284.36,
+      "unweighted_rpi": 267.31,
+      "portfolio_tier": "HIGH_PRICE_OUTLIER"
+    },
+    {
+      "npi": "1891521134",
+      "tin_value": "27-1346767",
+      "provider_name": "ONE MEDICAL GROUP, INC",
+      "eligible_service_count": 7,
+      "benchmark_weighted_rpi": 284.36,
+      "unweighted_rpi": 267.31,
+      "portfolio_tier": "HIGH_PRICE_OUTLIER"
+    },
+    {
+      "npi": "1528137296",
+      "tin_value": "94-3281663",
+      "provider_name": "UNIVERSITY ANESTHESIA MEDICAL GROUP",
+      "eligible_service_count": 7,
+      "benchmark_weighted_rpi": 281.88,
+      "unweighted_rpi": 267.31,
+      "portfolio_tier": "HIGH_PRICE_OUTLIER"
+    },
+    {
+      "npi": "1457593980",
+      "tin_value": "68-0273974",
+      "provider_name": "SUTTER VALLEY MEDICAL FOUNDATION",
+      "eligible_service_count": 1,
+      "benchmark_weighted_rpi": 259.92,
+      "unweighted_rpi": 259.92,
+      "portfolio_tier": "HIGH_PRICE_OUTLIER"
+    }
+  ],
+  "deliverables": {
+    "provider_cost_effectiveness_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c7_provider_cost_effectiveness.csv",
+    "peer_group_summary_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c7_peer_group_summary.csv",
+    "summary_json": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c7_summary.json"
+  }
+}

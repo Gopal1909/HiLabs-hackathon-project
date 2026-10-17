@@ -1,0 +1,160 @@
+{
+  "metadata": {
+    "pipeline_stage": "C6_FINAL_RATE_CURATION",
+    "payer": "Centene Corporation (Health Net of California)",
+    "target_market": "Commercial Group, California",
+    "target_network": "PPO Network",
+    "source_rate_file": "c4_extracted_rates.csv",
+    "benchmark_weights_file": "Rate_Benchmarking_Individual_Weights_Hackathon.xlsx",
+    "execution_duration_seconds": 45.1,
+    "generated_at": "2026-10-17T07:32:48Z"
+  },
+  "curation_volume": {
+    "total_extracted_c4_rows": 1511720,
+    "curated_ppo_rates": 857206,
+    "curated_ppo_share_pct": 56.7,
+    "excluded_non_ppo_rows": 654514,
+    "curated_benchmark_rates": 2418,
+    "unique_clinical_npis": 1230,
+    "unique_contracting_tins": 1028
+  },
+  "network_scope_breakdown": {
+    "PROBABLE_PPO": 855775,
+    "CONFIRMED_PPO": 1431
+  },
+  "excluded_breakdown": {
+    "AMBIGUOUS_UNRESOLVED": 653934,
+    "EXCLUDED_CAPITATION": 368,
+    "EXCLUDED_HMO": 132,
+    "EXCLUDED_INDIVIDUAL_EXCHANGE": 80
+  },
+  "address_verification_breakdown": {
+    "counts": {
+      "VERIFIED_CURRENT": 779676,
+      "CORROBORATED": 76133,
+      "NPPES_ONLY_UNVERIFIED": 1327,
+      "CONFLICTED": 35,
+      "UNRESOLVED": 35
+    },
+    "verified_and_corroborated_total": 855809,
+    "verified_and_corroborated_pct": 99.84
+  },
+  "benchmark_weight_resolution": {
+    "SPECIALTY_AND_PROCEDURE": 1081,
+    "PROCEDURE_LEVEL_FALLBACK": 1337
+  },
+  "rate_distributions": {
+    "all_ppo_rates": {
+      "count": 857206,
+      "min": 0.02,
+      "max": 327774.3,
+      "mean": 10210.09,
+      "median": 7397.31,
+      "p25": 2533.89,
+      "p75": 13375.74,
+      "p95": 31495.79,
+      "stdev": 11915.97
+    },
+    "benchmark_procedure_rates": {
+      "count": 2418,
+      "min": 12.45,
+      "max": 3547.2,
+      "mean": 227.45,
+      "median": 148.89,
+      "p25": 104.88,
+      "p75": 322.77,
+      "p95": 665.0,
+      "stdev": 215.15
+    }
+  },
+  "top_specialties_by_rate_count": [
+    {
+      "specialty": "General Acute Care Hospital",
+      "count": 826767
+    },
+    {
+      "specialty": "General Acute Care Hospital, Children",
+      "count": 20826
+    },
+    {
+      "specialty": "General Acute Care Hospital, Critical Access",
+      "count": 1303
+    },
+    {
+      "specialty": "Home Health",
+      "count": 1154
+    },
+    {
+      "specialty": "Psychiatric Hospital",
+      "count": 956
+    },
+    {
+      "specialty": "Clinic/Center, Urgent Care",
+      "count": 887
+    },
+    {
+      "specialty": "Primary Care",
+      "count": 879
+    },
+    {
+      "specialty": "Radiology, Diagnostic Radiology",
+      "count": 573
+    },
+    {
+      "specialty": "Clinic/Center, Ambulatory Surgical",
+      "count": 553
+    },
+    {
+      "specialty": "Clinic/Center, Multi-Specialty",
+      "count": 445
+    }
+  ],
+  "top_benchmark_codes": [
+    {
+      "billing_code": "636",
+      "count": 407769
+    },
+    {
+      "billing_code": "301",
+      "count": 201656
+    },
+    {
+      "billing_code": "300",
+      "count": 49560
+    },
+    {
+      "billing_code": "306",
+      "count": 34425
+    },
+    {
+      "billing_code": "302",
+      "count": 18130
+    },
+    {
+      "billing_code": "450",
+      "count": 17252
+    },
+    {
+      "billing_code": "360",
+      "count": 16965
+    },
+    {
+      "billing_code": "305",
+      "count": 15523
+    },
+    {
+      "billing_code": "250",
+      "count": 12050
+    },
+    {
+      "billing_code": "320",
+      "count": 10946
+    }
+  ],
+  "deliverables": {
+    "curated_benchmark_rates_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c6_curated_benchmark_rates.csv",
+    "curated_ppo_rates_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c6_curated_ppo_rates.csv",
+    "executive_excel_workbook": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\curated_ppo_rates.xlsx",
+    "curation_summary_json": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c6_curation_summary.json"
+  }
+}
