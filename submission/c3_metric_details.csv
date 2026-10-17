@@ -1,0 +1,12 @@
+metric_id,metric_name,category,weight,numerator,denominator,raw_percentage,score,weighted_score,status,description
+M01,Structural Validity,Structure,10.0,6,6,100.0,100.0,10.0,PASS,Verifies all required CMS TiC v2.0.0 top-level and section keys are present.
+M02,Field Completeness,Completeness,10.0,1500288,1500288,100.0,100.0,10.0,PASS,"Proportion of rate price records with complete billing code, code type, and price value."
+M03,Provider Identifier Validity,Provider Coverage,10.0,10243,10248,99.96,99.96,10.0,PASS,Checks 10-digit Luhn checksum validity on NPIs and 9-digit format on EINs.
+M04,Reference Integrity,Integrity,10.0,397726,397726,100.0,100.0,10.0,PASS,Proportion of provider reference IDs in negotiated rates resolving to provider_references.
+M05,Benchmark Code Coverage,Coverage,10.0,134,583,22.98,22.98,2.3,WARN,Coverage of the 583 hackathon benchmark procedure codes in this file.
+M06,Monetary Rate Validity,Validity,15.0,1500288,1500288,100.0,100.0,15.0,PASS,Percentage of monetary dollar rates that are positive and non-zero (penalizes $0 and negative rates).
+M07,Rate Outlier Quality,Validity,5.0,1500288,1500288,100.0,100.0,5.0,PASS,"Freedom from non-credible extreme rate outliers (<$0.01 or >$250,000 professional)."
+M08,Deduplication Quality,Efficiency,10.0,1479971,1500288,98.65,98.65,9.87,PASS,Measures uniqueness of rate combinations (penalizes exact duplicate records).
+M09,Rate Type Usability,Usability,5.0,1500242,1500288,100.0,100.0,5.0,PASS,Proportion of rates specified as direct fee-for-service negotiated dollar amounts.
+M10,Freshness & Expiration Validity,Freshness,5.0,1500288,1500288,100.0,100.0,5.0,PASS,Proportion of rate entries with active or evergreen future contract expiration dates.
+M11,PPO Applicability,Applicability,10.0,130,397726,0.03,0.03,0.0,WARN,Proportion of rate records that link to confirmed/probable PPO provider references.

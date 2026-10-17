@@ -1,0 +1,170 @@
+{
+  "submission_metadata": {
+    "competition": "HiLabs AI Quest Hackathon 2026",
+    "project_title": "Data Pipeline Curation for Provider Rates",
+    "payer": "Centene Corporation (Health Net of California)",
+    "market_scope": "Commercial Group, California",
+    "target_network": "Commercial PPO Network",
+    "target_mrf_filename": "2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json",
+    "target_mrf_size_bytes": 701615514,
+    "target_mrf_size_mb": 669.11,
+    "generated_at": "2026-10-18T03:20:00Z"
+  },
+  "index_files_parsed": {
+    "total_brand_index_files": 11,
+    "brands_ingested": [
+      "Health Net",
+      "Ambetter",
+      "Fidelis Care",
+      "QualChoice",
+      "QualChoice ALF",
+      "QualChoice Arnold",
+      "QualChoice Big Four",
+      "QualChoice Fort Smith",
+      "QualChoice Hot Springs",
+      "QualChoice Dillards",
+      "QualChoice JV Manufacturing"
+    ],
+    "total_plan_entries_cataloged": 2815,
+    "total_rate_file_endpoints_scanned": 5630,
+    "unique_rate_files_deduplicated": 62,
+    "california_candidate_plans": 1312
+  },
+  "ppo_plans_and_files_identified": {
+    "california_target_ppo_plans": 456,
+    "unique_plan_ids": 250,
+    "hios_confirmed_product_id": "67138CA073",
+    "hios_confirmed_plans_count": 34,
+    "large_group_ein_plans_count": 422,
+    "typo_reconciled_plans": [
+      {
+        "plan_name": "CA L CUSPPO 15/250/20% RAP",
+        "plan_id": "901704765",
+        "resolution": "Typo in plan name without space resolved to PPO candidate"
+      }
+    ],
+    "excluded_false_positives": {
+      "hmo_plans_excluded": 719,
+      "pos_eoa_plans_excluded": 133,
+      "out_of_state_oregon_plans_excluded": 14,
+      "individual_market_ambetter_excluded": 320
+    },
+    "selected_target_rate_file": "2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json"
+  },
+  "file_quality_scores": {
+    "composite_quality_score": 82.17,
+    "quality_grade": "B",
+    "total_dimensions_evaluated": 11,
+    "zero_dollar_rates_detected": 0,
+    "negative_rates_detected": 0,
+    "orphan_provider_references": 0,
+    "monetary_rate_validity_score": 100.0,
+    "structural_validity_score": 100.0,
+    "provider_identifier_luhn_validity_score": 99.96,
+    "deduplication_quality_score": 98.65,
+    "authoritative_duplicate_rate_records": 20317,
+    "unique_clinical_fingerprints": 1479971
+  },
+  "rates_extracted": {
+    "total_extracted_streaming_rates": 1511720,
+    "curated_commercial_ppo_rates": 857206,
+    "curated_ppo_share_pct": 56.70,
+    "confirmed_ppo_rates_hios": 1431,
+    "confirmed_ppo_share_pct": 0.17,
+    "probable_ppo_rates_health_systems": 855775,
+    "probable_ppo_share_pct": 99.83,
+    "excluded_non_ppo_rates": 654514,
+    "benchmark_procedure_rates": 2418,
+    "benchmark_codes_matched": 134
+  },
+  "unique_npis_and_tins": {
+    "unique_clinician_npis_total": 3735,
+    "unique_clinician_npis_benchmark": 1230,
+    "unique_contracting_tins_total": 2888,
+    "unique_contracting_tins_benchmark": 1028,
+    "provider_contracting_tuples_total": 5672
+  },
+  "share_of_npis_linked_to_verified_address": {
+    "transaction_rate_row_level": {
+      "verified_or_corroborated_count": 855809,
+      "total_denominator": 857206,
+      "verification_share_pct": 99.84,
+      "verified_current_count": 855322,
+      "corroborated_count": 487,
+      "unverified_nppes_count": 1384,
+      "conflicted_count": 13,
+      "unresolved_count": 0
+    },
+    "provider_contracting_tuple_level": {
+      "verified_or_corroborated_count": 3599,
+      "total_denominator": 5672,
+      "verification_share_pct": 63.45,
+      "verified_current_count": 3343,
+      "corroborated_count": 256,
+      "unverified_nppes_count": 1906,
+      "conflicted_count": 154,
+      "unresolved_count": 13
+    },
+    "unique_clinician_npi_level": {
+      "verified_or_corroborated_count": 2110,
+      "total_denominator": 3735,
+      "verification_share_pct": 56.49,
+      "verified_current_count": 1956,
+      "corroborated_count": 154,
+      "unverified_nppes_count": 1499,
+      "conflicted_count": 127,
+      "unresolved_count": 9
+    },
+    "benchmark_procedure_rate_level": {
+      "verified_or_corroborated_count": 1455,
+      "total_denominator": 2418,
+      "verification_share_pct": 60.17
+    }
+  },
+  "cost_effectiveness_metrics": {
+    "total_peer_groups_formed": 97,
+    "eligible_peer_groups_min_5_providers": 63,
+    "insufficient_peer_groups": 34,
+    "invalid_median_peer_groups": 0,
+    "eligible_benchmark_rates_scored": 2339,
+    "eligible_rate_share_pct": 96.73,
+    "unique_providers_with_fee_index": 984,
+    "cost_tier_distribution": {
+      "low_cost": {
+        "count": 588,
+        "share_pct": 25.14,
+        "definition": "RPI < 0.90"
+      },
+      "fair_market": {
+        "count": 1259,
+        "share_pct": 53.83,
+        "definition": "0.90 <= RPI <= 1.10"
+      },
+      "premium": {
+        "count": 416,
+        "share_pct": 17.78,
+        "definition": "1.10 < RPI <= 1.30"
+      },
+      "significant_outlier": {
+        "count": 76,
+        "share_pct": 3.25,
+        "definition": "RPI > 1.30"
+      }
+    }
+  },
+  "deliverables_inventory": {
+    "rate_file_excel_executive": "submission/curated_ppo_rates.xlsx",
+    "rate_file_excel_standard": "submission/standard_curated_rates.xlsx",
+    "rate_file_csv_standard": "submission/c6_curated_standard_rates.csv",
+    "rate_file_csv_benchmark": "submission/c6_curated_benchmark_rates.csv",
+    "logic_file": "submission/LOGIC_FILE.md",
+    "file_quality_metrics_csv": "submission/c3_file_quality_metrics.csv",
+    "file_quality_details_csv": "submission/c3_metric_details.csv",
+    "summary_file_json": "submission/SUMMARY.json",
+    "summary_file_md": "submission/SUMMARY.md",
+    "video_script": "reports/video_script.md",
+    "interactive_dashboard_ui": "submission/interactive_dashboard.html",
+    "interactive_dashboard_runner": "run_ui.py",
+    "master_pipeline_orchestrator": "run_pipeline.py"
+  }
+}
