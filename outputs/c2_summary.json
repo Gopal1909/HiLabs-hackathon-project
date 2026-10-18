@@ -44,9 +44,9 @@
     "downstream_filtering_mandate": "The target rate file is shared among 456 PPO, 719 HMO, and 133 POS/EOA plans. Downstream rate extraction (Phase 3) must filter provider_references by PPO network contracts ('HealthNet PPO (California)', 'PPO: <County>', etc.) to avoid attributing HMO capitated rates to PPO."
   },
   "output_files": {
-    "ppo_plan_candidates_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\ppo_plan_candidates.csv",
-    "ppo_network_files_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\ppo_network_files.csv",
-    "c2_evidence_log_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c2_evidence_log.csv",
-    "c2_summary_json": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c2_summary.json"
+    "ppo_plan_candidates_csv": "outputs/ppo_plan_candidates.csv",
+    "ppo_network_files_csv": "outputs/ppo_network_files.csv",
+    "c2_evidence_log_csv": "outputs/c2_evidence_log.csv",
+    "c2_summary_json": "outputs/c2_summary.json"
   }
 }

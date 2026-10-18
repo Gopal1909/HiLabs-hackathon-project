@@ -138,7 +138,7 @@ Analysis of the 1,500,288 prices revealed that multiple rates for the same billi
 ### The C4 Selection Policy
 
 1. **Preserve Distinct Clinical Contexts as Separate Rows:**
-   Every distinct combination of `(npi, tin, billing_code, modifier, billing_class, setting, service_codes, additional_information)` is preserved as an independent row in [`outputs/c4_extracted_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c4_extracted_rates.csv).
+   Every distinct combination of `(npi, tin, billing_code, modifier, billing_class, setting, service_codes, additional_information)` is preserved as an independent row in [`outputs/c4_extracted_rates.csv`](../outputs/c4_extracted_rates.csv).
 2. **Handling Truly Comparable Rate Collisions:**
    When the exact same provider, billing code, modifier, billing class, setting, POS, and episode code contains multiple rate values (e.g. Pharmacy Revenue Code `250` at hospital reference 114 having both `$14,775.23` and `$18,431.00`):
    - We **do not collapse** them into an arbitrary minimum, maximum, or average.
@@ -154,7 +154,7 @@ Analysis of the 1,500,288 prices revealed that multiple rates for the same billi
 
 ## 5. Benchmark Procedure Code Extraction
 
-The extractor cross-referenced all billing codes against the official hackathon benchmark dataset: [`Rate_Benchmarking_Individual_Weights_Hackathon.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/data/raw/Rate_Benchmarking_Individual_Weights_Hackathon.xlsx) (`Spec-Proc Weights` sheet), containing 583 high-volume procedure codes across 14 specialties.
+The extractor cross-referenced all billing codes against the official hackathon benchmark dataset: [`Rate_Benchmarking_Individual_Weights_Hackathon.xlsx`](../data/raw/Rate_Benchmarking_Individual_Weights_Hackathon.xlsx) (`Spec-Proc Weights` sheet), containing 583 high-volume procedure codes across 14 specialties.
 
 - **Benchmark Procedure Codes Matched:** **134 distinct codes (22.98%)**
 - **Benchmark Tagging:** Every extracted row includes the column `is_benchmark_code` (`Y` / `N`).
@@ -184,10 +184,10 @@ In accordance with strict hackathon instructions:
 
 ## 7. Deliverables & Artifacts
 
-- **Extractor Implementation:** [`src/c4_rate_extractor.py`](file:///c:/Users/prani/antigravity/intelligent-meitner/src/c4_rate_extractor.py)
-- **Unit Test Suite:** [`tests/test_c4_rate_extractor.py`](file:///c:/Users/prani/antigravity/intelligent-meitner/tests/test_c4_rate_extractor.py) (10 tests, repository total **81 passing in 1.51s**)
-- **Extracted Rate Dataset:** [`outputs/c4_extracted_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c4_extracted_rates.csv) (1,511,720 rows, 25 columns, 631 MB)
-- **PPO Provider Classification Table:** [`outputs/c4_ppo_rate_classification.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c4_ppo_rate_classification.csv) (2,825 provider groups with PPO status and evidence)
-- **Summary Statistics:** [`outputs/c4_extraction_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c4_extraction_summary.json)
-- **Methodology Report:** [`reports/c4_extraction_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c4_extraction_methodology.md)
+- **Extractor Implementation:** [`src/c4_rate_extractor.py`](../src/c4_rate_extractor.py)
+- **Unit Test Suite:** [`tests/test_c4_rate_extractor.py`](../tests/test_c4_rate_extractor.py) (10 tests, repository total **81 passing in 1.51s**)
+- **Extracted Rate Dataset:** [`outputs/c4_extracted_rates.csv`](../outputs/c4_extracted_rates.csv) (1,511,720 rows, 25 columns, 631 MB)
+- **PPO Provider Classification Table:** [`outputs/c4_ppo_rate_classification.csv`](../outputs/c4_ppo_rate_classification.csv) (2,825 provider groups with PPO status and evidence)
+- **Summary Statistics:** [`outputs/c4_extraction_summary.json`](../outputs/c4_extraction_summary.json)
+- **Methodology Report:** [`reports/c4_extraction_methodology.md`](c4_extraction_methodology.md)
 - **Git State:** Large dataset gitignored per constraint #7; code, tests, methodology, and summaries staged and tracked on `master`.

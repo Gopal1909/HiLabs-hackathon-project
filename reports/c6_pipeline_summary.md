@@ -183,12 +183,12 @@ The pipeline generates the following production-ready deliverables:
 
 | Deliverable File | Format | Record Count | File Size | Description |
 |:---|:---:|:---:|:---:|:---|
-| [`curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/curated_ppo_rates.xlsx) | Excel (.xlsx) | 7,420 rows across 4 tabs | 1.07 MB | Executive-grade deliverable: KPI Dashboard, Benchmark Rates, PPO Cross-Section, and Data Dictionary. |
-| [`c6_curated_benchmark_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_benchmark_rates.csv) | CSV | 2,418 rows | 1.21 MB | Clean, lightweight CSV containing all 2,418 benchmark procedure rates with full provider addresses and weights. |
-| [`c6_curated_ppo_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_ppo_rates.csv) | CSV | 857,206 rows | 398.59 MB | Complete curated California Commercial PPO rate dataset (gitignored for repository hygiene). |
-| [`c6_curation_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curation_summary.json) | JSON | Machine-readable | 4.09 KB | Comprehensive audit summary containing metrics, distributions, and timing. |
-| [`c5_provider_address_crosswalk.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_provider_address_crosswalk.csv) | CSV | 5,672 rows | 2.01 MB | Provider-level address crosswalk with verification status, confidence scores, and taxonomy. |
-| [`c5_address_conflicts.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_address_conflicts.csv) | CSV | 167 rows | 53.2 KB | Detailed conflict log for PO Boxes, national lab testing centers, and out-of-state entities. |
+| [`curated_ppo_rates.xlsx`](../outputs/curated_ppo_rates.xlsx) | Excel (.xlsx) | 7,420 rows across 4 tabs | 1.07 MB | Executive-grade deliverable: KPI Dashboard, Benchmark Rates, PPO Cross-Section, and Data Dictionary. |
+| [`c6_curated_benchmark_rates.csv`](../outputs/c6_curated_benchmark_rates.csv) | CSV | 2,418 rows | 1.21 MB | Clean, lightweight CSV containing all 2,418 benchmark procedure rates with full provider addresses and weights. |
+| [`c6_curated_ppo_rates.csv`](../outputs/c6_curated_ppo_rates.csv) | CSV | 857,206 rows | 398.59 MB | Complete curated California Commercial PPO rate dataset (gitignored for repository hygiene). |
+| [`c6_curation_summary.json`](../outputs/c6_curation_summary.json) | JSON | Machine-readable | 4.09 KB | Comprehensive audit summary containing metrics, distributions, and timing. |
+| [`c5_provider_address_crosswalk.csv`](../outputs/c5_provider_address_crosswalk.csv) | CSV | 5,672 rows | 2.01 MB | Provider-level address crosswalk with verification status, confidence scores, and taxonomy. |
+| [`c5_address_conflicts.csv`](../outputs/c5_address_conflicts.csv) | CSV | 167 rows | 53.2 KB | Detailed conflict log for PO Boxes, national lab testing centers, and out-of-state entities. |
 
 ---
 
@@ -254,7 +254,7 @@ The pipeline is verified by a 100-test automated test suite across all 6 phases:
 ```
 ============================= test session starts =============================
 platform win32 -- Python 3.7.0, pytest-7.4.4, pluggy-1.2.0
-rootdir: C:\Users\prani\antigravity\intelligent-meitner
+rootdir: .
 
 tests\test_c1_parser.py .................................                [ 33%]
 tests\test_c2_network_identifier.py ......................               [ 55%]
@@ -325,4 +325,4 @@ This project delivers a complete, production-ready data curation pipeline that s
 1. **Defensible Network Identification:** Accurately isolates Centene's California Commercial Group PPO network using official HIOS registries and commercial employer contract EINs.
 2. **Transparent Quality Scorecard:** Grades files across 11 dimensions with a composite score of **82.17 / 100 (Grade B)**, confirming structural integrity, monetary validity, and zero $\$0.00$ rates.
 3. **Audited Practicing Addresses:** Replaces flawed, stale NPPES mailing addresses with verified clinical practice locations, achieving a **99.84%** address verification rate.
-4. **Actionable Deliverable:** Synthesizes the extracted rates and benchmark weights into an executive-grade Excel deliverable ([`curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/curated_ppo_rates.xlsx)) and structured CSV files that health plan contracting teams can immediately deploy for competitive pricing intelligence.
+4. **Actionable Deliverable:** Synthesizes the extracted rates and benchmark weights into an executive-grade Excel deliverable ([`curated_ppo_rates.xlsx`](../outputs/curated_ppo_rates.xlsx)) and structured CSV files that health plan contracting teams can immediately deploy for competitive pricing intelligence.

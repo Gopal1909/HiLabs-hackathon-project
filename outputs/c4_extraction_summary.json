@@ -2,7 +2,7 @@
   "run_timestamp": "2026-10-17T07:03:53.087379+00:00",
   "phase": "C4 - Negotiated Rate Extraction",
   "source_file": "2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json",
-  "source_file_path": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\data\\raw\\2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json",
+  "source_file_path": "data/raw/2026-09-30_centene-management-company-llc_healthnet-ca_in-network.json",
   "file_size_bytes": 701615514,
   "elapsed_seconds": 23.73,
   "max_items_capped": null,

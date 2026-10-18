@@ -152,9 +152,9 @@
     }
   ],
   "deliverables": {
-    "curated_benchmark_rates_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c6_curated_benchmark_rates.csv",
-    "curated_ppo_rates_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c6_curated_ppo_rates.csv",
-    "executive_excel_workbook": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\curated_ppo_rates.xlsx",
-    "curation_summary_json": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\c6_curation_summary.json"
+    "curated_benchmark_rates_csv": "outputs/c6_curated_benchmark_rates.csv",
+    "curated_ppo_rates_csv": "outputs/c6_curated_ppo_rates.csv",
+    "executive_excel_workbook": "outputs/curated_ppo_rates.xlsx",
+    "curation_summary_json": "outputs/c6_curation_summary.json"
   }
 }

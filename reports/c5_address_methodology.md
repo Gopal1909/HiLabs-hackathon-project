@@ -96,7 +96,7 @@ flowchart TD
 ### Stage B: Multi-Source Corroboration
 The engine corroborated physical locations using three independent signals:
 1. **PTD Facility Geographic Match (`PTD_FACILITY_NAME_GEOMATCH`):** Tested whether the provider's practicing city appeared in the PTD provider group business name (e.g. `Mountain View Urgent Care` $\rightarrow$ `MOUNTAIN VIEW, CA`; `Sutter Physical & Hand Therapy - Elk Grove` $\rightarrow$ `ELK GROVE, CA`; `Folsom Dermatology` $\rightarrow$ `FOLSOM, CA`).
-2. **California Health System Affiliation (`CA_HEALTH_SYSTEM_ROSTER`):** Matched facility TINs against California's major academic medical centers and hospital networks ([`c4_major_ca_health_systems`](file:///c:/Users/prani/antigravity/intelligent-meitner/config/settings.yaml#L129-L162)).
+2. **California Health System Affiliation (`CA_HEALTH_SYSTEM_ROSTER`):** Matched facility TINs against California's major academic medical centers and hospital networks ([`c4_major_ca_health_systems`](../config/settings.yaml#L129-L162)).
 3. **County Wrapper Alignment (`PTD_COUNTY_WRAPPER_ALIGNMENT`):** Corroborated county-level PPO fee schedule wrappers (e.g. `PPO: Sacramento County`, `PPO: Los Angeles County`).
 
 ### Stage C: Confidence Calibration & Decision Rubric
@@ -127,7 +127,7 @@ The engine corroborated physical locations using three independent signals:
 
 ## 4. Conflict Analysis & Real-World Discrepancies
 
-The engine logged **167 conflicts** in [`outputs/c5_address_conflicts.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_address_conflicts.csv), providing clear insight into health plan contracting anomalies:
+The engine logged **167 conflicts** in [`outputs/c5_address_conflicts.csv`](../outputs/c5_address_conflicts.csv), providing clear insight into health plan contracting anomalies:
 
 1. **National Laboratory Chains (104 conflicts):**
    - *Entity:* `LABORATORY CORPORATION OF AMERICA` (TIN `84-0611484`).
@@ -155,7 +155,7 @@ The engine logged **167 conflicts** in [`outputs/c5_address_conflicts.csv`](file
 
 ## 5. Specialty Crosswalk Integration
 
-The engine linked provider taxonomies to clinical specialties using the hackathon benchmark dataset ([`Rate_Benchmarking_Individual_Weights_Hackathon.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/data/raw/Rate_Benchmarking_Individual_Weights_Hackathon.xlsx), sheet `Taxonomy-Spec Xwalk`).
+The engine linked provider taxonomies to clinical specialties using the hackathon benchmark dataset ([`Rate_Benchmarking_Individual_Weights_Hackathon.xlsx`](../data/raw/Rate_Benchmarking_Individual_Weights_Hackathon.xlsx), sheet `Taxonomy-Spec Xwalk`).
 
 - **Mapped Specialties:**
   - `291U00000X` $\rightarrow$ `Clinical Medical Laboratory`
@@ -183,13 +183,13 @@ The engine linked provider taxonomies to clinical specialties using the hackatho
 
 ## 7. Deliverables & Artifacts
 
-- **Address Mapper Implementation:** [`src/c5_address_mapper.py`](file:///c:/Users/prani/antigravity/intelligent-meitner/src/c5_address_mapper.py)
-- **Unit Test Suite:** [`tests/test_c5_address_mapper.py`](file:///c:/Users/prani/antigravity/intelligent-meitner/tests/test_c5_address_mapper.py) (**10 unit tests, repository total 91 passing in 7.62s**)
-- **Provider-Address Crosswalk:** [`outputs/c5_provider_address_crosswalk.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_provider_address_crosswalk.csv) (5,672 rows, 20 columns, 2.0 MB)
-- **Address Evidence Audit:** [`outputs/c5_address_evidence.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_address_evidence.csv) (5,659 rows, 10 columns, 1.4 MB)
-- **Address Conflicts Log:** [`outputs/c5_address_conflicts.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_address_conflicts.csv) (167 documented discrepancies)
-- **Summary Statistics:** [`outputs/c5_address_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_address_summary.json)
-- **Methodology Report:** [`reports/c5_address_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c5_address_methodology.md)
+- **Address Mapper Implementation:** [`src/c5_address_mapper.py`](../src/c5_address_mapper.py)
+- **Unit Test Suite:** [`tests/test_c5_address_mapper.py`](../tests/test_c5_address_mapper.py) (**10 unit tests, repository total 91 passing in 7.62s**)
+- **Provider-Address Crosswalk:** [`outputs/c5_provider_address_crosswalk.csv`](../outputs/c5_provider_address_crosswalk.csv) (5,672 rows, 20 columns, 2.0 MB)
+- **Address Evidence Audit:** [`outputs/c5_address_evidence.csv`](../outputs/c5_address_evidence.csv) (5,659 rows, 10 columns, 1.4 MB)
+- **Address Conflicts Log:** [`outputs/c5_address_conflicts.csv`](../outputs/c5_address_conflicts.csv) (167 documented discrepancies)
+- **Summary Statistics:** [`outputs/c5_address_summary.json`](../outputs/c5_address_summary.json)
+- **Methodology Report:** [`reports/c5_address_methodology.md`](c5_address_methodology.md)
 - **Persistent NPPES Cache:** `data/processed/nppes_cache.json` (3,735 records, gitignored)
 
 ---
@@ -199,7 +199,7 @@ The engine linked provider taxonomies to clinical specialties using the hackatho
 With C1 (Index Parser), C2 (PPO Network Identification), C3 (File Quality Grading), C4 (Negotiated Rate Extraction), and C5 (Provider Address Verification) complete:
 
 **Proceed to Phase 6 (C6): Final Rate File Generation & Curated Excel Deliverable:**
-1. Execute a disk-backed join between [`outputs/c4_extracted_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c4_extracted_rates.csv) (1.51M extracted rates) and [`outputs/c5_provider_address_crosswalk.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_provider_address_crosswalk.csv) on `(npi, tin_value, provider_group_id)`.
+1. Execute a disk-backed join between [`outputs/c4_extracted_rates.csv`](../outputs/c4_extracted_rates.csv) (1.51M extracted rates) and [`outputs/c5_provider_address_crosswalk.csv`](../outputs/c5_provider_address_crosswalk.csv) on `(npi, tin_value, provider_group_id)`.
 2. Filter for California Commercial PPO in-network rates (`CONFIRMED_PPO` and `PROBABLE_PPO`).
 3. Focus final rate benchmarking on the 134 matched procedure codes from the hackathon benchmark dataset.
 4. Export the final curated multi-tab Excel workbook at the **NPI, TIN, Address, Billing Code, Specialty, and Negotiated Rate level** for payer contracting teams.

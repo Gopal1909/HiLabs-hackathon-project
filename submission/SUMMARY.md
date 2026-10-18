@@ -89,15 +89,15 @@ Automated Test Suite:          129 passed in ~11.6s (100% pass rate across all s
 
 | # | Deliverable Name | File Path | Format | Notes |
 |:---:|:---|:---|:---:|:---|
-| **1** | **Executive Rate File** | [`submission/curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/curated_ppo_rates.xlsx) | `.xlsx` | 4-tab master workbook with Executive Summary, Benchmark Rates, 5,000 PPO Cross-Section, and Data Dictionary. |
-| **1b** | **Standard Rate File (6 Col)** | [`submission/standard_curated_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/standard_curated_rates.xlsx) | `.xlsx` | Exact 6 columns: NPI, TIN, Address, Billing Code, Specialty, Rate. |
-| **1c** | **Standard Rate CSV** | [`submission/c6_curated_standard_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c6_curated_standard_rates.csv) | `.csv` | Lightweight CSV containing all 2,418 standard benchmark rates. |
-| **2** | **Logic File** | [`submission/LOGIC_FILE.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/LOGIC_FILE.md) | `.md` | End-to-end methodology for PPO identification and TIN–NPI–Address mapping. |
-| **3** | **File Quality Metrics** | [`submission/c3_file_quality_metrics.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c3_file_quality_metrics.csv) | `.csv` | 11-dimension quality metrics table with scores and weights. |
-| **3b** | **Quality Metric Details** | [`submission/c3_metric_details.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c3_metric_details.csv) | `.csv` | 11-row detailed dimension audit with numerators and denominators. |
-| **4** | **Summary Metrics (JSON)** | [`submission/SUMMARY.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/SUMMARY.json) | `.json` | Complete machine-readable run metrics. |
-| **4b** | **Summary Metrics (MD)** | [`submission/SUMMARY.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/SUMMARY.md) | `.md` | This executive summary report. |
-| **5** | **Presentation Video Script**| [`reports/video_script.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/video_script.md) | `.md` | 5-minute timed presentation script with cues. |
-| **6** | **Code Repository** | [Root Directory](file:///c:/Users/prani/antigravity/intelligent-meitner/) | Git | Fully reproducible from `README.md` via `python run_pipeline.py`. |
-| **7a**| **Interactive Dashboard UI** | [`submission/interactive_dashboard.html`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/interactive_dashboard.html) | `.html` | Standalone browser dashboard (Executive & Analyst views). Run with `python run_ui.py`. |
-| **7b**| **Cost Effectiveness (C7)** | [`submission/c7_provider_cost_effectiveness.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c7_provider_cost_effectiveness.csv) | `.csv` | 2,418 scored rows with RPI, peer medians, and cost tiers. |
+| **1** | **Executive Rate File** | [`submission/curated_ppo_rates.xlsx`](curated_ppo_rates.xlsx) | `.xlsx` | 4-tab master workbook with Executive Summary, Benchmark Rates, 5,000 PPO Cross-Section, and Data Dictionary. |
+| **1b** | **Standard Rate File (6 Col)** | [`submission/standard_curated_rates.xlsx`](standard_curated_rates.xlsx) | `.xlsx` | Exact 6 columns: NPI, TIN, Address, Billing Code, Specialty, Rate. |
+| **1c** | **Standard Rate CSV** | [`submission/c6_curated_standard_rates.csv`](c6_curated_standard_rates.csv) | `.csv` | Lightweight CSV containing all 2,418 standard benchmark rates. |
+| **2** | **Logic File** | [`submission/LOGIC_FILE.md`](LOGIC_FILE.md) | `.md` | End-to-end methodology for PPO identification and TIN–NPI–Address mapping. |
+| **3** | **File Quality Metrics** | [`submission/c3_file_quality_metrics.csv`](c3_file_quality_metrics.csv) | `.csv` | 11-dimension quality metrics table with scores and weights. |
+| **3b** | **Quality Metric Details** | [`submission/c3_metric_details.csv`](c3_metric_details.csv) | `.csv` | 11-row detailed dimension audit with numerators and denominators. |
+| **4** | **Summary Metrics (JSON)** | [`submission/SUMMARY.json`](SUMMARY.json) | `.json` | Complete machine-readable run metrics. |
+| **4b** | **Summary Metrics (MD)** | [`submission/SUMMARY.md`](SUMMARY.md) | `.md` | This executive summary report. |
+| **5** | **Presentation Video Script**| [`reports/video_script.md`](../reports/video_script.md) | `.md` | 5-minute timed presentation script with cues. |
+| **6** | **Code Repository** | [Root Directory](../) | Git | Fully reproducible from `README.md` via `python run_pipeline.py`. |
+| **7a**| **Interactive Dashboard UI** | [`submission/interactive_dashboard.html`](interactive_dashboard.html) | `.html` | Standalone browser dashboard (Executive & Analyst views). Run with `python run_ui.py`. |
+| **7b**| **Cost Effectiveness (C7)** | [`submission/c7_provider_cost_effectiveness.csv`](c7_provider_cost_effectiveness.csv) | `.csv` | 2,418 scored rows with RPI, peer medians, and cost tiers. |

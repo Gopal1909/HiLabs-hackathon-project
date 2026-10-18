@@ -95,8 +95,8 @@ Rates were classified into defensible confidence tiers:
 ### 2.3 Address Mapping Logic & Multi-Site Resolution Rules
 
 #### Rule 1: Separation of Crosswalk from Rate Deliverable
-- In [`outputs/c5_provider_address_crosswalk.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_provider_address_crosswalk.csv), **every distinct (NPI, TIN, Address)** tuple is preserved (5,672 tuples across 3,735 unique clinicians and 2,888 TINs).
-- In [`outputs/c6_curated_benchmark_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_benchmark_rates.csv), each contracted rate is mapped to the **single authoritative primary clinical practice location** (`practice_locs[0]` after PO Box screening) to eliminate duplicate Cartesian rate inflation.
+- In [`outputs/c5_provider_address_crosswalk.csv`](../outputs/c5_provider_address_crosswalk.csv), **every distinct (NPI, TIN, Address)** tuple is preserved (5,672 tuples across 3,735 unique clinicians and 2,888 TINs).
+- In [`outputs/c6_curated_benchmark_rates.csv`](../outputs/c6_curated_benchmark_rates.csv), each contracted rate is mapped to the **single authoritative primary clinical practice location** (`practice_locs[0]` after PO Box screening) to eliminate duplicate Cartesian rate inflation.
 
 #### Rule 2: 4-Tier Verification Hierarchy
 Every provider address is assigned an evidence-backed verification status:
@@ -117,7 +117,7 @@ Every provider address is assigned an evidence-backed verification status:
 
 ### 2.4 Handling Conflicts & Discrepancies (Audit Log)
 
-The pipeline detected and resolved **167 address conflicts**, documented in [`outputs/c5_address_conflicts.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_address_conflicts.csv):
+The pipeline detected and resolved **167 address conflicts**, documented in [`outputs/c5_address_conflicts.csv`](../outputs/c5_address_conflicts.csv):
 
 | Conflict Category | Count | Underlying Cause | Systematic Resolution Rule |
 |:---|:---:|:---|:---|
@@ -142,8 +142,8 @@ Because transaction volume is heavily concentrated among large regional hospital
 
 ## 3. Summary of Deliverables & Regulatory Compliance
 
-- **Deliverable 1 (Rate Files):** Available in executive 4-tab Excel ([`curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/curated_ppo_rates.xlsx)), standard 6-column Excel ([`standard_curated_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/standard_curated_rates.xlsx)), and standard CSV ([`c6_curated_standard_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_standard_rates.csv)).
+- **Deliverable 1 (Rate Files):** Available in executive 4-tab Excel ([`curated_ppo_rates.xlsx`](../outputs/curated_ppo_rates.xlsx)), standard 6-column Excel ([`standard_curated_rates.xlsx`](../outputs/standard_curated_rates.xlsx)), and standard CSV ([`c6_curated_standard_rates.csv`](../outputs/c6_curated_standard_rates.csv)).
 - **Deliverable 2 (Logic File):** This consolidated document.
-- **Deliverable 3 (File Quality Metrics):** Documented across 11 dimensions in [`reports/c3_quality_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c3_quality_methodology.md) and [`submission/c3_metric_details.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c3_metric_details.csv).
-- **Deliverable 4 (Summary Metrics):** Reconciled in [`submission/SUMMARY.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/SUMMARY.json).
-- **Deliverable 7 (Brownie Points):** Interactive Executive & Analyst Dashboard ([`submission/interactive_dashboard.html`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/interactive_dashboard.html) and `python run_ui.py`) + Cost-Effectiveness RPI Engine (C7).
+- **Deliverable 3 (File Quality Metrics):** Documented across 11 dimensions in [`reports/c3_quality_methodology.md`](../reports/c3_quality_methodology.md) and [`submission/c3_metric_details.csv`](c3_metric_details.csv).
+- **Deliverable 4 (Summary Metrics):** Reconciled in [`submission/SUMMARY.json`](SUMMARY.json).
+- **Deliverable 7 (Brownie Points):** Interactive Executive & Analyst Dashboard ([`submission/interactive_dashboard.html`](interactive_dashboard.html) and `python run_ui.py`) + Cost-Effectiveness RPI Engine (C7).

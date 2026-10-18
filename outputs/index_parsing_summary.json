@@ -34,9 +34,9 @@
     "POS": 7
   },
   "output_files": {
-    "plan_index_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\plan_index.csv",
-    "unique_rate_files_csv": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\unique_rate_files.csv",
-    "index_parsing_summary_json": "C:\\Users\\prani\\antigravity\\intelligent-meitner\\outputs\\index_parsing_summary.json"
+    "plan_index_csv": "outputs/plan_index.csv",
+    "unique_rate_files_csv": "outputs/unique_rate_files.csv",
+    "index_parsing_summary_json": "outputs/index_parsing_summary.json"
   },
   "index_file_results": [
     {

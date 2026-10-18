@@ -196,7 +196,6 @@ def verify_deliverables() -> bool:
         ("Deliverable 3b (Quality Details)", "submission/c3_metric_details.csv"),
         ("Deliverable 4 (Summary JSON)", "submission/SUMMARY.json"),
         ("Deliverable 4b (Summary MD)", "submission/SUMMARY.md"),
-        ("Deliverable 5 (Video Script)", "reports/video_script.md"),
         ("Deliverable 7a (Interactive UI)", "submission/interactive_dashboard.html"),
         ("Deliverable 7b (Cost Analysis)", "submission/c7_provider_cost_effectiveness.csv"),
     ]

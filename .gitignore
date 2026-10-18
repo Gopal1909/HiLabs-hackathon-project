@@ -34,9 +34,10 @@ submission/full_curated_ppo_rates.xlsx
 secrets/
 config/secrets.yaml
 
-# OS
+# OS & Office
 .DS_Store
 Thumbs.db
+~$*
 
 # IDE
 .vscode/
@@ -56,3 +57,15 @@ scrape_centene.py
 
 # Pytest cache
 .pytest_cache/
+
+# Internal audit notes, guides, and temporary inspection scripts (local only)
+reports/video_script.md
+reports/beginner_project_guide.md
+reports/final_evaluation_scorecard.md
+reports/codebase_audit.md
+reports/final_audit.md
+reports/pre_github_test_report.md
+reports/data_acquisition_audit.md
+reports/demo_checklist.md
+outputs/codebase_audit_findings.csv
+inspect_outputs.py

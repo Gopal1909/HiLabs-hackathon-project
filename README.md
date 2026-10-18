@@ -23,9 +23,9 @@ This repository contains an end-to-end, memory-safe data curation pipeline in Py
 - **Grades file quality** across 11 mathematically grounded dimensions with streaming `ijson`, scoring **82.17 / 100 (Grade B)** (**Phase C3**).
 - **Extracts 1.51M negotiated rates** with peak RAM under 350 MB, enforcing a **non-collapsing rate context rule** to preserve Modifier 26 vs. global and POS 11 vs. 22 distinctions (**Phase C4**).
 - **Verifies physical practicing locations** using a 4-stage multi-source address engine, a concurrent CMS NPPES client with disk caching (0.05s cached execution), and CDPH hospital rosters, achieving **99.84%** address verification at the rate-row level (**Phase C5**).
-- **Curates an executive-grade deliverable** at the NPI, TIN, Address, Billing Code, Specialty, and Rate level, packaged into a 4-tab Excel workbook ([`curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/curated_ppo_rates.xlsx)), a standard 6-column workbook ([`standard_curated_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/standard_curated_rates.xlsx)), and standard CSV (**Phase C6**).
+- **Curates an executive-grade deliverable** at the NPI, TIN, Address, Billing Code, Specialty, and Rate level, packaged into a 4-tab Excel workbook ([`curated_ppo_rates.xlsx`](outputs/curated_ppo_rates.xlsx)), a standard 6-column workbook ([`standard_curated_rates.xlsx`](outputs/standard_curated_rates.xlsx)), and standard CSV (**Phase C6**).
 - **Analyzes rate cost-effectiveness** across 97 clinical peer groups using the Relative Price Index (RPI) and benchmark-weighted fee portfolios (**Phase C7**).
-- **Provides an interactive dashboard UI** with Executive and Analyst views ([`interactive_dashboard.html`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/interactive_dashboard.html)) launchable via `python run_ui.py` (**Brownie Point 7a**).
+- **Provides an interactive dashboard UI** with Executive and Analyst views ([`interactive_dashboard.html`](submission/interactive_dashboard.html)) launchable via `python run_ui.py` (**Brownie Point 7a**).
 
 ---
 
@@ -60,36 +60,36 @@ Automated Test Suite:      129 passed in ~10.1s (100% pass rate across all suite
 
 | Deliverable | Format | Location | Description |
 |:---|:---:|:---|:---|
-| **Executive Excel Deliverable** | `.xlsx` | [`outputs/curated_ppo_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/curated_ppo_rates.xlsx) | Corporate Navy-styled 4-tab workbook: Executive Summary, All 2,418 Benchmark Rates, 5,000 PPO Cross-Section, Data Dictionary (1.07 MB). |
-| **Standard 6-Col Excel Deliverable** | `.xlsx` | [`submission/standard_curated_rates.xlsx`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/standard_curated_rates.xlsx) | Exact 6 columns: NPI, TIN, Address, Billing Code, Specialty, Rate (Deliverable 1 format). |
-| **Standard 6-Col Rate CSV** | `.csv` | [`submission/c6_curated_standard_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c6_curated_standard_rates.csv) | Lightweight 6-column rate deliverable containing all 2,418 benchmark rates. |
-| **Curated Benchmark Rates (Rich)** | `.csv` | [`outputs/c6_curated_benchmark_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_benchmark_rates.csv) | 2,418 rows with full 37-column clinical schema & weights (1.21 MB). |
-| **Deliverable 2 Logic File** | `.md` | [`submission/LOGIC_FILE.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/LOGIC_FILE.md) | Systematic methodology for PPO identification and TIN–NPI–Address mapping. |
-| **File Quality Metrics** | `.csv` | [`submission/c3_file_quality_metrics.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c3_file_quality_metrics.csv) | 11-dimension quality metrics scoring **82.17 / 100 (Grade B)**. |
-| **Quality Metric Details** | `.csv` | [`submission/c3_metric_details.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/c3_metric_details.csv) | 11-row detailed dimension audit with numerators and denominators. |
-| **Summary Metrics JSON** | `.json` | [`submission/SUMMARY.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/SUMMARY.json) | Complete machine-readable run metrics across all 7 pipeline stages. |
-| **Summary Metrics Report** | `.md` | [`submission/SUMMARY.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/SUMMARY.md) | Executive scorecard report with volume reconciliations and address shares. |
-| **Interactive Dashboard UI** | `.html` | [`submission/interactive_dashboard.html`](file:///c:/Users/prani/antigravity/intelligent-meitner/submission/interactive_dashboard.html) | Standalone interactive web dashboard (Executive & Analyst views). Run via `python run_ui.py`. |
-| **Provider Cost-Effectiveness** | `.csv` | [`outputs/c7_provider_cost_effectiveness.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c7_provider_cost_effectiveness.csv) | 2,418 rows with Peer Median, Relative Price Index (RPI), percentile rank, and potential price difference (1.21 MB). |
-| **Peer Group Summary** | `.csv` | [`outputs/c7_peer_group_summary.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c7_peer_group_summary.csv) | 97 clinical peer groups with sample size, quartiles, median, and IQR (16.6 KB). |
-| **Provider Address Crosswalk** | `.csv` | [`outputs/c5_provider_address_crosswalk.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_provider_address_crosswalk.csv) | 5,672 provider contracting tuples with verified addresses and taxonomy (1.93 MB). |
-| **Address Conflicts Log** | `.csv` | [`outputs/c5_address_conflicts.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c5_address_conflicts.csv) | 167 records documenting administrative PO Boxes, national labs, and border facilities (53 KB). |
-| **Full Curated PPO Rates** | `.csv` | [`outputs/c6_curated_ppo_rates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c6_curated_ppo_rates.csv) | Full 857,206 curated PPO rate rows (417.9 MB; gitignored for GitHub hygiene). |
+| **Executive Excel Deliverable** | `.xlsx` | [`outputs/curated_ppo_rates.xlsx`](outputs/curated_ppo_rates.xlsx) | Corporate Navy-styled 4-tab workbook: Executive Summary, All 2,418 Benchmark Rates, 5,000 PPO Cross-Section, Data Dictionary (1.07 MB). |
+| **Standard 6-Col Excel Deliverable** | `.xlsx` | [`submission/standard_curated_rates.xlsx`](submission/standard_curated_rates.xlsx) | Exact 6 columns: NPI, TIN, Address, Billing Code, Specialty, Rate (Deliverable 1 format). |
+| **Standard 6-Col Rate CSV** | `.csv` | [`submission/c6_curated_standard_rates.csv`](submission/c6_curated_standard_rates.csv) | Lightweight 6-column rate deliverable containing all 2,418 benchmark rates. |
+| **Curated Benchmark Rates (Rich)** | `.csv` | [`outputs/c6_curated_benchmark_rates.csv`](outputs/c6_curated_benchmark_rates.csv) | 2,418 rows with full 37-column clinical schema & weights (1.21 MB). |
+| **Deliverable 2 Logic File** | `.md` | [`submission/LOGIC_FILE.md`](submission/LOGIC_FILE.md) | Systematic methodology for PPO identification and TIN–NPI–Address mapping. |
+| **File Quality Metrics** | `.csv` | [`submission/c3_file_quality_metrics.csv`](submission/c3_file_quality_metrics.csv) | 11-dimension quality metrics scoring **82.17 / 100 (Grade B)**. |
+| **Quality Metric Details** | `.csv` | [`submission/c3_metric_details.csv`](submission/c3_metric_details.csv) | 11-row detailed dimension audit with numerators and denominators. |
+| **Summary Metrics JSON** | `.json` | [`submission/SUMMARY.json`](submission/SUMMARY.json) | Complete machine-readable run metrics across all 7 pipeline stages. |
+| **Summary Metrics Report** | `.md` | [`submission/SUMMARY.md`](submission/SUMMARY.md) | Executive scorecard report with volume reconciliations and address shares. |
+| **Interactive Dashboard UI** | `.html` | [`submission/interactive_dashboard.html`](submission/interactive_dashboard.html) | Standalone interactive web dashboard (Executive & Analyst views). Run via `python run_ui.py`. |
+| **Provider Cost-Effectiveness** | `.csv` | [`outputs/c7_provider_cost_effectiveness.csv`](outputs/c7_provider_cost_effectiveness.csv) | 2,418 rows with Peer Median, Relative Price Index (RPI), percentile rank, and potential price difference (1.21 MB). |
+| **Peer Group Summary** | `.csv` | [`outputs/c7_peer_group_summary.csv`](outputs/c7_peer_group_summary.csv) | 97 clinical peer groups with sample size, quartiles, median, and IQR (16.6 KB). |
+| **Provider Address Crosswalk** | `.csv` | [`outputs/c5_provider_address_crosswalk.csv`](outputs/c5_provider_address_crosswalk.csv) | 5,672 provider contracting tuples with verified addresses and taxonomy (1.93 MB). |
+| **Address Conflicts Log** | `.csv` | [`outputs/c5_address_conflicts.csv`](outputs/c5_address_conflicts.csv) | 167 records documenting administrative PO Boxes, national labs, and border facilities (53 KB). |
+| **Full Curated PPO Rates** | `.csv` | [`outputs/c6_curated_ppo_rates.csv`](outputs/c6_curated_ppo_rates.csv) | Full 857,206 curated PPO rate rows (417.9 MB; gitignored for GitHub hygiene). |
 | **Full Curated Excel Deliverable** | `.xlsx` | `submission/full_curated_ppo_rates.xlsx` | Complete 857,206-row spreadsheet (74.8 MB; gitignored; submitted separately via submission link). |
 
 ---
 
 ## 4. Documentation & Methodology Reports
 
-- [`reports/pre_github_test_report.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/pre_github_test_report.md): Pre-GitHub validation report covering environment, 119 tests, output schemas, and isolated E2E tests.
-- [`reports/codebase_audit.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/codebase_audit.md): Comprehensive technical audit, 10 cataloged findings, reconciliations, and evaluator defense guide.
-- [`reports/beginner_project_guide.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/beginner_project_guide.md): Plain-English technical explanation guide for healthcare pricing terminology.
-- [`reports/c7_cost_effectiveness_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c7_cost_effectiveness_methodology.md): Peer group definitions, formulas for RPI, midpoint percentiles, and weighted portfolio index.
-- [`reports/c6_pipeline_summary.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c6_pipeline_summary.md): End-to-end pipeline synthesis report.
-- [`reports/c5_address_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c5_address_methodology.md): Address resolution engine, NPPES caching, and conflict resolution.
-- [`reports/c4_extraction_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c4_extraction_methodology.md): Rate extraction, two-pass streaming, and non-collapsing rate context rules.
-- [`reports/c3_quality_methodology.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c3_quality_methodology.md): 11 quality scoring dimensions and formula specifications.
-- [`reports/c2_ppo_logic.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c2_ppo_logic.md): PPO network classification hierarchy and HIOS crosswalk.
+- [`reports/pre_github_test_report.md`](reports/pre_github_test_report.md): Pre-GitHub validation report covering environment, 119 tests, output schemas, and isolated E2E tests.
+- [`reports/codebase_audit.md`](reports/codebase_audit.md): Comprehensive technical audit, 10 cataloged findings, reconciliations, and evaluator defense guide.
+- [`reports/beginner_project_guide.md`](reports/beginner_project_guide.md): Plain-English technical explanation guide for healthcare pricing terminology.
+- [`reports/c7_cost_effectiveness_methodology.md`](reports/c7_cost_effectiveness_methodology.md): Peer group definitions, formulas for RPI, midpoint percentiles, and weighted portfolio index.
+- [`reports/c6_pipeline_summary.md`](reports/c6_pipeline_summary.md): End-to-end pipeline synthesis report.
+- [`reports/c5_address_methodology.md`](reports/c5_address_methodology.md): Address resolution engine, NPPES caching, and conflict resolution.
+- [`reports/c4_extraction_methodology.md`](reports/c4_extraction_methodology.md): Rate extraction, two-pass streaming, and non-collapsing rate context rules.
+- [`reports/c3_quality_methodology.md`](reports/c3_quality_methodology.md): 11 quality scoring dimensions and formula specifications.
+- [`reports/c2_ppo_logic.md`](reports/c2_ppo_logic.md): PPO network classification hierarchy and HIOS crosswalk.
 
 ---
 
@@ -180,7 +180,7 @@ python -m src.export_full_excel
 ## 6. Project Architecture
 
 ```
-intelligent-meitner/
+hilabs-hackathon-project/
 ├── config/
 │   └── settings.yaml            # Configurable paths, URLs, weights, thresholds
 ├── data/
@@ -202,17 +202,12 @@ intelligent-meitner/
 │   └── *.json                   # Summary audit metadata files
 ├── reports/                     # Comprehensive methodology reports & final audit
 │   ├── logic_file.md            # Deliverable 2 logic file
-│   ├── final_evaluation_scorecard.md # Official two-track rubric evaluation scorecard
-│   ├── final_audit.md           # Cross-phase reconciliation & denominator audit
-│   ├── codebase_audit.md        # Technical finding catalogue and defense guide
-│   ├── c7_cost_effectiveness_methodology.md
-│   ├── c6_pipeline_summary.md
-│   ├── c5_address_methodology.md
-│   ├── c4_extraction_methodology.md
-│   ├── c3_quality_methodology.md
-│   ├── c2_ppo_logic.md
-│   ├── video_script.md          # 5-minute presentation script
-│   └── demo_checklist.md        # Evaluator demonstration checklist
+│   ├── c2_ppo_logic.md          # PPO network identification methodology
+│   ├── c3_quality_methodology.md # 11 file quality dimensions methodology
+│   ├── c4_extraction_methodology.md # Streaming rate extraction methodology
+│   ├── c5_address_methodology.md # NPPES address verification methodology
+│   ├── c6_pipeline_summary.md   # Rate curation & Excel deliverable methodology
+│   └── c7_cost_effectiveness_methodology.md # Price index & peer group methodology
 ├── submission/                  # Official Hackathon Deliverables Packaging
 │   ├── curated_ppo_rates.xlsx   # Deliverable 1 (Executive 4-tab Excel)
 │   ├── standard_curated_rates.xlsx # Deliverable 1b (Standard 6-col Excel)
@@ -266,4 +261,4 @@ intelligent-meitner/
 2. **Strict Context Preservation:** Rates with different modifiers (e.g., Modifier `26` professional component vs. global) or places of service (POS `11` physician office vs. POS `22` hospital outpatient department) are preserved as distinct rows, preventing misleading averages.
 3. **Memory Safety:** Streaming parsing with `ijson` and bounded chunked iterators ensures the entire 701.6 MB file is processed without out-of-memory spikes (peak RAM < 350 MB).
 4. **Idempotent Caching:** The CMS NPPES API client utilizes a persistent local disk cache (`data/processed/nppes_cache.json`), allowing complete address resolution in **0.05 seconds** on subsequent runs while respecting CMS rate limits.
-5. **Configurability:** All file paths, weights, API endpoints, thresholds, and brand targets are managed via [`config/settings.yaml`](file:///c:/Users/prani/antigravity/intelligent-meitner/config/settings.yaml) with relative paths resolved at runtime.
+5. **Configurability:** All file paths, weights, API endpoints, thresholds, and brand targets are managed via [`config/settings.yaml`](config/settings.yaml) with relative paths resolved at runtime.

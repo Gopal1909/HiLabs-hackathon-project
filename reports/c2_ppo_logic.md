@@ -164,9 +164,9 @@ Streaming sampling of the `provider_references` array revealed that Centene bund
 
 | Deliverable File | Rows | Description |
 |:---|:---:|:---|
-| [`outputs/ppo_plan_candidates.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/ppo_plan_candidates.csv) | 3,275 | Complete inventory of every plan evaluated, with resolved identifier types, scores, classifications, evidence, and decision reasons. |
-| [`outputs/ppo_network_files.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/ppo_network_files.csv) | 33 | Detailed profile of all 33 rate files, plan links, size, confirmed/probable PPO links, and downstream caveats. |
-| [`outputs/c2_evidence_log.csv`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c2_evidence_log.csv) | 6 | Audit trail of external registries and official sources consulted (Centene, CMS HIOS, IRS EIN, CA DMHC). |
-| [`outputs/c2_summary.json`](file:///c:/Users/prani/antigravity/intelligent-meitner/outputs/c2_summary.json) | — | Machine-readable metrics: candidate counts, classification breakdown, target file specs, and verification findings. |
-| [`reports/c2_ppo_logic.md`](file:///c:/Users/prani/antigravity/intelligent-meitner/reports/c2_ppo_logic.md) | — | This authoritative logic and methodology report. |
-| [`tests/test_c2_network_identifier.py`](file:///c:/Users/prani/antigravity/intelligent-meitner/tests/test_c2_network_identifier.py) | 32 tests | Unit tests covering identifier matching, scoring thresholds, typo handling, false-positive exclusions, and rate file summary builds. |
+| [`outputs/ppo_plan_candidates.csv`](../outputs/ppo_plan_candidates.csv) | 3,275 | Complete inventory of every plan evaluated, with resolved identifier types, scores, classifications, evidence, and decision reasons. |
+| [`outputs/ppo_network_files.csv`](../outputs/ppo_network_files.csv) | 33 | Detailed profile of all 33 rate files, plan links, size, confirmed/probable PPO links, and downstream caveats. |
+| [`outputs/c2_evidence_log.csv`](../outputs/c2_evidence_log.csv) | 6 | Audit trail of external registries and official sources consulted (Centene, CMS HIOS, IRS EIN, CA DMHC). |
+| [`outputs/c2_summary.json`](../outputs/c2_summary.json) | — | Machine-readable metrics: candidate counts, classification breakdown, target file specs, and verification findings. |
+| [`reports/c2_ppo_logic.md`](c2_ppo_logic.md) | — | This authoritative logic and methodology report. |
+| [`tests/test_c2_network_identifier.py`](../tests/test_c2_network_identifier.py) | 32 tests | Unit tests covering identifier matching, scoring thresholds, typo handling, false-positive exclusions, and rate file summary builds. |
